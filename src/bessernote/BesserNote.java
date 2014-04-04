@@ -26,6 +26,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Circle;
+import javafx.stage.Popup;
 import javafx.util.Duration; 
 
 /**
@@ -33,19 +35,32 @@ import javafx.util.Duration;
  * @author avarga
  */
 public class BesserNote extends Application {
+    
+    private Scene scene;
+    private BorderPane root;
+    private MenuBar menuBar;
+    private Pane sheet;
+    
+    private NodeMaker nodeMaker;
 
     @Override 
-    public void start(Stage stage) { 
-        BorderPane root = new BorderPane(); 
-        Scene scene = new Scene(root, 640, 480, Color.BLACK); 
+    public void start(final Stage stage) { 
         
-        Pane sheet = new Pane();
+        root = new BorderPane(); 
+        scene = new Scene(root, 640, 480, Color.BLACK); 
+        
+        sheet = new Pane();
         root.setCenter(sheet);
         sheet.setStyle("-fx-background-color: black;");
         
-        /////////
+        //// NODE MAKER ////
         
-        MenuBar menuBar = new MenuBar();
+        nodeMaker = new NodeMaker();
+        nodeMaker.show(stage);
+        
+        //// MENU BAR ////
+        
+        menuBar = new MenuBar();
  
         // --- Menu File
         Menu menuFile = new Menu("File");
@@ -66,6 +81,17 @@ public class BesserNote extends Application {
         
         // --- Menu Edit
         Menu menuEdit = new Menu("Edit");
+        MenuItem menuItemAdd = new MenuItem("Add");
+        menuItemAdd.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent t) {
+                nodeMaker.setX(stage.xProperty().doubleValue());
+                nodeMaker.setY(stage.yProperty().doubleValue()+
+                        stage.getHeight()-nodeMaker.getHeight());
+                nodeMaker.show(stage);
+            }
+        });
+        menuEdit.getItems().addAll(menuItemAdd);
         
         // --- Menu View
         Menu menuView = new Menu("View");
@@ -73,7 +99,7 @@ public class BesserNote extends Application {
         menuBar.getMenus().addAll(menuFile, menuEdit, menuView);
         root.setTop(menuBar);
         
-        /////////
+        //// MAGIC SQUARE ////
         
         Rectangle r = new Rectangle(100, 100, 250, 250); 
         r.setFill(Color.BLUE); 
@@ -100,7 +126,7 @@ public class BesserNote extends Application {
         transition.setAutoReverse(true); 
         transition.play();
         
-        /////////
+        ////  ////
  
         stage.setTitle("BesserNote"); 
         stage.setScene(scene); 
