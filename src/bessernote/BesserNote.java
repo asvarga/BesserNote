@@ -16,6 +16,16 @@ import javafx.animation.ParallelTransition;
 import javafx.animation.RotateTransition; 
 import javafx.animation.ScaleTransition; 
 import javafx.animation.TranslateTransition; 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.SeparatorMenuItem;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 import javafx.util.Duration; 
 
 /**
@@ -26,16 +36,53 @@ public class BesserNote extends Application {
 
     @Override 
     public void start(Stage stage) { 
-        Group root = new Group(); 
-        Scene scene = new Scene(root, 500, 500, Color.BLACK); 
-        Rectangle r = new Rectangle(0, 0, 250, 250); 
+        BorderPane root = new BorderPane(); 
+        Scene scene = new Scene(root, 640, 480, Color.BLACK); 
+        
+        Pane sheet = new Pane();
+        root.setCenter(sheet);
+        sheet.setStyle("-fx-background-color: black;");
+        
+        /////////
+        
+        MenuBar menuBar = new MenuBar();
+ 
+        // --- Menu File
+        Menu menuFile = new Menu("File");
+        MenuItem menuItemNew = new MenuItem("New...");
+        MenuItem menuItemOpen = new MenuItem("Open...");
+        MenuItem menuItemExit = new MenuItem("Exit");
+        menuItemExit.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent t) {
+                System.exit(0);
+            }
+        });
+        menuFile.getItems().addAll(
+                menuItemNew, 
+                menuItemOpen, 
+                new SeparatorMenuItem(),
+                menuItemExit);
+        
+        // --- Menu Edit
+        Menu menuEdit = new Menu("Edit");
+        
+        // --- Menu View
+        Menu menuView = new Menu("View");
+        
+        menuBar.getMenus().addAll(menuFile, menuEdit, menuView);
+        root.setTop(menuBar);
+        
+        /////////
+        
+        Rectangle r = new Rectangle(100, 100, 250, 250); 
         r.setFill(Color.BLUE); 
-        root.getChildren().add(r); 
+        sheet.getChildren().add(r); 
  
         TranslateTransition translate = 
         new TranslateTransition(Duration.millis(750)); 
         translate.setToX(390); 
-        translate.setToY(390); 
+        translate.setToY(200); 
  
         FillTransition fill = new FillTransition(Duration.millis(750)); 
         fill.setToValue(Color.RED); 
@@ -51,9 +98,11 @@ public class BesserNote extends Application {
         translate, fill, rotate, scale); 
         transition.setCycleCount(Timeline.INDEFINITE);
         transition.setAutoReverse(true); 
-        transition.play(); 
+        transition.play();
+        
+        /////////
  
-        stage.setTitle("JavaFX Scene Graph Demo"); 
+        stage.setTitle("BesserNote"); 
         stage.setScene(scene); 
         stage.show(); 
     } 
