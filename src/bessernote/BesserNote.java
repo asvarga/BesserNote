@@ -41,6 +41,7 @@ public class BesserNote extends Application {
     private MenuBar menuBar;
     private Pane sheet;
     
+    private Popup popup;
     private NodeMaker nodeMaker;
 
     @Override 
@@ -55,8 +56,12 @@ public class BesserNote extends Application {
         
         //// NODE MAKER ////
         
+        popup = new Popup();
         nodeMaker = new NodeMaker();
-        nodeMaker.show(stage);
+        popup.getContent().addAll(nodeMaker);
+        popup.setAutoFix(false);
+        popup.setHideOnEscape(true);
+        popup.show(stage);
         
         //// MENU BAR ////
         
@@ -85,10 +90,10 @@ public class BesserNote extends Application {
         menuItemAdd.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent t) {
-                nodeMaker.setX(stage.xProperty().doubleValue());
-                nodeMaker.setY(stage.yProperty().doubleValue()+
+                popup.setX(stage.xProperty().doubleValue());
+                popup.setY(stage.yProperty().doubleValue()+
                         stage.getHeight()-nodeMaker.getHeight());
-                nodeMaker.show(stage);
+                popup.show(stage);
             }
         });
         menuEdit.getItems().addAll(menuItemAdd);

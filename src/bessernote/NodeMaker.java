@@ -4,6 +4,7 @@
  */
 package bessernote;
 
+import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
@@ -14,11 +15,9 @@ import javafx.stage.Popup;
  *
  * @author avarga
  */
-public class NodeMaker extends Popup {
+public class NodeMaker extends Region {
     
     NodeMaker() {
-        setAutoFix(false);
-        setHideOnEscape(true);
         
         setWidth(200);
         setHeight(300);
@@ -28,7 +27,7 @@ public class NodeMaker extends Popup {
         
         Text t = new Text(10, 20, "Node Creation GUI\nAdd shit here.\nPress Escape.");
         
-        getContent().addAll(r, t);
+        getChildren().addAll(r, t);
     }
     
 }
