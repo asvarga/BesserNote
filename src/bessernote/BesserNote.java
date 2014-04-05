@@ -20,6 +20,7 @@ import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition; 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -44,7 +45,7 @@ public class BesserNote extends Application {
     private Pane sheet;
     
     private Popup popup;
-    private NodeGUI nodeMaker;
+    private NodeGUI nodeGUI;
 
     @Override 
     public void start(final Stage stage) { 
@@ -59,10 +60,20 @@ public class BesserNote extends Application {
         //// NODE MAKER ////
         
         popup = new Popup();
-        nodeMaker = new NodeGUI(5);
-        popup.getContent().addAll(nodeMaker);
+        nodeGUI = new NodeGUI(5);
+        popup.getContent().addAll(nodeGUI);
         popup.setAutoFix(false);
         popup.setHideOnEscape(true);
+        nodeGUI.createButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override 
+            public void handle(ActionEvent e) {
+                Node newNode = nodeGUI.getNode();
+                if (newNode != null) {
+                    sheet.getChildren().add(newNode);
+                }
+                popup.hide();
+            }
+        });
         
         //// MENU BAR ////
         
@@ -101,33 +112,6 @@ public class BesserNote extends Application {
         
         menuBar.getMenus().addAll(menuFile, menuEdit, menuView);
         root.setTop(menuBar);
-        
-        //// MAGIC SQUARE ////
-        
-        Rectangle r = new Rectangle(100, 100, 250, 250); 
-        r.setFill(Color.BLUE); 
-        sheet.getChildren().add(r); 
- 
-        TranslateTransition translate = 
-        new TranslateTransition(Duration.millis(750)); 
-        translate.setToX(390); 
-        translate.setToY(200); 
- 
-        FillTransition fill = new FillTransition(Duration.millis(750)); 
-        fill.setToValue(Color.RED); 
- 
-        RotateTransition rotate = new RotateTransition(Duration.millis(750)); 
-        rotate.setToAngle(360); 
- 
-        ScaleTransition scale = new ScaleTransition(Duration.millis(750)); 
-        scale.setToX(0.1); 
-        scale.setToY(0.1); 
- 
-        ParallelTransition transition = new ParallelTransition(r, 
-        translate, fill, rotate, scale); 
-        transition.setCycleCount(Timeline.INDEFINITE);
-        transition.setAutoReverse(true); 
-        transition.play();
         
         ////  ////
  

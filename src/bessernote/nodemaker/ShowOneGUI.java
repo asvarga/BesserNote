@@ -15,16 +15,20 @@ import javafx.scene.layout.StackPane;
  *
  * @author avarga
  */
-public class ShowOneGUI extends StackPane {
+public class ShowOneGUI extends BaseGUI {
 
-    Map<String, Node> map;
-    Node shown = null;
+    StackPane stack;
+    Map<String, BaseGUI> map;
+    BaseGUI shown = null;
 
     public ShowOneGUI() {
-        map = new HashMap<String, Node>();
+        super();
+        stack = new StackPane();
+        getChildren().add(stack);
+        map = new HashMap<String, BaseGUI>();
     }
 
-    public void addGUI(String str, Node n) {
+    public void addGUI(String str, BaseGUI n) {
 
         if (map.isEmpty() || (map.containsKey(str) && map.get(str).isVisible())) {
             n.setVisible(true);
@@ -35,15 +39,15 @@ public class ShowOneGUI extends StackPane {
             n.setManaged(false);
         }
 
-        this.getChildren().remove(map.get(str));
-        this.getChildren().add(n);
+        stack.getChildren().remove(map.get(str));
+        stack.getChildren().add(n);
         map.put(str, n);
 
     }
 
     public void removeGUI(String str) {
         if (map.containsKey(str)) {
-            this.getChildren().remove(map.get(str));
+            stack.getChildren().remove(map.get(str));
             map.remove(str);
         }
     }
@@ -55,8 +59,12 @@ public class ShowOneGUI extends StackPane {
             map.get(str).setVisible(true);
             map.get(str).setManaged(true);
             shown = map.get(str);
-        } else {
-            System.out.println("poop");
         }
     }
+
+    @Override
+    public Node getNode() {
+        return shown.getNode();
+    }
+
 }

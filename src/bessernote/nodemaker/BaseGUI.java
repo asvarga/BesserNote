@@ -6,6 +6,7 @@ package bessernote.nodemaker;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -18,15 +19,31 @@ import javafx.scene.text.Text;
  */
 public class BaseGUI extends VBox {
     
+    public BaseGUI() {
+        
+        super();
+        setAlignment(Pos.BOTTOM_LEFT);
+        
+        setStyle("-fx-background-color: grey;"); 
+        
+    }
+    
     public BaseGUI(double spacing) {
         
         super(spacing);
         setAlignment(Pos.BOTTOM_LEFT);
         setPadding(new Insets(spacing));
-        //this.setMargin(this, Insets.EMPTY);
         
         setStyle("-fx-background-color: grey;"
                 + "-fx-border-color: white;"); 
+        
+    }
+
+    public Node getNode() {
+        return null;
+    }
+
+    public void editNode(Node n) {
         
     }
     
