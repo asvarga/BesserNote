@@ -2,8 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package bessernote;
 
+import bessernote.nodemaker.NodeGUI;
 import javafx.animation.FillTransition; 
 import javafx.application.Application; 
 import javafx.scene.Group; 
@@ -42,7 +44,7 @@ public class BesserNote extends Application {
     private Pane sheet;
     
     private Popup popup;
-    private NodeMaker nodeMaker;
+    private NodeGUI nodeMaker;
 
     @Override 
     public void start(final Stage stage) { 
@@ -57,11 +59,10 @@ public class BesserNote extends Application {
         //// NODE MAKER ////
         
         popup = new Popup();
-        nodeMaker = new NodeMaker();
+        nodeMaker = new NodeGUI(5);
         popup.getContent().addAll(nodeMaker);
         popup.setAutoFix(false);
         popup.setHideOnEscape(true);
-        popup.show(stage);
         
         //// MENU BAR ////
         
@@ -90,9 +91,6 @@ public class BesserNote extends Application {
         menuItemAdd.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent t) {
-                popup.setX(stage.xProperty().doubleValue());
-                popup.setY(stage.yProperty().doubleValue()+
-                        stage.getHeight()-nodeMaker.getHeight());
                 popup.show(stage);
             }
         });
