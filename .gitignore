@@ -1,4 +1,7 @@
 .DS_STORE
 *.class
+<<<<<<< HEAD
 /JavaApplication2/nbproject/private/
+=======
+>>>>>>> menu options
 /dist/
