@@ -18,6 +18,7 @@ import javafx.scene.text.Text;
  */
 public class PaneGUI extends BaseGUI {
     
+    PlacementGUI placement;
     ColorPicker cp;
 
     public PaneGUI(double spacing) {
@@ -25,7 +26,7 @@ public class PaneGUI extends BaseGUI {
 
         Text t = new Text("--- Pane GUI ---");
 
-        PlacementGUI placement = new PlacementGUI(spacing);
+        placement = new PlacementGUI(spacing);
 
         Text t2 = new Text("Background Color:");
         cp = new ColorPicker();
@@ -38,6 +39,7 @@ public class PaneGUI extends BaseGUI {
         Pane pane = new Pane();
         pane.setStyle("-fx-background-color: #"+cp.getValue().toString().substring(2) +";");
         pane.setPrefSize(100, 100);
+        placement.editNode(pane);
         return pane;
     }
 }

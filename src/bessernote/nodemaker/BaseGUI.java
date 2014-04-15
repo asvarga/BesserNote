@@ -25,7 +25,7 @@ public class BaseGUI extends VBox {
         setAlignment(Pos.BOTTOM_LEFT);
         
         setStyle("-fx-background-color: grey;"); 
-        
+        setAlignment(Pos.CENTER);
     }
     
     public BaseGUI(double spacing) {
@@ -36,7 +36,7 @@ public class BaseGUI extends VBox {
         
         setStyle("-fx-background-color: grey;"
                 + "-fx-border-color: white;"); 
-        
+        setAlignment(Pos.CENTER);
     }
 
     public Node getNode() {
