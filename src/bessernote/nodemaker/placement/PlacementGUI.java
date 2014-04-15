@@ -2,8 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package bessernote.nodemaker;
+package bessernote.nodemaker.placement;
 
+import bessernote.nodemaker.BaseGUI;
 import bessernote.ui.NumberField;
 import javafx.scene.Node;
 import javafx.scene.layout.HBox;

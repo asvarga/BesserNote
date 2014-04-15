@@ -84,7 +84,15 @@ public class BesserNote extends Application {
                 Node newNode = nodeGUI.getNode();
                 if (newNode != null) {
                     sheet.getChildren().add(newNode);
+                    nodeGUI.editNode(newNode);
                 }
+                popup.hide();
+            }
+        });
+        
+        nodeGUI.cancelButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
                 popup.hide();
             }
         });
@@ -153,6 +161,7 @@ public class BesserNote extends Application {
         menuFile.getItems().addAll(
                 menuItemNew,
                 menuItemOpen,
+                menuItemSave,
                 new SeparatorMenuItem(),
                 menuItemExit);
 

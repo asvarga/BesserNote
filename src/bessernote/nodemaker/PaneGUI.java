@@ -4,6 +4,7 @@
  */
 package bessernote.nodemaker;
 
+import bessernote.nodemaker.placement.PlacementGUI;
 import java.awt.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -39,8 +40,12 @@ public class PaneGUI extends BaseGUI {
         Pane pane = new Pane();
         pane.setStyle("-fx-background-color: #"+cp.getValue().toString().substring(2) +";");
         pane.setPrefSize(100, 100);
-        placement.editNode(pane);
         return pane;
+    }
+    
+    @Override
+    public void editNode(Node n) {
+        placement.editNode(n);
     }
     
     public void setPos(double x, double y) {

@@ -38,6 +38,20 @@ public class BaseGUI extends VBox {
                 + "-fx-border-color: white;"); 
         setAlignment(Pos.CENTER);
     }
+    
+    public BaseGUI(double spacing, boolean padded) {
+        
+        super(spacing);
+        setAlignment(Pos.BOTTOM_LEFT);
+        
+        setStyle("-fx-background-color: grey;"); 
+        setAlignment(Pos.CENTER);
+        
+        if (padded) {
+            setPadding(new Insets(spacing));
+            setStyle("-fx-border-color: white;");
+        }
+    }
 
     public Node getNode() {
         return null;

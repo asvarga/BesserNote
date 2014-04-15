@@ -14,7 +14,9 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -31,6 +33,7 @@ public class NodeGUI extends BaseGUI {
 
     ComboBox combo;
     ShowOneGUI show1;
+    public Button cancelButton;
     public Button createButton;
     
 //    Pane target;
@@ -44,7 +47,7 @@ public class NodeGUI extends BaseGUI {
         Text t = new Text("--- Node Creation GUI ---");
 
         combo = new ComboBox();
-        combo.getItems().addAll("Pane", "Label", "VBox","TextArea");
+        combo.getItems().addAll("Pane", "Label", "HBox","TextArea");
         combo.setValue("Pane");
         combo.valueProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -57,15 +60,29 @@ public class NodeGUI extends BaseGUI {
         show1 = new ShowOneGUI();
         show1.addGUI("Pane", new PaneGUI(spacing));
         show1.addGUI("Label", new LabelGUI(spacing));
-        show1.addGUI("TextArea",new TextAreaGUI(spacing));
+        show1.addGUI("HBox", new HBoxGUI(spacing));
+        show1.addGUI("TextArea", new TextAreaGUI(spacing));
+        
+        HBox h = new HBox(spacing);
+        cancelButton = new Button("Cancel");
         createButton = new Button("Create");
-
-        getChildren().addAll(t, combo, show1, createButton);
+        h.getChildren().addAll(cancelButton, createButton);
+        h.prefWidthProperty().bind(this.prefWidthProperty());
+        HBox.setHgrow(cancelButton, Priority.ALWAYS);
+        HBox.setHgrow(createButton, Priority.ALWAYS);
+        cancelButton.setMaxWidth(Double.MAX_VALUE);
+        createButton.setMaxWidth(Double.MAX_VALUE);
+        getChildren().addAll(t, combo, show1, h);
     }
     
     @Override
     public Node getNode() {
         return show1.getNode();
+    }
+    
+    @Override
+    public void editNode(Node n) {
+        show1.editNode(n);
     }
     
     public void setPos(double x, double y) {

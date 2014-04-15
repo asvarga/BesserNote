@@ -76,4 +76,13 @@ public class NumberField extends TextField {
         }
         return false;
     }
+    
+    public double getNum() {
+        // TODO: memoize
+        try {
+            return Double.parseDouble(this.getText());
+        } catch (Exception e) {
+            return 0;
+        }
+    }
 }
