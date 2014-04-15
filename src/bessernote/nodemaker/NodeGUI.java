@@ -44,7 +44,7 @@ public class NodeGUI extends BaseGUI {
         Text t = new Text("--- Node Creation GUI ---");
 
         combo = new ComboBox();
-        combo.getItems().addAll("Pane", "Label", "VBox");
+        combo.getItems().addAll("Pane", "Label", "VBox","TextArea");
         combo.setValue("Pane");
         combo.valueProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -57,7 +57,7 @@ public class NodeGUI extends BaseGUI {
         show1 = new ShowOneGUI();
         show1.addGUI("Pane", new PaneGUI(spacing));
         show1.addGUI("Label", new LabelGUI(spacing));
-
+        show1.addGUI("TextArea",new TextAreaGUI(spacing));
         createButton = new Button("Create");
 
         getChildren().addAll(t, combo, show1, createButton);
@@ -84,4 +84,10 @@ public class NodeGUI extends BaseGUI {
 //        tx = x;
 //        ty = y;
 //    }
+
+    private static class TextAreaGUI extends BaseGUI {
+
+        public TextAreaGUI(double spacing) {
+        }
+    }
 }

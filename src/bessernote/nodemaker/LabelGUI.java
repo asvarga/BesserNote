@@ -20,21 +20,19 @@ public class LabelGUI extends BaseGUI {
     
     PlacementGUI placement;
     ColorPicker cp;
-    
+
     public LabelGUI(double spacing) {
         super(spacing);
-        
-        Text t = new Text("--- Label GUI ---");
-        
+
+        Text t = new Text("--- Label GUI ---");        
         placement = new PlacementGUI(spacing);
         
         Text t2 = new Text("Text Color:");
         cp = new ColorPicker();
-        
+
         getChildren().addAll(t, placement, t2, cp);
     }
-    
-    
+
     @Override
     public Node getNode() {
         Label label = new Label("LABEL!!!");
