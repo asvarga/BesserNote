@@ -17,23 +17,22 @@ import javafx.scene.text.Text;
  * @author avarga
  */
 public class LabelGUI extends BaseGUI {
-    
+
     ColorPicker cp;
-    
+
     public LabelGUI(double spacing) {
         super(spacing);
-        
+
         Text t = new Text("--- Label GUI ---");
-        
+
         PlacementGUI placement = new PlacementGUI(spacing);
-        
+
         Text t2 = new Text("Text Color:");
         cp = new ColorPicker();
-        
+
         getChildren().addAll(t, placement, t2, cp);
     }
-    
-    
+
     @Override
     public Node getNode() {
         Label label = new Label("LABEL!!!");
@@ -41,5 +40,5 @@ public class LabelGUI extends BaseGUI {
         label.setFont(new Font("Arial", 30));
         return label;
     }
-    
+
 }

@@ -1,2 +1,4 @@
 .DS_STORE
 *.class
+/JavaApplication2/nbproject/private/
+/dist/
