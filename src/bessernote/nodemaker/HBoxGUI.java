@@ -32,7 +32,7 @@ public class HBoxGUI extends BaseGUI {
         super(spacing);
         
         Text t = new Text("--- HBox GUI ---");        
-        placement = new PlacementGUI(spacing);
+        placement = new PlacementGUI(spacing, true);
         
         //Text t2 = new Text("Width Control:");
         
@@ -65,8 +65,14 @@ public class HBoxGUI extends BaseGUI {
         placement.editNode(n);
     }
     
+    @Override
     public void setPos(double x, double y) {
         placement.setPos(x, y);
+    }
+    
+    @Override
+    public void setSize(double x, double y) {
+        placement.setSize(x, y);
     }
     
 }

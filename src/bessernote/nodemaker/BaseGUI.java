@@ -65,4 +65,8 @@ public class BaseGUI extends VBox {
         
     }
     
+    public void setSize(double x, double y) {
+        
+    }
+    
 }

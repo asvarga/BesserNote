@@ -27,7 +27,7 @@ public class PaneGUI extends BaseGUI {
 
         Text t = new Text("--- Pane GUI ---");
 
-        placement = new PlacementGUI(spacing);
+        placement = new PlacementGUI(spacing, true);
 
         Text t2 = new Text("Background Color:");
         cp = new ColorPicker();
@@ -48,7 +48,13 @@ public class PaneGUI extends BaseGUI {
         placement.editNode(n);
     }
     
+    @Override
     public void setPos(double x, double y) {
         placement.setPos(x, y);
+    }
+    
+    @Override
+    public void setSize(double x, double y) {
+        placement.setSize(x, y);
     }
 }

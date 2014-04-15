@@ -47,6 +47,7 @@ public class LabelGUI extends BaseGUI {
         placement.editNode(n);
     }
     
+    @Override
     public void setPos(double x, double y) {
         placement.setPos(x, y);
     }

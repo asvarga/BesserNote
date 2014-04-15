@@ -72,9 +72,17 @@ public class ShowOneGUI extends BaseGUI {
         shown.editNode(n);
     }
     
+    @Override
     public void setPos(double x, double y) {
         for (Map.Entry<String, BaseGUI> mapEntry : map.entrySet()) {
             mapEntry.getValue().setPos(x, y);
+        }
+    }
+    
+    @Override
+    public void setSize(double x, double y) {
+        for (Map.Entry<String, BaseGUI> mapEntry : map.entrySet()) {
+            mapEntry.getValue().setSize(x, y);
         }
     }
 

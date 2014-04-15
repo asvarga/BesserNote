@@ -27,6 +27,8 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -58,6 +60,9 @@ public class BesserNote extends Application {
     private NodeGUI nodeGUI;
     private Window primaryStage;
     private Desktop desktop = Desktop.getDesktop();
+    
+    private double startDragX;
+    private double startDragY;
 
     @Override
     public void start(final Stage stage) {
@@ -77,16 +82,22 @@ public class BesserNote extends Application {
         popup.setAutoFix(false);
         popup.setHideOnEscape(true);
         
+        popup.addEventFilter(KeyEvent.KEY_PRESSED, 
+            new EventHandler<KeyEvent>() {
+                @Override
+                public void handle(KeyEvent e) {
+                    if (e.getCode().equals(KeyCode.ENTER)) {
+                        createNode();
+                    }
+                };
+            }
+        );
+        
         nodeGUI.createButton.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
             public void handle(ActionEvent e) {
-                Node newNode = nodeGUI.getNode();
-                if (newNode != null) {
-                    sheet.getChildren().add(newNode);
-                    nodeGUI.editNode(newNode);
-                }
-                popup.hide();
+                createNode();
             }
         });
         
@@ -99,12 +110,41 @@ public class BesserNote extends Application {
         
         //// RIGHT CLICK ////
         
-        sheet.addEventFilter(MouseEvent.MOUSE_CLICKED, 
+        sheet.addEventFilter(MouseEvent.MOUSE_PRESSED, 
             new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent e) {
                     if (e.getButton() == MouseButton.SECONDARY) {
-                        nodeGUI.setPos(e.getX(), e.getY());
+                        startDragX = e.getX();
+                        startDragY = e.getY();
+                    }
+                };
+            }
+        );
+        sheet.addEventFilter(MouseEvent.MOUSE_DRAGGED, 
+            new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent e) {
+                    if (e.getButton() == MouseButton.SECONDARY) {
+                        // draw selection
+                    }
+                };
+            }
+        );
+        sheet.addEventFilter(MouseEvent.MOUSE_RELEASED, 
+            new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent e) {
+                    if (e.getButton() == MouseButton.SECONDARY) {
+                        double dx = startDragX-e.getX();
+                        double dy = startDragY-e.getY();
+                        if (dx*dx+dy*dy >= 25) {
+                            nodeGUI.setPos(Math.min(startDragX, e.getX()), 
+                                Math.min(startDragY, e.getY()));
+                            nodeGUI.setSize(Math.abs(dx), Math.abs(dy));
+                        } else {
+                            nodeGUI.setPos(startDragX, startDragY);
+                        }
                         popup.show(stage);
                     }
                 };
@@ -192,14 +232,14 @@ public class BesserNote extends Application {
     } 
     
         private void openFile(File file) {
-        try {
-            desktop.open(file);
-        } catch (IOException ex) {
-            Logger.getLogger(
-                BesserNote.class.getName()).log(
-                    Level.SEVERE, null, ex
-                );
-        }
+            try {
+                desktop.open(file);
+            } catch (IOException ex) {
+                Logger.getLogger(
+                    BesserNote.class.getName()).log(
+                        Level.SEVERE, null, ex
+                    );
+            }
         }
         /*
         private void SaveFile(String content, File file){
@@ -233,6 +273,15 @@ public class BesserNote extends Application {
           }
       });
         */
+        
+    public void createNode() {
+        Node newNode = nodeGUI.getNode();
+        if (newNode != null) {
+            sheet.getChildren().add(newNode);
+            nodeGUI.editNode(newNode);
+        }
+        popup.hide();
+    }
       
     public static void main(String[] args) {
         launch(args);

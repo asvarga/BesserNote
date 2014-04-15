@@ -85,8 +85,14 @@ public class NodeGUI extends BaseGUI {
         show1.editNode(n);
     }
     
+    @Override
     public void setPos(double x, double y) {
         show1.setPos(x, y);
+    }
+    
+    @Override
+    public void setSize(double x, double y) {
+        show1.setSize(x, y);
     }
     
 //    public void setTarget(Pane node) {
