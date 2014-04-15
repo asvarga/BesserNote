@@ -66,5 +66,11 @@ public class ShowOneGUI extends BaseGUI {
     public Node getNode() {
         return shown.getNode();
     }
+    
+    public void setPos(double x, double y) {
+        for (Map.Entry<String, BaseGUI> mapEntry : map.entrySet()) {
+            mapEntry.getValue().setPos(x, y);
+        }
+    }
 
 }

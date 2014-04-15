@@ -68,6 +68,10 @@ public class NodeGUI extends BaseGUI {
         return show1.getNode();
     }
     
+    public void setPos(double x, double y) {
+        show1.setPos(x, y);
+    }
+    
 //    public void setTarget(Pane node) {
 //        target = node;
 //    }

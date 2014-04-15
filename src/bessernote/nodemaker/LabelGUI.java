@@ -44,4 +44,8 @@ public class LabelGUI extends BaseGUI {
         return label;
     }
     
+    public void setPos(double x, double y) {
+        placement.setPos(x, y);
+    }
+    
 }

@@ -42,4 +42,8 @@ public class PaneGUI extends BaseGUI {
         placement.editNode(pane);
         return pane;
     }
+    
+    public void setPos(double x, double y) {
+        placement.setPos(x, y);
+    }
 }

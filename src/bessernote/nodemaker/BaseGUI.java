@@ -47,4 +47,8 @@ public class BaseGUI extends VBox {
         
     }
     
+    public void setPos(double x, double y) {
+        
+    }
+    
 }

@@ -48,4 +48,9 @@ public class PlacementGUI extends BaseGUI {
         }
     }
     
+    public void setPos(double x, double y) {
+        xNum.setText(Double.toString(x));
+        yNum.setText(Double.toString(y));
+    }
+    
 }
