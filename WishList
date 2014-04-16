@@ -5,18 +5,18 @@ ADD WHATEVER.
 + More UI Elements
   + VBox
   + HBox
+  + Scrollpanes
   + Tab shit  //DL
   + Filled/padded node  //AV
   + [add more here]
 + Select //DH
+  + Highlight selection //AV or DH
 + Delete //DH
 + Drag + Drop //DH
 + Nodes in nodes  //AV
   + superclick  //AV
   + GUI
   + Meta-GUI
-+ Click and drag to define placement size
-  + show outline  //AV
 + Saving //DL
 + Loading //DL
 + Drawing
