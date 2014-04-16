@@ -88,7 +88,9 @@ public class BesserNote extends Application {
         above = new Pane();
         stackPane.getChildren().add(above);
                 
-        dragBox = new DashedBox("white", "black", "3", 3);
+        //dragBox = new DashedBox("red", "green", "10", 3);
+        //dragBox = new DashedBox(new String[]{"red", "orange", "yellow", "green", "blue", "purple"}, 10, 3);
+        dragBox = new DashedBox(new String[]{"red", "yellow", "green"}, 10, 3);
         dragBox.setVisible(false);
         above.getChildren().add(dragBox);
 

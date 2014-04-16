@@ -32,4 +32,22 @@ public class DashedBox extends Pane {
         getChildren().add(rect2);
         getChildren().add(rect1);
     }
+    
+    public DashedBox(String[] colors, double dashLen, double lineWidth) {
+        for (int i=colors.length-1; i>=0; i--) {
+            Rectangle rect = new Rectangle();
+            String pattern = Double.toString(dashLen*(i+1))+" "
+                    + Double.toString(dashLen*(colors.length-i-1));
+            rect.setStyle(
+                    "-fx-stroke-dash-array: "+pattern+";"
+                    + "-fx-fill: transparent;"
+                    + "-fx-stroke: "+colors[i]+";"
+                    + "-fx-stroke-width: "+Double.toString(lineWidth)+";"
+                    + "-fx-stroke-line-cap: butt");
+            rect.widthProperty().bind(widthProperty());
+            rect.heightProperty().bind(heightProperty());
+
+            getChildren().add(rect);
+        }
+    }
 }
