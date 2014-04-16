@@ -21,6 +21,7 @@ import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -96,6 +97,18 @@ public class BesserNote extends Application {
         dragBox = new DashedBox(new String[]{"red", "yellow", "green"}, 10, 3);
         dragBox.setVisible(false);
         above.getChildren().add(dragBox);
+        
+        Pane p = new Pane();
+        p.setPrefSize(200, 200);
+        p.setStyle("-fx-background-color: red;");
+        Pane p2 = new Pane();
+        p.setPadding(new Insets(20, 20, 20, 20));
+        p2.setStyle("-fx-background-color: yellow;");
+//        Pane p3 = new Pane();
+//        p3.setStyle("-fx-background-color: green;");
+//        p3.getChildren().add(p2);
+        p.getChildren().add(p2);
+        sheet.getChildren().add(p);
 
         //// NODE MAKER ////
 
