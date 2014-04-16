@@ -5,6 +5,7 @@
 package bessernote;
 
 import bessernote.nodemaker.NodeGUI;
+import com.sun.javafx.runtime.VersionInfo;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.FileWriter;
@@ -75,7 +76,7 @@ public class BesserNote extends Application {
 
     @Override
     public void start(final Stage stage) {
-
+        System.out.println("JavaFX Verions: "+VersionInfo.getRuntimeVersion());// VersionInfo.getRuntimeVersion())‌​;
         root = new BorderPane();
         scene = new Scene(root, 640, 480, Color.BLACK);
         
