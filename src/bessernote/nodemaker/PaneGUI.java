@@ -39,7 +39,6 @@ public class PaneGUI extends BaseGUI {
     public Node getNode() {
         Pane pane = new Pane();
         pane.setStyle("-fx-background-color: #"+cp.getValue().toString().substring(2) +";");
-        pane.setPrefSize(100, 100);
         return pane;
     }
     

@@ -20,14 +20,16 @@ import bessernote.nodemaker.placement.PlacementGUI;
  *
  * @author Dan
  */
-public class TextAreaGUI extends BaseGUI{
+public class TextAreaGUI extends BaseGUI {
+    
+    PlacementGUI placement;
 
     public TextAreaGUI (double spacing) {
         super(spacing);
 
         Text t = new Text("--- TextArea GUI ---");
 
-         PlacementGUI placement = new PlacementGUI(spacing);
+        placement = new PlacementGUI(spacing, true);
          
 
         getChildren().addAll(t, placement);
@@ -42,5 +44,20 @@ public class TextAreaGUI extends BaseGUI{
         TextArea  t = new TextArea();
         System.out.println("text area generated");
         return t;
+    }
+    
+    @Override
+    public void editNode(Node n) {
+        placement.editNode(n);
+    }
+    
+    @Override
+    public void setPos(double x, double y) {
+        placement.setPos(x, y);
+    }
+    
+    @Override
+    public void setSize(double x, double y) {
+        placement.setSize(x, y);
     }
 }

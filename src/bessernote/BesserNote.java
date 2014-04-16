@@ -22,6 +22,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -34,10 +35,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.StrokeType;
 import javafx.stage.FileChooser;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
@@ -54,7 +57,12 @@ public class BesserNote extends Application {
     private Scene scene;
     private BorderPane root;
     private MenuBar menuBar;
+    private StackPane stackPane;
     private Pane sheet;
+    private Pane above;
+    
+    private DashedBox dragBox;
+    private DashedBox focusBox;
     
     private Popup popup;
     private NodeGUI nodeGUI;
@@ -69,10 +77,20 @@ public class BesserNote extends Application {
 
         root = new BorderPane();
         scene = new Scene(root, 640, 480, Color.BLACK);
+        
+        stackPane = new StackPane();
+        root.setCenter(stackPane);
 
-        sheet = new Pane();
-        root.setCenter(sheet);
+        sheet = new Pane();        
         sheet.setStyle("-fx-background-color: black;");
+        stackPane.getChildren().add(sheet);
+        
+        above = new Pane();
+        stackPane.getChildren().add(above);
+                
+        dragBox = new DashedBox("white", "black", "3", 3);
+        dragBox.setVisible(false);
+        above.getChildren().add(dragBox);
 
         //// NODE MAKER ////
 
@@ -98,6 +116,7 @@ public class BesserNote extends Application {
             @Override
             public void handle(ActionEvent e) {
                 createNode();
+                dragBox.setVisible(false);
             }
         });
         
@@ -105,12 +124,13 @@ public class BesserNote extends Application {
             @Override
             public void handle(ActionEvent e) {
                 popup.hide();
+                dragBox.setVisible(false);
             }
         });
         
         //// RIGHT CLICK ////
         
-        sheet.addEventFilter(MouseEvent.MOUSE_PRESSED, 
+        stackPane.addEventFilter(MouseEvent.MOUSE_PRESSED, 
             new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent e) {
@@ -121,17 +141,26 @@ public class BesserNote extends Application {
                 };
             }
         );
-        sheet.addEventFilter(MouseEvent.MOUSE_DRAGGED, 
+        stackPane.addEventFilter(MouseEvent.MOUSE_DRAGGED, 
             new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent e) {
                     if (e.getButton() == MouseButton.SECONDARY) {
-                        // draw selection
+                        double dx = startDragX-e.getX();
+                        double dy = startDragY-e.getY();
+                        if (dx*dx+dy*dy >= 25) {
+                            dragBox.setLayoutX(Math.min(startDragX, e.getX()));
+                            dragBox.setLayoutY(Math.min(startDragY, e.getY()));
+                            dragBox.setPrefSize(Math.abs(dx), Math.abs(dy));
+                            dragBox.setVisible(true);
+                        } else {
+                            dragBox.setVisible(false);
+                        }
                     }
                 };
             }
         );
-        sheet.addEventFilter(MouseEvent.MOUSE_RELEASED, 
+        stackPane.addEventFilter(MouseEvent.MOUSE_RELEASED, 
             new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent e) {
@@ -229,23 +258,23 @@ public class BesserNote extends Application {
         stage.setTitle("BesserNote"); 
         stage.setScene(scene); 
         stage.show(); 
+        
     } 
     
-        private void openFile(File file) {
-            try {
-                desktop.open(file);
-            } catch (IOException ex) {
-                Logger.getLogger(
-                    BesserNote.class.getName()).log(
-                        Level.SEVERE, null, ex
-                    );
-            }
+    private void openFile(File file) {
+        try {
+            desktop.open(file);
+        } catch (IOException ex) {
+            Logger.getLogger(
+                BesserNote.class.getName()).log(
+                    Level.SEVERE, null, ex
+                );
         }
-        /*
-        private void SaveFile(String content, File file){
+    }
+    /*
+    private void SaveFile(String content, File file){
         try {
             FileWriter fileWriter = null;
->>>>>>> b86d65958f341bb6956d4fec61b8679998fb282a
 
             fileWriter = new FileWriter(file);
             fileWriter.write(content);
