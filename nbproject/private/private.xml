@@ -3,6 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1"/>
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/Users/ddliu/Desktop/cs32/BesserNote/src/bessernote/nodemaker/BaseGUI.java</file>
+            <file>file:/Users/ddliu/Desktop/cs32/BesserNote/src/bessernote/nodemaker/LabelGUI.java</file>
+            <file>file:/Users/ddliu/Desktop/cs32/BesserNote/src/bessernote/BesserNote.java</file>
+            <file>file:/Users/ddliu/Desktop/cs32/BesserNote/src/bessernote/nodemaker/ShowOneGUI.java</file>
+            <file>file:/Users/ddliu/Desktop/cs32/BesserNote/src/bessernote/nodemaker/NodeGUI.java</file>
+            <file>file:/Users/ddliu/Desktop/cs32/BesserNote/src/bessernote/nodemaker/TextAreaGUI.java</file>
+        </group>
     </open-files>
 </project-private>
