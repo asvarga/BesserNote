@@ -6,13 +6,16 @@
 
 package bessernote.nodemaker;
 
+import bessernote.nodemaker.placement.PlacementGUI;
 import javafx.scene.Node;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.control.TextArea;
 import bessernote.nodemaker.placement.PlacementGUI;
+
 /**
  *
  * @author Dan
