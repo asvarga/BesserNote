@@ -12,7 +12,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.control.TextArea;
-
+import bessernote.nodemaker.placement.PlacementGUI;
 /**
  *
  * @author Dan
@@ -24,10 +24,10 @@ public class TextAreaGUI extends BaseGUI{
 
         Text t = new Text("--- TextArea GUI ---");
 
-        PlacementGUI placement = new PlacementGUI(spacing);
+         PlacementGUI placement = new PlacementGUI(spacing);
+         
 
-
-        getChildren().addAll(t, placement, t);
+        getChildren().addAll(t, placement);
     }
 
     @Override
@@ -37,6 +37,7 @@ public class TextAreaGUI extends BaseGUI{
 //        pane.setPrefSize(100, 100);
 //        return pane;
         TextArea  t = new TextArea();
+        System.out.println("text area generated");
         return t;
     }
 }

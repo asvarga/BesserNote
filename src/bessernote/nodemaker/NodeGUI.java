@@ -108,9 +108,4 @@ public class NodeGUI extends BaseGUI {
 //        ty = y;
 //    }
 
-    private static class TextAreaGUI extends BaseGUI {
-
-        public TextAreaGUI(double spacing) {
-        }
-    }
 }
