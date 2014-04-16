@@ -5,7 +5,7 @@
 package bessernote.nodemaker.placement;
 
 import bessernote.nodemaker.BaseGUI;
-import bessernote.ui.NumberField;
+import bessernote.ui.BNumberField;
 import java.text.ParseException;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;

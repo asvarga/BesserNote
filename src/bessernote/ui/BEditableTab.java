@@ -25,12 +25,12 @@ import javafx.scene.input.MouseEvent;
 *
 * @author utente
 */
-public class EditableTab extends Tab{
+public class BEditableTab extends Tab{
     
     private Label label = new Label();
     private TextField textField = new TextField();
     
-    public EditableTab(String text){
+    public BEditableTab(String text){
       label.setText(text);
       this.setGraphic(label);
       
@@ -40,21 +40,21 @@ public class EditableTab extends Tab{
     System.out.println("Handled");
     if (event.getClickCount()==2) {  
       textField.setText(label.getText());  
-      EditableTab.this.setGraphic(textField);  
+      BEditableTab.this.setGraphic(textField);  
       textField.selectAll();  
       textField.requestFocus();  
     }  
   }  
-}); 
+        }); 
 
 
 textField.setOnAction(new EventHandler<ActionEvent>() {  
   @Override  
   public void handle(ActionEvent event) {  
     label.setText(textField.getText());  
-    EditableTab.this.setGraphic(label);  
+    BEditableTab.this.setGraphic(label);  
   }  
-});
+        });
 
 
 textField.focusedProperty().addListener(new ChangeListener<Boolean>() {  
@@ -63,10 +63,10 @@ textField.focusedProperty().addListener(new ChangeListener<Boolean>() {
       Boolean oldValue, Boolean newValue) {  
     if (! newValue) {  
       label.setText(textField.getText());  
-      EditableTab.this.setGraphic(label);            
+      BEditableTab.this.setGraphic(label);            
     }  
   }  
-});  
+        });  
         
    
     }

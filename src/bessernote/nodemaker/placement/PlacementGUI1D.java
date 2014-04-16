@@ -2,7 +2,7 @@ package bessernote.nodemaker.placement;
 
 import bessernote.nodemaker.BaseGUI;
 import bessernote.nodemaker.ShowOneGUI;
-import bessernote.ui.NumberField;
+import bessernote.ui.BNumberField;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
@@ -21,8 +21,8 @@ public class PlacementGUI1D extends BaseGUI {
     ShowOneGUI show1;
     BaseGUI manual;
     BaseGUI fill;
-    NumberField coord;
-    NumberField pad;
+    BNumberField coord;
+    BNumberField pad;
     
     public PlacementGUI1D(double spacing, boolean x) {
         
@@ -48,14 +48,14 @@ public class PlacementGUI1D extends BaseGUI {
         manual = new BaseGUI(spacing, false);
         HBox h = new HBox();
         h.getChildren().add(new Text("Loc: "));
-        coord = new NumberField("0");
+        coord = new BNumberField("0");
         h.getChildren().add(coord);
         manual.getChildren().add(h);
         
         fill = new BaseGUI(spacing, false);
         HBox h2 = new HBox();
         h2.getChildren().add(new Text("Pad: "));
-        pad = new NumberField("0");
+        pad = new BNumberField("0");
         h2.getChildren().add(pad);
         fill.getChildren().add(h2);
 

@@ -35,13 +35,13 @@ public class BTabPane extends BorderPane{
       addButton.setOnAction(new EventHandler<ActionEvent>() {
       @Override
           public void handle(ActionEvent event) {
-            final EditableTab tab = new EditableTab("Tab " + (tabPane.getTabs().size() + 1));
+            final BEditableTab tab = new BEditableTab("Tab " + (tabPane.getTabs().size() + 1));
             tabPane.getTabs().add(tab);
             tabPane.getSelectionModel().select(tab);
           }
         });
         
-        EditableTab tab = new EditableTab("Tab 1");
+        BEditableTab tab = new BEditableTab("Tab 1");
         tabPane.getTabs().add(tab);
         
         GridPane top = new GridPane();

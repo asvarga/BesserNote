@@ -14,15 +14,15 @@ import javax.swing.event.ChangeListener;
  *
  * @author avarga
  */
-public class NumberField extends TextField {
+public class BNumberField extends TextField {
     
     boolean hasDecimal = false;
     
-    public NumberField() {
+    public BNumberField() {
         super();
     }
     
-    public NumberField(String s) {
+    public BNumberField(String s) {
         super(s);
     }
     
