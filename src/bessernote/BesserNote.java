@@ -28,6 +28,7 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
+import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
@@ -86,6 +87,7 @@ public class BesserNote extends Application {
         stackPane.getChildren().add(sheet);
         
         above = new Pane();
+        above.setMouseTransparent(true);    // doesn't block clicks
         stackPane.getChildren().add(above);
                 
         //dragBox = new DashedBox("red", "green", "10", 3);
@@ -131,7 +133,7 @@ public class BesserNote extends Application {
         });
         
         //// RIGHT CLICK ////
-        
+                
         stackPane.addEventFilter(MouseEvent.MOUSE_PRESSED, 
             new EventHandler<MouseEvent>() {
                 @Override

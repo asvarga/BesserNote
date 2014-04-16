@@ -15,6 +15,9 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.control.TextArea;
 import bessernote.nodemaker.placement.PlacementGUI;
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 
 /**
  *
@@ -42,6 +45,15 @@ public class TextAreaGUI extends BaseGUI {
 //        pane.setPrefSize(100, 100);
 //        return pane;
         TextArea  t = new TextArea();
+//        t.addEventFilter(MouseEvent.MOUSE_PRESSED, 
+//            new EventHandler<MouseEvent>() {
+//                @Override
+//                public void handle(MouseEvent e) {
+//                    System.out.println("click");
+//                    t.requestFocus();
+//                };
+//            }
+//        );
         System.out.println("text area generated");
         return t;
     }
