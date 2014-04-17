@@ -24,7 +24,7 @@ public class BTextArea  extends TextArea{
         setOnDragDetected(new EventHandler<MouseEvent>(){
             @Override
             public void handle(MouseEvent e){
-                BTextArea.this.relocate(, USE_PREF_SIZE);
+//                BTextArea.this.relocate(, USE_PREF_SIZE);
             }
         });
     }
