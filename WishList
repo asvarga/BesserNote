@@ -4,12 +4,11 @@ ADD WHATEVER.
 
 + More UI Elements
   + Grid
-  + Scrollpanes
+  + Scrollpanes //AV
   + [add more here]
   + Sexy text area
     + https://github.com/TomasMikula/RichTextFX //TM
 + Delete //DH
-+ Multi-select
 + Saving
 + Loading
 + Drawing //DL 
