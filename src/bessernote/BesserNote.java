@@ -4,52 +4,36 @@
  */
 package bessernote;
 
+import bessernote.nodemaker.DrawingMenu;
 import bessernote.nodemaker.NodeGUI;
 import com.sun.javafx.runtime.VersionInfo;
 import java.awt.Desktop;
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.animation.FillTransition; 
-import javafx.animation.ParallelTransition; 
-import javafx.animation.RotateTransition; 
-import javafx.animation.ScaleTransition; 
-import javafx.animation.Timeline;
-import javafx.animation.TranslateTransition; 
 import javafx.application.Application;
-import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
-import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.StrokeType;
 import javafx.stage.FileChooser;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import javafx.util.Duration; 
 
 
 /**
@@ -150,6 +134,10 @@ public class BesserNote extends Application {
                 dragBox.setVisible(false);
             }
         });
+        
+        //// PAINTING MENU ////
+        
+        
         
         //// RIGHT CLICK ////
                 
@@ -268,6 +256,21 @@ public class BesserNote extends Application {
             }
         });
         menuEdit.getItems().addAll(menuItemAdd);
+        
+        MenuItem menuItemDraw = new MenuItem("Draw");
+        menuItemDraw.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent t){
+                Popup drawingMenu = new Popup();
+                try {
+                    drawingMenu.getContent().addAll(new DrawingMenu());
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(BesserNote.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                drawingMenu.show(stage, scene.getX(), scene.getY());
+            }
+        });
+        menuEdit.getItems().addAll(menuItemDraw);
 
         // --- Menu View
         Menu menuView = new Menu("View");
@@ -342,4 +345,22 @@ public class BesserNote extends Application {
     public Node getCurrentFocus(){
         return this.scene.getFocusOwner();
     }
+    
+    public void drawOn(){
+        
+    }
+    
+    public void drawOff(){
+        
+    }
+    
+    public void circleOn(){
+        
+    }
+    
+    public void circleOff(){
+        
+    }
+    
+    
 }
