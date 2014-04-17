@@ -38,14 +38,13 @@ public class PaneGUI extends BaseGUI {
 
     @Override
     public Node getNode() {
-        Pane pane = new Pane();
-        pane.setStyle("-fx-background-color: #"+cp.getValue().toString().substring(2) +";");
-        return pane;
+        return new Pane();
     }
     
     @Override
     public void editNode(Node n) {
         placement.editNode(n);
+        n.setStyle("-fx-background-color: #"+cp.getValue().toString().substring(2) +";");
     }
     
     @Override

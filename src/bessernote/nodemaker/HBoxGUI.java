@@ -6,6 +6,8 @@ package bessernote.nodemaker;
 
 import bessernote.nodemaker.placement.PlacementGUI;
 import bessernote.nodemaker.placement.PlacementGUIRegion;
+import bessernote.ui.BIntegerField;
+import bessernote.ui.BNumberField;
 import java.util.HashSet;
 import java.util.Set;
 import javafx.event.EventHandler;
@@ -26,43 +28,41 @@ import javafx.scene.text.Text;
 public class HBoxGUI extends BaseGUI {
     
     PlacementGUIRegion placement;
+    BIntegerField integer;
+    ColorPicker cp;
     
-    boolean equalWidth;
-
     public HBoxGUI(Node top, double spacing) {
         super(top, spacing);
         
-        Text t = new Text("--- HBox GUI ---");        
+        Text t = new Text("--- Row GUI ---");        
         placement = new PlacementGUIRegion(top, spacing);
+        
+        Text t2 = new Text("Parts:");
+        integer = new BIntegerField("2");
+        
+        Text t3 = new Text("Border Color:");
+        cp = new ColorPicker();
         
         //Text t2 = new Text("Width Control:");
         
-        getChildren().addAll(t, placement);
+        getChildren().addAll(t, placement, t2, integer, t3, cp);
     }
 
     @Override
     public Node getNode() {
-        HBox hbox = new HBox();
-        hbox.setPrefWidth(300);
-        hbox.setPrefHeight(300);
-        hbox.setStyle("-fx-background-color: red;");
-        
-        Pane p1 = new Pane();
-        p1.setStyle("-fx-background-color: green;");
-        HBox.setHgrow(p1, Priority.ALWAYS);
-        Pane p2 = new Pane();
-        p2.setStyle("-fx-background-color: blue;");
-        HBox.setHgrow(p2, Priority.ALWAYS);
-        hbox.getChildren().addAll(p1, p2);
-        
-        //HBox hbox = new HBox();
-        
-        
-        return hbox;
+        return new HBox();
     }
     
     @Override
     public void editNode(Node n) {
+        int num = integer.getInt();
+        for (int i=0; i<num; i++) {
+            Pane p = new Pane();
+            p.setStyle("-fx-border-color: #"+cp.getValue().toString().substring(2)+";"
+                    + "-fx-stroke-style: centered;");
+            HBox.setHgrow(p, Priority.ALWAYS);
+            ((Pane) n).getChildren().add(p);
+        } 
         placement.editNode(n);
     }
     
