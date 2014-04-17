@@ -6,6 +6,7 @@ package bessernote;
 
 import bessernote.nodemaker.DrawingMenu;
 import bessernote.nodemaker.NodeGUI;
+import bessernote.nodemaker.placement.DraggingUtil;
 import com.sun.javafx.runtime.VersionInfo;
 import java.awt.Desktop;
 import java.io.File;
@@ -66,13 +67,17 @@ public class BesserNote extends Application {
     private DashedBox superBox;
     private List<Node> superClicked;
     
+    private double dragOffsetX;
+    private double dragOffsetY;
+    private boolean dragging = false;
+    
     private Popup popup;
     private NodeGUI nodeGUI;
     private Window primaryStage;
     private Desktop desktop = Desktop.getDesktop();
     
-    private double startDragX;
-    private double startDragY;
+    private double startOutlineX;
+    private double startOutlineY;
     private Pane target;
 
     @Override
@@ -87,13 +92,12 @@ public class BesserNote extends Application {
         sheet = new Pane();        
         sheet.setStyle("-fx-background-color: black;");
         stackPane.getChildren().add(sheet);
+        target = sheet;
         
         above = new Pane();
         above.setMouseTransparent(true);    // doesn't block clicks
         stackPane.getChildren().add(above);
                 
-        //dragBox = new DashedBox("red", "green", "10", 3);
-        //dragBox = new DashedBox(new String[]{"red", "orange", "yellow", "green", "blue", "purple"}, 10, 3);
         dragBox = new DashedBox(new String[]{"red", "yellow", "green"}, 10, 3);
         dragBox.setVisible(false);
         above.getChildren().add(dragBox);
@@ -142,6 +146,59 @@ public class BesserNote extends Application {
                 }
             }
         );
+        
+        //// DRAG ////
+        
+        sheet.addEventFilter(MouseEvent.MOUSE_PRESSED, 
+            new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent e) {
+                    if (e.getButton() == MouseButton.PRIMARY && e.isAltDown()) {
+                        if (superSelected != null) {
+                            System.out.println(456);
+                            Point2D local = sheetToLocal(
+                                    superSelected.getParent(), e.getX(), e.getY());
+                            dragOffsetX = local.getX()-superSelected.getLayoutX();
+                            dragOffsetY = local.getY()-superSelected.getLayoutY();
+                            dragging = true;
+                        }
+                    }
+                };
+            }
+        );
+        
+        sheet.addEventFilter(MouseEvent.MOUSE_DRAGGED, 
+            new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent e) {
+                    if (e.getButton() == MouseButton.PRIMARY && dragging) {
+                        if (superSelected != null) {
+                            System.out.println(123);
+                            Point2D local = sheetToLocal(
+                                    superSelected.getParent(), e.getX(), e.getY());
+                            try {   // can't set if bound
+                                superSelected.setLayoutX(local.getX()-dragOffsetX);
+                            } catch (Exception ex) {}
+                            try {   // can't set if bound
+                                superSelected.setLayoutY(local.getY()-dragOffsetY);
+                            } catch (Exception ex) {}
+                            select(superSelected);
+                        }
+                    }
+                };
+            }
+        );
+        
+        sheet.addEventFilter(MouseEvent.MOUSE_RELEASED, 
+            new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent e) {
+                    if (e.getButton() == MouseButton.PRIMARY) {
+                        dragging = false;
+                    }
+                };
+            }
+        );
 
         //// NODE MAKER ////
 
@@ -157,7 +214,8 @@ public class BesserNote extends Application {
                 public void handle(KeyEvent e) {
                     if (e.getCode().equals(KeyCode.ENTER)) {
                         createNode();
-                        unselect();
+                        //unselect();
+                        dragBox.setVisible(false);
                     }
                 };
             }
@@ -168,7 +226,7 @@ public class BesserNote extends Application {
             @Override
             public void handle(ActionEvent e) {
                 createNode();
-                unselect();
+                //unselect();
                 dragBox.setVisible(false);
             }
         });
@@ -177,7 +235,7 @@ public class BesserNote extends Application {
             @Override
             public void handle(ActionEvent e) {
                 popup.hide();
-                unselect();
+                //unselect();
                 dragBox.setVisible(false);
             }
         });
@@ -193,8 +251,8 @@ public class BesserNote extends Application {
                 @Override
                 public void handle(MouseEvent e) {
                     if (e.getButton() == MouseButton.SECONDARY) {
-                        startDragX = e.getX();
-                        startDragY = e.getY();
+                        startOutlineX = e.getX();
+                        startOutlineY = e.getY();
                         boolean clickedSelected = true;
                         if (superSelected == null) {
                             clickedSelected = false;
@@ -232,11 +290,11 @@ public class BesserNote extends Application {
                 @Override
                 public void handle(MouseEvent e) {
                     if (e.getButton() == MouseButton.SECONDARY) {
-                        double dx = startDragX-e.getX();
-                        double dy = startDragY-e.getY();
+                        double dx = startOutlineX-e.getX();
+                        double dy = startOutlineY-e.getY();
                         if (dx*dx+dy*dy >= 25) {
-                            dragBox.setLayoutX(Math.min(startDragX, e.getX()));
-                            dragBox.setLayoutY(Math.min(startDragY, e.getY()));
+                            dragBox.setLayoutX(Math.min(startOutlineX, e.getX()));
+                            dragBox.setLayoutY(Math.min(startOutlineY, e.getY()));
                             dragBox.setPrefSize(Math.abs(dx), Math.abs(dy));
                             dragBox.setVisible(true);
                         } else {
@@ -251,20 +309,20 @@ public class BesserNote extends Application {
                 @Override
                 public void handle(MouseEvent e) {
                     if (e.getButton() == MouseButton.SECONDARY) {
-                        double dx = startDragX-e.getX();
-                        double dy = startDragY-e.getY();
+                        double dx = startOutlineX-e.getX();
+                        double dy = startOutlineY-e.getY();
                         if (dx*dx+dy*dy >= 25) {
                             Point2D local = sheetToLocal(target,
-                                    Math.min(startDragX, e.getX()), 
-                                    Math.min(startDragY, e.getY()));
+                                    Math.min(startOutlineX, e.getX()), 
+                                    Math.min(startOutlineY, e.getY()));
                             Point2D local2 = sheetToLocal(target,
-                                    Math.max(startDragX, e.getX()), 
-                                    Math.max(startDragY, e.getY()));
+                                    Math.max(startOutlineX, e.getX()), 
+                                    Math.max(startOutlineY, e.getY()));
                             nodeGUI.setPos(local.getX(), local.getY());
                             nodeGUI.setSize(local2.getX()-local.getX(), 
                                     local2.getY()-local.getY());
                         } else {
-                            Point2D local = sheetToLocal(target,startDragX, startDragY);
+                            Point2D local = sheetToLocal(target,startOutlineX, startOutlineY);
                             nodeGUI.setPos(local.getX(), local.getY());
                         }
                         popup.show(stage);
@@ -395,17 +453,18 @@ public class BesserNote extends Application {
         return ret;
     }
     
-    private void superClickHelper(double x, double y, Parent p, List<Node> list) {
+    private void superClickHelper(double x, double y, Node n, List<Node> list) {
         // check if inside  
-        for (Node child : p.getChildrenUnmodifiable()) {
-            Point2D local = child.parentToLocal(x, y);
-            if (local.getX() >= 0 &&
-                    local.getY() >= 0 &&
-                    local.getX() <= child.getBoundsInLocal().getWidth() &&
-                    local.getY() <= child.getBoundsInLocal().getHeight()) {
-                list.add(0, child);
-                if (child instanceof Parent) {
-                    superClickHelper(local.getX(), local.getY(), (Parent) child, list);
+        if (x >= 0 &&
+                y >= 0 &&
+                x <= n.getBoundsInLocal().getWidth() &&
+                y <= n.getBoundsInLocal().getHeight()) {
+            list.add(0, n);
+            if (n instanceof Parent) {
+                Parent p = (Parent) n;
+                for (Node child : p.getChildrenUnmodifiable()) {
+                    Point2D local = child.parentToLocal(x, y);  
+                    superClickHelper(local.getX(), local.getY(), child, list);
                 }
             }
         }
@@ -455,6 +514,7 @@ public class BesserNote extends Application {
         
     public void createNode() {
         Node newNode = nodeGUI.getNode();
+//        DraggingUtil.enableResizeDrag(newNode);
         if (newNode != null) {
             target.getChildren().add(newNode);
             nodeGUI.editNode(newNode);

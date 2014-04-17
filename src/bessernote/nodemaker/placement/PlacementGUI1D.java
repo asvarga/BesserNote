@@ -82,7 +82,7 @@ public class PlacementGUI1D extends BaseGUI {
                     r.setPrefWidth(size.getNum());
                 } else {
                     double num = pad.getNum();
-                    r.setLayoutX(num);
+                    EasyBind.bind(r.layoutXProperty(), num);
                     r.prefWidthProperty().bind(Bindings.max(parent.widthProperty().subtract(2*num), 0));
                 }
             } else {
@@ -91,7 +91,7 @@ public class PlacementGUI1D extends BaseGUI {
                     r.setPrefHeight(size.getNum());
                 } else {
                     double num = pad.getNum();
-                    r.setLayoutY(num);
+                    EasyBind.bind(r.layoutYProperty(), num);
                     r.prefHeightProperty().bind(Bindings.max(parent.heightProperty().subtract(2*num), 0));
                 }
             }      
