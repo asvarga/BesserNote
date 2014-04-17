@@ -29,12 +29,12 @@ public class TextAreaGUI extends BaseGUI {
     
     PlacementGUIRegion placement;
 
-    public TextAreaGUI (double spacing) {
-        super(spacing);
+    public TextAreaGUI (Node top, double spacing) {
+        super(top, spacing);
 
         Text t = new Text("--- TextArea GUI ---");
 
-        placement = new PlacementGUIRegion(spacing);
+        placement = new PlacementGUIRegion(top, spacing);
          
 
         getChildren().addAll(t, placement);

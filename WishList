@@ -6,8 +6,9 @@ ADD WHATEVER.
   + VBox
   + HBox
   + Scrollpanes
-  + Tab shit  //DL
   + [add more here]
+  + Sexy text area
+    + https://github.com/TomasMikula/RichTextFX //TM
 + Select //DH
   + Highlight selection //AV or DH
 + Delete //DH
@@ -16,12 +17,14 @@ ADD WHATEVER.
   + superclick  //AV
   + GUI
   + Meta-GUI
-+ Saving //DL
-+ Loading //DL
-+ Drawing
++ Saving
++ Loading
++ Drawing //DL 
 + Flash Cards
   + Easy creation
-+ Search //DL
++ Graphs
+  + http://docs.oracle.com/javafx/2/charts/jfxpub-charts.htm
++ Search
 + Node focus
   + Full screen any node
   + "move" into/out of any sheet
@@ -29,8 +32,8 @@ ADD WHATEVER.
   + Color Schemes/skins
   + Soft corners
 + Undo
-+ Fix Meta-GUI resizing //AV
-+ 
+  + https://github.com/TomasMikula/UndoFX
+  + Make an EventStream of NodeChanges. See the docs. 
 + Tons of fancy shiiiiit 
   
 

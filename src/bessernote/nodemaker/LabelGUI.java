@@ -22,11 +22,11 @@ public class LabelGUI extends BaseGUI {
     PlacementGUI placement;
     ColorPicker cp;
 
-    public LabelGUI(double spacing) {
-        super(spacing);
+    public LabelGUI(Node top, double spacing) {
+        super(top, spacing);
 
         Text t = new Text("--- Label GUI ---");        
-        placement = new PlacementGUI(spacing);
+        placement = new PlacementGUI(top, spacing);
         
         Text t2 = new Text("Text Color:");
         cp = new ColorPicker();

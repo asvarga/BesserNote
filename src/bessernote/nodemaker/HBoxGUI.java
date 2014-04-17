@@ -29,11 +29,11 @@ public class HBoxGUI extends BaseGUI {
     
     boolean equalWidth;
 
-    public HBoxGUI(double spacing) {
-        super(spacing);
+    public HBoxGUI(Node top, double spacing) {
+        super(top, spacing);
         
         Text t = new Text("--- HBox GUI ---");        
-        placement = new PlacementGUIRegion(spacing);
+        placement = new PlacementGUIRegion(top, spacing);
         
         //Text t2 = new Text("Width Control:");
         

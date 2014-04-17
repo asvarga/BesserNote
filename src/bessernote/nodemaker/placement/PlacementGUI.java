@@ -24,13 +24,13 @@ public class PlacementGUI extends BaseGUI {
     BNumberField wNum;
     BNumberField hNum;
     
-    public PlacementGUI(double spacing) {
-        this(spacing, false);
+    public PlacementGUI(Node top, double spacing) {
+        this(top, spacing, false);
     }
     
-    public PlacementGUI(double spacing, boolean chooseSize) {
+    public PlacementGUI(Node top, double spacing, boolean chooseSize) {
         
-        super(spacing);
+        super(top, spacing);
         
         this.chooseSize = chooseSize;
         
