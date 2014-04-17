@@ -8,7 +8,7 @@ ADD WHATEVER.
   + Scrollpanes
   + [add more here]
   + Sexy text area
-    + https://github.com/TomasMikula/RichTextFX
+    + https://github.com/TomasMikula/RichTextFX //TM
 + Select //DH
   + Highlight selection //AV or DH
 + Delete //DH
@@ -33,8 +33,7 @@ ADD WHATEVER.
   + Soft corners
 + Undo
   + https://github.com/TomasMikula/UndoFX
-+ Fix Meta-GUI resizing //AV
-+ 
+  + Make an EventStream of NodeChanges. See the docs. 
 + Tons of fancy shiiiiit 
   
 
