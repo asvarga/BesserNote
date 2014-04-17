@@ -43,7 +43,7 @@ public class NodeGUI extends BaseGUI {
     public NodeGUI(double spacing) {
 
         super(null, spacing);
-
+        _top = this;
         Text t = new Text("--- Node Creation GUI ---");
 
         combo = new ComboBox();
@@ -53,16 +53,16 @@ public class NodeGUI extends BaseGUI {
             @Override
             public void changed(ObservableValue ov, String t, String t1) {
                 show1.showGUI(t1);
-                autosize();
+                _top.autosize();
             }
         });
 
-        show1 = new ShowOneGUI(this);
-        show1.addGUI("Pane", new PaneGUI(this, spacing));
-        show1.addGUI("Label", new LabelGUI(this, spacing));
-        show1.addGUI("HBox", new HBoxGUI(this, spacing));
-        show1.addGUI("TextArea", new TextAreaGUI(this, spacing));
-        show1.addGUI("TabPane", new BTabPaneGUI(this, spacing));
+        show1 = new ShowOneGUI(_top);
+        show1.addGUI("Pane", new PaneGUI(_top, spacing));
+        show1.addGUI("Label", new LabelGUI(_top, spacing));
+        show1.addGUI("HBox", new HBoxGUI(_top, spacing));
+        show1.addGUI("TextArea", new TextAreaGUI(_top, spacing));
+        show1.addGUI("TabPane", new BTabPaneGUI(_top, spacing));
         
         HBox h = new HBox(spacing);
         cancelButton = new Button("Cancel");
