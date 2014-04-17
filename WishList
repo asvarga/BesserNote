@@ -7,7 +7,6 @@ ADD WHATEVER.
   + HBox
   + Scrollpanes
   + Tab shit  //DL
-  + Filled/padded node  //AV
   + [add more here]
 + Select //DH
   + Highlight selection //AV or DH
@@ -30,6 +29,7 @@ ADD WHATEVER.
   + Color Schemes/skins
   + Soft corners
 + Undo
++ Fix Meta-GUI resizing //AV
 + 
 + Tons of fancy shiiiiit 
   
