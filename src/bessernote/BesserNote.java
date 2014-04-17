@@ -157,6 +157,7 @@ public class BesserNote extends Application {
                 public void handle(KeyEvent e) {
                     if (e.getCode().equals(KeyCode.ENTER)) {
                         createNode();
+                        unselect();
                     }
                 };
             }
@@ -167,6 +168,7 @@ public class BesserNote extends Application {
             @Override
             public void handle(ActionEvent e) {
                 createNode();
+                unselect();
                 dragBox.setVisible(false);
             }
         });
@@ -175,6 +177,7 @@ public class BesserNote extends Application {
             @Override
             public void handle(ActionEvent e) {
                 popup.hide();
+                unselect();
                 dragBox.setVisible(false);
             }
         });
