@@ -7,6 +7,7 @@
 package bessernote.nodemaker;
 
 import bessernote.nodemaker.placement.PlacementGUI;
+import bessernote.nodemaker.placement.PlacementGUIRegion;
 import bessernote.ui.BTabPane;
 import javafx.scene.Node;
 import javafx.scene.control.ColorPicker;
@@ -19,7 +20,7 @@ import javafx.scene.text.Text;
  */
 public class BTabPaneGUI extends BaseGUI{
     
-    PlacementGUI placement;
+    PlacementGUIRegion placement;
     ColorPicker cp;
     
     public BTabPaneGUI(double spacing){
@@ -27,7 +28,7 @@ public class BTabPaneGUI extends BaseGUI{
         
         Text t = new Text("--- TabPane GUI ---");
         
-        placement = new PlacementGUI(spacing, true);
+        placement = new PlacementGUIRegion(spacing);
 
         Text t2 = new Text("Background Color:");
         cp = new ColorPicker();

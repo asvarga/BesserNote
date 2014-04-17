@@ -5,6 +5,7 @@
 package bessernote.nodemaker;
 
 import bessernote.nodemaker.placement.PlacementGUI;
+import bessernote.nodemaker.placement.PlacementGUIRegion;
 import java.awt.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -19,7 +20,7 @@ import javafx.scene.text.Text;
  */
 public class PaneGUI extends BaseGUI {
     
-    PlacementGUI placement;
+    PlacementGUIRegion placement;
     ColorPicker cp;
 
     public PaneGUI(double spacing) {
@@ -27,7 +28,7 @@ public class PaneGUI extends BaseGUI {
 
         Text t = new Text("--- Pane GUI ---");
 
-        placement = new PlacementGUI(spacing, true);
+        placement = new PlacementGUIRegion(spacing);
 
         Text t2 = new Text("Background Color:");
         cp = new ColorPicker();

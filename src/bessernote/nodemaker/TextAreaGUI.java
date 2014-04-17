@@ -15,6 +15,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.control.TextArea;
 import bessernote.nodemaker.placement.PlacementGUI;
+import bessernote.nodemaker.placement.PlacementGUIRegion;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -25,14 +26,14 @@ import javafx.scene.input.MouseEvent;
  */
 public class TextAreaGUI extends BaseGUI {
     
-    PlacementGUI placement;
+    PlacementGUIRegion placement;
 
     public TextAreaGUI (double spacing) {
         super(spacing);
 
         Text t = new Text("--- TextArea GUI ---");
 
-        placement = new PlacementGUI(spacing, true);
+        placement = new PlacementGUIRegion(spacing);
          
 
         getChildren().addAll(t, placement);

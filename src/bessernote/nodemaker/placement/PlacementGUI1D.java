@@ -3,6 +3,7 @@ package bessernote.nodemaker.placement;
 import bessernote.nodemaker.BaseGUI;
 import bessernote.nodemaker.ShowOneGUI;
 import bessernote.ui.BNumberField;
+import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
@@ -22,6 +23,7 @@ public class PlacementGUI1D extends BaseGUI {
     BaseGUI manual;
     BaseGUI fill;
     BNumberField coord;
+    BNumberField size;
     BNumberField pad;
     
     public PlacementGUI1D(double spacing, boolean x) {
@@ -41,23 +43,27 @@ public class PlacementGUI1D extends BaseGUI {
             }
         });
         HBox h0 = new HBox();
-        h0.getChildren().add(new Text(x ? "X: " : "Y: "));
         h0.getChildren().add(combo);
         h0.setAlignment(Pos.CENTER);
         
         manual = new BaseGUI(spacing, false);
         HBox h = new HBox();
-        h.getChildren().add(new Text("Loc: "));
+        h.getChildren().add(new Text(x ? "X: " : "Y: "));
         coord = new BNumberField("0");
         h.getChildren().add(coord);
         manual.getChildren().add(h);
+        HBox h2 = new HBox();
+        h2.getChildren().add(new Text(x ? "W: " : "H: "));
+        size = new BNumberField("100");
+        h2.getChildren().add(size);
+        manual.getChildren().add(h2);
         
         fill = new BaseGUI(spacing, false);
-        HBox h2 = new HBox();
-        h2.getChildren().add(new Text("Pad: "));
+        HBox h3 = new HBox();
+        h3.getChildren().add(new Text("Pad: "));
         pad = new BNumberField("0");
-        h2.getChildren().add(pad);
-        fill.getChildren().add(h2);
+        h3.getChildren().add(pad);
+        fill.getChildren().add(h3);
 
         show1 = new ShowOneGUI();
         show1.addGUI("Manual", manual);
@@ -66,48 +72,58 @@ public class PlacementGUI1D extends BaseGUI {
         getChildren().addAll(h0, show1);
     }
     
+    @Override
     public void editNode(Node n) {
         try {
             Region r = (Region) n;
+            Region parent = (Region) n.getParent();
             if (x) {
                 if (combo.getValue().equals("Manual")) {
                     r.setLayoutX(coord.getNum());
+                    System.out.println(size.getNum());
+                    r.setPrefWidth(size.getNum());
                 } else {
                     double num = pad.getNum();
-                    double tb = 0;
-                    if (r.getPadding() != null) {
-                        tb = r.getPadding().getTop();
-                    }
-                    r.setPadding(new Insets(tb, num, tb, num));
-                    r.prefWidthProperty().bind(((Region)r.getParent()).widthProperty());
+                    r.setLayoutX(num);
+                    System.out.println(parent.getWidth());
+                    r.prefWidthProperty().bind(Bindings.max(parent.widthProperty().subtract(2*num), 0));
                 }
             } else {
                 if (combo.getValue().equals("Manual")) {
                     r.setLayoutY(coord.getNum());
+                    r.setPrefHeight(size.getNum());
                 } else {
                     double num = pad.getNum();
-                    double lr = 0;
-                    if (r.getPadding() != null) {
-                        lr = r.getPadding().getLeft();
-                    }
-                    r.setPadding(new Insets(num, lr, num, lr));
-                    r.prefHeightProperty().bind(((Region)r.getParent()).heightProperty());
+                    r.setLayoutY(num);
+                    r.prefHeightProperty().bind(Bindings.max(parent.heightProperty().subtract(2*num), 0));
                 }
             }      
         } catch (ClassCastException e) { 
             System.out.println("Node or it's parent isn't a Region. "
-                    + "Only use RegionPlacementGUI in Region MetaGUIs.");
+                    + "Only use PlacementGUIRegion in Region MetaGUIs.");
         }
     }
     
+    @Override
     public void setPos(double x, double y) {
         if (this.x) {
             coord.setText(Double.toString(x));
         } else {
             coord.setText(Double.toString(y));
         }
-        combo.setValue("Manual");
-        show1.showGUI("Manual");
+//        combo.setValue("Manual");
+//        show1.showGUI("Manual");
+    }
+    
+    @Override
+    public void setSize(double x, double y) {
+        if (this.x) {
+            size.setText(Double.toString(x));
+        } else {
+            size.setText(Double.toString(y));
+        }
+//        combo.setValue("Manual");
+//        show1.showGUI("Manual");
     }
     
 }

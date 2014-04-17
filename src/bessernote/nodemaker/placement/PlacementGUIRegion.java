@@ -19,12 +19,12 @@ import javafx.scene.text.Text;
  *
  * @author avarga
  */
-public class PlacementGUIFancy extends BaseGUI {
+public class PlacementGUIRegion extends BaseGUI {
     
     PlacementGUI1D xGUI;
     PlacementGUI1D yGUI;
     
-    public PlacementGUIFancy(double spacing) {
+    public PlacementGUIRegion(double spacing) {
         
         super(spacing);
         
@@ -36,14 +36,22 @@ public class PlacementGUIFancy extends BaseGUI {
         getChildren().addAll(t, xGUI, yGUI);
     }
     
+    @Override
     public void editNode(Node n) {
         xGUI.editNode(n);
         yGUI.editNode(n);
     }
     
+    @Override
     public void setPos(double x, double y) {
         xGUI.setPos(x, y);
         yGUI.setPos(x, y);
+    }
+    
+    @Override
+    public void setSize(double x, double y) {
+        xGUI.setSize(x, y);
+        yGUI.setSize(x, y);
     }
     
 }

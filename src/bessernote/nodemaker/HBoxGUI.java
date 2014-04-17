@@ -5,6 +5,7 @@
 package bessernote.nodemaker;
 
 import bessernote.nodemaker.placement.PlacementGUI;
+import bessernote.nodemaker.placement.PlacementGUIRegion;
 import java.util.HashSet;
 import java.util.Set;
 import javafx.event.EventHandler;
@@ -24,7 +25,7 @@ import javafx.scene.text.Text;
  */
 public class HBoxGUI extends BaseGUI {
     
-    PlacementGUI placement;
+    PlacementGUIRegion placement;
     
     boolean equalWidth;
 
@@ -32,7 +33,7 @@ public class HBoxGUI extends BaseGUI {
         super(spacing);
         
         Text t = new Text("--- HBox GUI ---");        
-        placement = new PlacementGUI(spacing, true);
+        placement = new PlacementGUIRegion(spacing);
         
         //Text t2 = new Text("Width Control:");
         

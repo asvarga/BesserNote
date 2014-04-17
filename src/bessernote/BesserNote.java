@@ -19,6 +19,7 @@ import javafx.animation.ScaleTransition;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition; 
 import javafx.application.Application;
+import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -98,17 +99,21 @@ public class BesserNote extends Application {
         dragBox.setVisible(false);
         above.getChildren().add(dragBox);
         
-        Pane p = new Pane();
-        p.setPrefSize(200, 200);
-        p.setStyle("-fx-background-color: red;");
-        Pane p2 = new Pane();
-        p.setPadding(new Insets(20, 20, 20, 20));
-        p2.setStyle("-fx-background-color: yellow;");
-//        Pane p3 = new Pane();
-//        p3.setStyle("-fx-background-color: green;");
-//        p3.getChildren().add(p2);
-        p.getChildren().add(p2);
-        sheet.getChildren().add(p);
+//        Pane p = new Pane();
+//        p.setPrefSize(200, 200);
+//        p.setStyle("-fx-background-color: red;");
+//        Pane p2 = new Pane();
+//        p.setPadding(new Insets(20, 20, 20, 20));
+//        p2.setStyle("-fx-background-color: yellow;");
+//        p2.setLayoutX(10);
+//        p2.setLayoutY(10);
+//        p2.prefWidthProperty().bind(Bindings.max(p.widthProperty().subtract(20), 0));
+//        p2.prefHeightProperty().bind(Bindings.max(p.heightProperty().subtract(20), 0));
+////        Pane p3 = new Pane();
+////        p3.setStyle("-fx-background-color: green;");
+////        p3.getChildren().add(p2);
+//        p.getChildren().add(p2);
+//        sheet.getChildren().add(p);
 
         //// NODE MAKER ////
 
