@@ -275,6 +275,11 @@ public class BesserNote extends Application {
                         }
                         
                         if (clickedSelected) {
+                            cancelSuperClick();
+                            unselectAll();
+                            superClicked = new ArrayList<>();
+                            superClicked.add(target);
+                            flipSelection(0);
                         } else {
                             cancelSuperClick();
                             unselectAll();
@@ -502,7 +507,13 @@ public class BesserNote extends Application {
             list.add(0, n);
             if (n instanceof Parent) {
                 Parent p = (Parent) n;
-                for (Node child : p.getChildrenUnmodifiable()) {
+                List<Node> children;
+                if (p instanceof ChildSpecifier) {
+                    children = ((ChildSpecifier) p).specifyChildren();
+                } else {
+                    children = p.getChildrenUnmodifiable();
+                }
+                for (Node child : children) {
                     Point2D local = child.parentToLocal(x, y);  
                     superClickHelper(local.getX(), local.getY(), child, list);
                 }

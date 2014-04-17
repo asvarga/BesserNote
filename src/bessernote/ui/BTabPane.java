@@ -6,9 +6,13 @@
 
 package bessernote.ui;
 
+import bessernote.ChildSpecifier;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -21,7 +25,7 @@ import javafx.scene.layout.Pane;
  *
  * @author ddliu
  */
-public class BTabPane extends BorderPane{
+public class BTabPane extends BorderPane implements ChildSpecifier {
     
     /*
     ** CAUTION: TABS DON'T HAVE ANY CONTENT WHEN INITIALIZED!!!
@@ -52,5 +56,8 @@ public class BTabPane extends BorderPane{
         this.setTop(top);
     }
     
-    
+    @Override
+    public List<Node> specifyChildren() {
+        return new ArrayList<Node>();
+    }
 }

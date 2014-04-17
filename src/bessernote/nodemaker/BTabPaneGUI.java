@@ -6,9 +6,12 @@
 
 package bessernote.nodemaker;
 
+import bessernote.ChildSpecifier;
 import bessernote.nodemaker.placement.PlacementGUI;
 import bessernote.nodemaker.placement.PlacementGUIRegion;
 import bessernote.ui.BTabPane;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.scene.Node;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.layout.Pane;
@@ -18,7 +21,7 @@ import javafx.scene.text.Text;
  *
  * @author ddliu
  */
-public class BTabPaneGUI extends BaseGUI{
+public class BTabPaneGUI extends BaseGUI {
     
     PlacementGUIRegion placement;
     ColorPicker cp;
@@ -57,4 +60,6 @@ public class BTabPaneGUI extends BaseGUI{
     public void setSize(double x, double y) {
         placement.setSize(x, y);
     }
+
+   
 }
