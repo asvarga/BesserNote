@@ -11,6 +11,7 @@ import java.io.FileNotFoundException;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -46,9 +47,12 @@ public class DrawingMenu extends VBox{
         ImageView circleImage = new ImageView(new Image(new FileInputStream("images/circle.jpg")));
         circle.setGraphic(circleImage);
         
-        this.getChildren().addAll(cursor, line, circle);
+        //// Color Picker ////
+        ColorPicker cp;
+        cp = new ColorPicker();
+        //color = cp.getValue();
         
-        System.out.println("YOLO");
+        this.getChildren().addAll(cursor, line, circle, cp);
         
     }
 

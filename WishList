@@ -33,7 +33,7 @@ ADD WHATEVER.
   + Soft corners
 + Undo
   + https://github.com/TomasMikula/UndoFX
-+ 
+  + Make an EventStream of NodeChanges. See the docs. 
 + Tons of fancy shiiiiit 
   
 
