@@ -23,12 +23,12 @@ public class BTabPaneGUI extends BaseGUI{
     PlacementGUIRegion placement;
     ColorPicker cp;
     
-    public BTabPaneGUI(double spacing){
-        super(spacing);
+    public BTabPaneGUI(Node top, double spacing){
+        super(top, spacing);
         
         Text t = new Text("--- TabPane GUI ---");
         
-        placement = new PlacementGUIRegion(spacing);
+        placement = new PlacementGUIRegion(top, spacing);
 
         Text t2 = new Text("Background Color:");
         cp = new ColorPicker();

@@ -21,8 +21,8 @@ public class ShowOneGUI extends BaseGUI {
     Map<String, BaseGUI> map;
     BaseGUI shown = null;
 
-    public ShowOneGUI() {
-        super();
+    public ShowOneGUI(Node parent) {
+        super(parent);
         stack = new StackPane();
         getChildren().add(stack);
         map = new HashMap<String, BaseGUI>();

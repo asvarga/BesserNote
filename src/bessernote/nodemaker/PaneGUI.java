@@ -23,12 +23,12 @@ public class PaneGUI extends BaseGUI {
     PlacementGUIRegion placement;
     ColorPicker cp;
 
-    public PaneGUI(double spacing) {
-        super(spacing);
+    public PaneGUI(Node top, double spacing) {
+        super(top, spacing);
 
         Text t = new Text("--- Pane GUI ---");
 
-        placement = new PlacementGUIRegion(spacing);
+        placement = new PlacementGUIRegion(top, spacing);
 
         Text t2 = new Text("Background Color:");
         cp = new ColorPicker();

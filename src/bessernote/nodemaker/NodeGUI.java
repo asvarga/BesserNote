@@ -42,7 +42,7 @@ public class NodeGUI extends BaseGUI {
 
     public NodeGUI(double spacing) {
 
-        super(spacing);
+        super(null, spacing);
 
         Text t = new Text("--- Node Creation GUI ---");
 
@@ -57,12 +57,12 @@ public class NodeGUI extends BaseGUI {
             }
         });
 
-        show1 = new ShowOneGUI();
-        show1.addGUI("Pane", new PaneGUI(spacing));
-        show1.addGUI("Label", new LabelGUI(spacing));
-        show1.addGUI("HBox", new HBoxGUI(spacing));
-        show1.addGUI("TextArea", new TextAreaGUI(spacing));
-        show1.addGUI("TabPane", new BTabPaneGUI(spacing));
+        show1 = new ShowOneGUI(this);
+        show1.addGUI("Pane", new PaneGUI(this, spacing));
+        show1.addGUI("Label", new LabelGUI(this, spacing));
+        show1.addGUI("HBox", new HBoxGUI(this, spacing));
+        show1.addGUI("TextArea", new TextAreaGUI(this, spacing));
+        show1.addGUI("TabPane", new BTabPaneGUI(this, spacing));
         
         HBox h = new HBox(spacing);
         cancelButton = new Button("Cancel");

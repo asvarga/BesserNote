@@ -24,14 +24,14 @@ public class PlacementGUIRegion extends BaseGUI {
     PlacementGUI1D xGUI;
     PlacementGUI1D yGUI;
     
-    public PlacementGUIRegion(double spacing) {
+    public PlacementGUIRegion(Node top, double spacing) {
         
-        super(spacing);
+        super(top, spacing);
         
         Text t = new Text("--- Placement GUI ---");
         
-        xGUI = new PlacementGUI1D(spacing, true);
-        yGUI = new PlacementGUI1D(spacing, false);
+        xGUI = new PlacementGUI1D(top, spacing, true);
+        yGUI = new PlacementGUI1D(top, spacing, false);
         
         getChildren().addAll(t, xGUI, yGUI);
     }

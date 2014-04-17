@@ -26,10 +26,9 @@ public class PlacementGUI1D extends BaseGUI {
     BNumberField size;
     BNumberField pad;
     
-    public PlacementGUI1D(double spacing, boolean x) {
+    public PlacementGUI1D(Node top, double spacing, boolean x) {
         
-        super(spacing, false);
-        
+        super(top, spacing, false);
         this.x = x;
                 
         combo = new ComboBox();
@@ -39,14 +38,14 @@ public class PlacementGUI1D extends BaseGUI {
             @Override
             public void changed(ObservableValue ov, String t, String t1) {
                 show1.showGUI(t1);
-                autosize();
+                _top.autosize();
             }
         });
         HBox h0 = new HBox();
         h0.getChildren().add(combo);
         h0.setAlignment(Pos.CENTER);
         
-        manual = new BaseGUI(spacing, false);
+        manual = new BaseGUI(top, spacing, false);
         HBox h = new HBox();
         h.getChildren().add(new Text(x ? "X: " : "Y: "));
         coord = new BNumberField("0");
@@ -58,14 +57,14 @@ public class PlacementGUI1D extends BaseGUI {
         h2.getChildren().add(size);
         manual.getChildren().add(h2);
         
-        fill = new BaseGUI(spacing, false);
+        fill = new BaseGUI(top, spacing, false);
         HBox h3 = new HBox();
         h3.getChildren().add(new Text("Pad: "));
         pad = new BNumberField("0");
         h3.getChildren().add(pad);
         fill.getChildren().add(h3);
 
-        show1 = new ShowOneGUI();
+        show1 = new ShowOneGUI(top);
         show1.addGUI("Manual", manual);
         show1.addGUI("Fill", fill);
                 
@@ -76,16 +75,14 @@ public class PlacementGUI1D extends BaseGUI {
     public void editNode(Node n) {
         try {
             Region r = (Region) n;
-            Region parent = (Region) n.getParent();
+            Region parent = (Region) n.parentProperty().getValue();
             if (x) {
                 if (combo.getValue().equals("Manual")) {
                     r.setLayoutX(coord.getNum());
-                    System.out.println(size.getNum());
                     r.setPrefWidth(size.getNum());
                 } else {
                     double num = pad.getNum();
                     r.setLayoutX(num);
-                    System.out.println(parent.getWidth());
                     r.prefWidthProperty().bind(Bindings.max(parent.widthProperty().subtract(2*num), 0));
                 }
             } else {
