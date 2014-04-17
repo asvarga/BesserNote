@@ -7,18 +7,19 @@
 package bessernote.nodemaker;
 
 import bessernote.nodemaker.placement.PlacementGUI;
+import bessernote.nodemaker.placement.PlacementGUI;
+import bessernote.nodemaker.placement.PlacementGUIRegion;
+import bessernote.ui.BTextArea;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextArea;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import javafx.scene.control.TextArea;
-import bessernote.nodemaker.placement.PlacementGUI;
-import bessernote.nodemaker.placement.PlacementGUIRegion;
-import javafx.event.EventHandler;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 
 /**
  *
@@ -45,7 +46,7 @@ public class TextAreaGUI extends BaseGUI {
 //        pane.setStyle("-fx-background-color: #"+cp.getValue().toString().substring(2) +";");
 //        pane.setPrefSize(100, 100);
 //        return pane;
-        TextArea  t = new TextArea();
+        BTextArea  b = new BTextArea();
 //        t.addEventFilter(MouseEvent.MOUSE_PRESSED, 
 //            new EventHandler<MouseEvent>() {
 //                @Override
@@ -56,7 +57,7 @@ public class TextAreaGUI extends BaseGUI {
 //            }
 //        );
         System.out.println("text area generated");
-        return t;
+        return b;
     }
     
     @Override
