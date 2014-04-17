@@ -8,10 +8,7 @@ ADD WHATEVER.
   + [add more here]
   + Sexy text area
     + https://github.com/TomasMikula/RichTextFX //TM
-+ Select //DH
-  + Highlight selection //AV or DH
 + Delete //DH
-+ Drag + Drop //DH
 + Multi-select
 + Saving
 + Loading
@@ -28,7 +25,7 @@ ADD WHATEVER.
   + Color Schemes/skins
   + Soft corners
 + Undo
-  + https://github.com/TomasMikula/UndoFX
+  + https://github.com/TomasMikula/UndoFX //TM
   + Make an EventStream of NodeChanges. See the docs. 
 + Tons of fancy shiiiiit 
   
