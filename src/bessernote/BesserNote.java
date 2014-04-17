@@ -10,6 +10,10 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.FillTransition; 
@@ -22,7 +26,9 @@ import javafx.application.Application;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
+import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -66,7 +72,11 @@ public class BesserNote extends Application {
     private Pane above;
     
     private DashedBox dragBox;
-    private DashedBox focusBox;
+    //private Map<String, DashedBox> selectBoxes;
+    private Node superSelected;
+    private int superIndex;
+    private DashedBox superBox;
+    private List<Node> superClicked;
     
     private Popup popup;
     private NodeGUI nodeGUI;
@@ -99,21 +109,50 @@ public class BesserNote extends Application {
         dragBox.setVisible(false);
         above.getChildren().add(dragBox);
         
-//        Pane p = new Pane();
-//        p.setPrefSize(200, 200);
-//        p.setStyle("-fx-background-color: red;");
-//        Pane p2 = new Pane();
-//        p.setPadding(new Insets(20, 20, 20, 20));
-//        p2.setStyle("-fx-background-color: yellow;");
-//        p2.setLayoutX(10);
-//        p2.setLayoutY(10);
-//        p2.prefWidthProperty().bind(Bindings.max(p.widthProperty().subtract(20), 0));
-//        p2.prefHeightProperty().bind(Bindings.max(p.heightProperty().subtract(20), 0));
-////        Pane p3 = new Pane();
-////        p3.setStyle("-fx-background-color: green;");
-////        p3.getChildren().add(p2);
-//        p.getChildren().add(p2);
-//        sheet.getChildren().add(p);
+        //// SELECTION ////
+        
+        //selectBoxes = new HashMap<String, DashedBox>();
+        superBox = new DashedBox(new String[]{"black", "gray", "white"}, 10, 3);
+        superBox.setVisible(false);
+        above.getChildren().add(superBox);
+        sheet.addEventFilter(MouseEvent.MOUSE_CLICKED, 
+            new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent e) {
+                    if (e.getButton() == MouseButton.PRIMARY) {
+                        superClicked = superClick(e.getX(), e.getY());
+                        if (superClicked.size() > 0) {
+                            superIndex = 0;
+                            select(superClicked.get(0));
+                        } else {
+                            superIndex = -1;
+                            unselect();
+                        }
+                    }
+                };
+            }
+        );
+        
+        scene.addEventFilter(KeyEvent.KEY_PRESSED,
+            new EventHandler<KeyEvent>() {
+                @Override
+                public void handle(KeyEvent event) {
+                    if (event.getCode() == KeyCode.TAB) {
+                        if (superClicked.size() > 0) {
+                            if (event.isShiftDown()) {
+                                superIndex = (superClicked.size()+superIndex-1) % superClicked.size();
+                                System.out.println(superIndex);
+                            } else {
+                                superIndex = (superIndex+1) % superClicked.size();
+                            }
+                            select(superClicked.get(superIndex));
+                        }
+                    } else if (event.getCode() == KeyCode.ESCAPE) {
+                        unselect();
+                    }
+                }
+            }
+        );
 
         //// NODE MAKER ////
 
@@ -153,7 +192,7 @@ public class BesserNote extends Application {
         
         //// RIGHT CLICK ////
                 
-        stackPane.addEventFilter(MouseEvent.MOUSE_PRESSED, 
+        sheet.addEventFilter(MouseEvent.MOUSE_PRESSED, 
             new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent e) {
@@ -164,7 +203,7 @@ public class BesserNote extends Application {
                 };
             }
         );
-        stackPane.addEventFilter(MouseEvent.MOUSE_DRAGGED, 
+        sheet.addEventFilter(MouseEvent.MOUSE_DRAGGED, 
             new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent e) {
@@ -183,7 +222,7 @@ public class BesserNote extends Application {
                 };
             }
         );
-        stackPane.addEventFilter(MouseEvent.MOUSE_RELEASED, 
+        sheet.addEventFilter(MouseEvent.MOUSE_RELEASED, 
             new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent e) {
@@ -283,6 +322,43 @@ public class BesserNote extends Application {
         stage.show(); 
         
     } 
+    
+    public void select(Node n) {
+        superSelected = n;
+        Bounds bounds = n.localToScene(n.getBoundsInLocal());
+        bounds = sheet.sceneToLocal(bounds);
+        superBox.setVisible(true);
+        superBox.setPrefSize(bounds.getWidth(), bounds.getHeight());
+        superBox.setLayoutX(bounds.getMinX());
+        superBox.setLayoutY(bounds.getMinY());
+    }
+    
+    public void unselect() {
+        superSelected = null;
+        superBox.setVisible(false);
+    }
+    
+    public List<Node> superClick(double x, double y) {
+        List<Node> ret = new ArrayList<Node>();
+        superClickHelper(x, y, sheet, ret);
+        return ret;
+    }
+    
+    private void superClickHelper(double x, double y, Parent p, List<Node> list) {
+        // check if inside  
+        for (Node child : p.getChildrenUnmodifiable()) {
+            Point2D local = child.parentToLocal(x, y);
+            if (local.getX() >= 0 &&
+                    local.getY() >= 0 &&
+                    local.getX() <= child.getBoundsInLocal().getWidth() &&
+                    local.getY() <= child.getBoundsInLocal().getHeight()) {
+                list.add(0, child);
+                if (child instanceof Parent) {
+                    superClickHelper(local.getX(), local.getY(), (Parent) child, list);
+                }
+            }
+        }
+    }
     
     private void openFile(File file) {
         try {
