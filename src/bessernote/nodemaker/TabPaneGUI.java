@@ -1,34 +1,36 @@
 /*
- * To change this template, choose Tools | Templates
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package bessernote.nodemaker;
 
+import bessernote.ChildSpecifier;
 import bessernote.nodemaker.placement.PlacementGUI;
 import bessernote.nodemaker.placement.PlacementGUIRegion;
-import java.awt.Event;
-import javafx.event.EventHandler;
+import bessernote.ui.BTabPane;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.scene.Node;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.Region;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 /**
  *
- * @author avarga
+ * @author ddliu
  */
-public class PaneGUI extends BaseGUI {
+public class TabPaneGUI extends BaseGUI {
     
     PlacementGUIRegion placement;
     ColorPicker cp;
-
-    public PaneGUI(Node top, double spacing) {
+    
+    public TabPaneGUI(Node top, double spacing){
         super(top, spacing);
-
-        Text t = new Text("--- Pane GUI ---");
-
+        
+        Text t = new Text("--- TabPane GUI ---");
+        
         placement = new PlacementGUIRegion(top, spacing);
 
         Text t2 = new Text("Background Color:");
@@ -36,19 +38,17 @@ public class PaneGUI extends BaseGUI {
 
         getChildren().addAll(t, placement, t2, cp);
     }
-
+    
     @Override
     public Node getNode() {
-        return new Pane();
+        BTabPane pane = new BTabPane();
+        pane.setStyle("-fx-background-color: #"+cp.getValue().toString().substring(2) +";");
+        return pane;
     }
     
     @Override
     public void editNode(Node n) {
         placement.editNode(n);
-//        Pane p = (Pane) n;
-//        p.setMinSize(p.getPrefWidth(), p.getPrefHeight());
-//        p.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
-        n.setStyle("-fx-background-color: #"+cp.getValue().toString().substring(2) +";");
     }
     
     @Override
@@ -60,4 +60,6 @@ public class PaneGUI extends BaseGUI {
     public void setSize(double x, double y) {
         placement.setSize(x, y);
     }
+
+   
 }

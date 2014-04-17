@@ -1,36 +1,35 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
+ * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package bessernote.nodemaker;
 
-import bessernote.ChildSpecifier;
 import bessernote.nodemaker.placement.PlacementGUI;
 import bessernote.nodemaker.placement.PlacementGUIRegion;
-import bessernote.ui.BTabPane;
-import java.util.ArrayList;
-import java.util.List;
+import bessernote.ui.BScrollPane;
+import java.awt.Event;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 /**
  *
- * @author ddliu
+ * @author avarga
  */
-public class BTabPaneGUI extends BaseGUI {
+public class ScrollPaneGUI extends BaseGUI {
     
     PlacementGUIRegion placement;
     ColorPicker cp;
-    
-    public BTabPaneGUI(Node top, double spacing){
+
+    public ScrollPaneGUI(Node top, double spacing) {
         super(top, spacing);
-        
-        Text t = new Text("--- TabPane GUI ---");
-        
+
+        Text t = new Text("--- Pane GUI ---");
+
         placement = new PlacementGUIRegion(top, spacing);
 
         Text t2 = new Text("Background Color:");
@@ -38,17 +37,16 @@ public class BTabPaneGUI extends BaseGUI {
 
         getChildren().addAll(t, placement, t2, cp);
     }
-    
+
     @Override
     public Node getNode() {
-        BTabPane pane = new BTabPane();
-        pane.setStyle("-fx-background-color: #"+cp.getValue().toString().substring(2) +";");
-        return pane;
+        return new BScrollPane();
     }
     
     @Override
     public void editNode(Node n) {
         placement.editNode(n);
+        ((BScrollPane) n).getContent().setStyle("-fx-background-color: #"+cp.getValue().toString().substring(2) +";");
     }
     
     @Override
@@ -60,6 +58,4 @@ public class BTabPaneGUI extends BaseGUI {
     public void setSize(double x, double y) {
         placement.setSize(x, y);
     }
-
-   
 }
