@@ -6,16 +6,26 @@
 
 package bessernote.nodemaker;
 
+import bessernote.BesserNote;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 /**
  *
@@ -26,33 +36,84 @@ import javafx.scene.layout.VBox;
  */
 public class DrawingMenu extends VBox{
     
-    public DrawingMenu() throws FileNotFoundException {
-                
+    public BesserNote besser;
+    private ToggleGroup group = new ToggleGroup();
+    private Color c;
+    private final ColorPicker cp = new ColorPicker();
+    private final ToggleButton cursor = new ToggleButton();
+    private final ToggleButton line = new ToggleButton();
+    private final ToggleButton circle = new ToggleButton();
+    private Object currentMode;
+    
+    public DrawingMenu(final BesserNote besser) throws FileNotFoundException {
         super();
         setAlignment(Pos.BOTTOM_LEFT);
+        
+        this.besser = besser;
         
         setStyle("-fx-background-color: grey;"); 
         setAlignment(Pos.CENTER);
         
         //// Add buttons ////
-        ToggleButton cursor = new ToggleButton();
+        
+        //Cursor
         ImageView cursorImage = new ImageView(new Image(new FileInputStream("images/cursor.jpg")));
         cursor.setGraphic(cursorImage);
-        
-        ToggleButton line = new ToggleButton();
+        cursor.setToggleGroup(group);
+        //Drawing
         ImageView lineImage = new ImageView(new Image(new FileInputStream("images/draw.jpg")));
         line.setGraphic(lineImage);
-        
-        ToggleButton circle = new ToggleButton();
+        line.setToggleGroup(group);
+        //Circle
         ImageView circleImage = new ImageView(new Image(new FileInputStream("images/circle.jpg")));
         circle.setGraphic(circleImage);
+        circle.setToggleGroup(group);
         
         //// Color Picker ////
-        ColorPicker cp;
-        cp = new ColorPicker();
-        //color = cp.getValue();
+        cp.setOnAction(new EventHandler(){
+            @Override
+            public void handle(Event e){
+                c = cp.getValue();
+                besser.strokeColor(c);
+            }
+        });
         
+        //Adds buttons to the VBox 
         this.getChildren().addAll(cursor, line, circle, cp);
+
+        //Listens for clicks
+        group.selectedToggleProperty().addListener(new ChangeListener<Toggle>(){
+            public void changed(ObservableValue<? extends Toggle> ov,
+                Toggle toggle, Toggle new_toggle) {
+                    if(line.isSelected()){
+                        besser.circleOff();
+                        besser.drawOn();
+                    }
+                    else if(circle.isSelected()){
+                        besser.drawOff();
+                        besser.circleOn();
+                    }
+                    else if(cursor.isSelected()){
+                        besser.drawOff();
+                        besser.circleOff();
+                    }
+                 }
+            });
+
+        //Listens for exit
+        
+        this.addEventFilter(KeyEvent.KEY_PRESSED,
+            new EventHandler<KeyEvent>() {
+                @Override
+                public void handle(KeyEvent event) {
+                    if (event.getCode() == KeyCode.ESCAPE){
+                        besser.circleOff();
+                        besser.drawOff();
+                    }
+                }
+            }
+        );
+        
         
     }
 

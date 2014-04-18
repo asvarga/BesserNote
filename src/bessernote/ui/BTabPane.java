@@ -14,6 +14,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -41,12 +42,16 @@ public class BTabPane extends BorderPane implements ChildSpecifier {
       @Override
           public void handle(ActionEvent event) {
             final BEditableTab tab = new BEditableTab("Tab " + (tabPane.getTabs().size() + 1));
+            System.out.println(tabPane.getHeight() + ", " + tabPane.getWidth());
+            //add.setPrefSize(tabPane.getTabMaxHeight(), tabPane.getTabMaxWidth());
+            tab.setContent(new Pane());
             tabPane.getTabs().add(tab);
             tabPane.getSelectionModel().select(tab);
           }
         });
         
         BEditableTab tab = new BEditableTab("Tab 1");
+        tab.setContent(new Pane());
         tabPane.getTabs().add(tab);
         
         GridPane top = new GridPane();
@@ -57,9 +62,13 @@ public class BTabPane extends BorderPane implements ChildSpecifier {
         this.setTop(top);
     }
     
+    
     @Override
     public List<Node> specifyChildren() {
-        return new ArrayList<Node>();
+        List<Node> children = new ArrayList<Node>();
+        Node content = tabPane.getSelectionModel().getSelectedItem().getContent();
+        children.add(content);
+        return children;
     }
 
 //    @Override

@@ -4,6 +4,7 @@
  */
 package bessernote;
 
+import bessernote.canvases.DrawCanvas;
 import bessernote.nodemaker.DrawingMenu;
 import bessernote.nodemaker.NodeGUI;
 import bessernote.nodemaker.placement.DraggingUtil;
@@ -29,6 +30,7 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -80,6 +82,12 @@ public class BesserNote extends Application {
     private double startOutlineX;
     private double startOutlineY;
     private Pane target;
+    
+    ///Drawing Canvases
+    private DrawCanvas drawCanvas = new DrawCanvas(2000, 2000);
+    //private Canvas circleCanvas = new Canvas();
+    private String currentMode;
+    
 
     @Override
     public void start(final Stage stage) {
@@ -102,6 +110,9 @@ public class BesserNote extends Application {
         dragBox = new DashedBox(new String[]{"red", "yellow", "green"}, 10, 3);
         dragBox.setVisible(false);
         above.getChildren().add(dragBox);
+        
+        stackPane.getChildren().add(drawCanvas);
+        
         
         //// SELECTION ////
         
@@ -244,9 +255,6 @@ public class BesserNote extends Application {
                 dragBox.setVisible(false);
             }
         });
-        
-        //// PAINTING MENU ////
-        
         
         
         //// RIGHT CLICK ////
@@ -414,7 +422,7 @@ public class BesserNote extends Application {
             public void handle(ActionEvent t){
                 Popup drawingMenu = new Popup();
                 try {
-                    drawingMenu.getContent().addAll(new DrawingMenu());
+                    drawingMenu.getContent().addAll(new DrawingMenu(BesserNote.this));
                 } catch (FileNotFoundException ex) {
                     Logger.getLogger(BesserNote.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -586,21 +594,40 @@ public class BesserNote extends Application {
         return this.scene.getFocusOwner();
     }
     
-    public void drawOn(){
-        
+    public void drawOn(){  
+        currentMode = "draw";
+        drawCanvas.setVisible(true);
     }
     
     public void drawOff(){
-        
+        drawCanvas.setVisible(false);
     }
     
     public void circleOn(){
-        
+        //Bring to front
+        //circleCanvas.setVisible(true);
     }
     
     public void circleOff(){
+        //circleCanvas.setVisible(false);
+    }
+    
+    public void setupDrawListeners(){
         
     }
+    
+    public void setupCircleListeners(){
+        
+    }
+    
+    public void strokeColor(Color c){
+        switch(currentMode){
+            case "draw":
+                drawCanvas.changeColor(c);
+        }
+                
+    }
+    
     
     
 }
