@@ -5,6 +5,7 @@
 package bessernote.nodemaker;
 
 import bessernote.nodemaker.placement.PlacementGUI;
+import bessernote.ui.BLabel;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.ColorPicker;
@@ -36,15 +37,16 @@ public class LabelGUI extends BaseGUI {
 
     @Override
     public Node getNode() {
-        Label label = new Label("LABEL!!!");
-        label.setTextFill(cp.getValue());
-        label.setFont(new Font("Arial", 30));
+        BLabel label = new BLabel("LABEL!!!");
+        
         return label;
     }
     
     @Override
     public void editNode(Node n) {
         placement.editNode(n);
+        ((BLabel) n).setTextFill(cp.getValue());
+        ((BLabel) n).setFont(new Font("Arial", 30));
     }
     
     @Override

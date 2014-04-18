@@ -9,32 +9,19 @@ package bessernote.ui;
 import bessernote.ChildSpecifier;
 import java.util.ArrayList;
 import java.util.List;
-import javafx.event.EventHandler;
 import javafx.scene.Node;
-import javafx.scene.control.TextArea;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
+import javafx.scene.control.Label;
 
 /**
  *
- * @author Dan
+ * @author avarga
  */
-public class BTextArea  extends TextArea implements ChildSpecifier {
-        
-    public BTextArea(){
-        this("");
-    }
+public class BLabel extends Label implements ChildSpecifier {
     
-    public BTextArea(String s){
+    public BLabel(String s) {
         super(s);
-        setOnDragDetected(new EventHandler<MouseEvent>(){
-            @Override
-            public void handle(MouseEvent e){
-//                BTextArea.this.relocate(, USE_PREF_SIZE);
-            }
-        });
     }
-    
+
     @Override
     public List<Node> specifyChildren() {
         return new ArrayList<Node>();

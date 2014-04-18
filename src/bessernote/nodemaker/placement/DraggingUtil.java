@@ -19,18 +19,24 @@ import javafx.scene.input.MouseEvent;
  */
 public class DraggingUtil {
 //    distance from the corner that will control a special action
-    public static double distanceFromCorner = 10;
+    public static double distanceFromCorner = 50;
     /**
      * @return true if the given coordinate pair (x,y) is in the bottom right special action area of node n
      * If the user starts dragging from this area, then the node should be scaled
     */
     public static boolean toScaleArea(Node n, double x, double y){
-        if(!n.contains(x, y)){
+//            out("Node type: %s",n.getClass().toString());
+//            out("clickX: %f\nclickY: %f",x,y);
+            
+            if(!n.localToScene(n.getBoundsInLocal()).contains(x, y)){
+//            out("click not in panel");
             return false;
         }
         Bounds b = n.getBoundsInLocal();
         double edgeX = n.getLayoutX() + b.getWidth();
+//        out("edgeX: %f \n n.getLayoutX(): %f\nb.getWidth(): %f",edgeX,n.getLayoutX(),b.getWidth());
         double edgeY = n.getLayoutY() + b.getHeight();
+//        out("edgeY: %f \n n.getLayoutY(): %f\nb.getHeight(): %f",edgeX,n.getLayoutX(),b.getWidth());
         return x > edgeX - distanceFromCorner && y > edgeY - distanceFromCorner;
     }
     

@@ -76,4 +76,9 @@ public class BTabPane extends BorderPane implements ChildSpecifier {
 //        // TODO: return shown pane's children
 //        return (new Pane()).getChildren();
 //    }
+    
+    @Override
+    public Node specifySelf() {
+        return this;
+    }
 }
