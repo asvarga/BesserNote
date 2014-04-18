@@ -51,5 +51,10 @@ public class BScrollPane extends ScrollPane implements ChildSpecifier {
 //    public ObservableList<Node> getChildren() {
 //        return ((Pane) this.getContent()).getChildren();
 //    }
+    
+    @Override
+    public Node specifySelf() {
+        return this;
+    }
 
 }

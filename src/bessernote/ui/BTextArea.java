@@ -39,5 +39,10 @@ public class BTextArea  extends TextArea implements ChildSpecifier {
     public List<Node> specifyChildren() {
         return new ArrayList<Node>();
     }
+
+    @Override
+    public Node specifySelf() {
+        return this;
+    }
     
 }

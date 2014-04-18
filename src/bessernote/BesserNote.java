@@ -85,7 +85,7 @@ public class BesserNote extends Application {
     public void start(final Stage stage) {
         System.out.println("JavaFX Verions: "+VersionInfo.getRuntimeVersion());// VersionInfo.getRuntimeVersion())‌​;
         root = new BorderPane();
-        scene = new Scene(root, 640, 480, Color.BLACK);
+        scene = new Scene(root, 960, 720, Color.BLACK);
         
         stackPane = new StackPane();
         root.setCenter(stackPane);
@@ -500,11 +500,24 @@ public class BesserNote extends Application {
     
     private void superClickHelper(double x, double y, Node n, List<Node> list) {
         // check if inside  
-        if (x >= 0 &&
-                y >= 0 &&
-                x <= n.getBoundsInLocal().getWidth() &&
-                y <= n.getBoundsInLocal().getHeight()) {
-            list.add(0, n);
+        Node self;
+        double x2;
+        double y2;
+        if (n instanceof ChildSpecifier) {
+            self = ((ChildSpecifier) n).specifySelf();
+            Point2D local = self.sceneToLocal(n.localToScene(x, y));
+            x2 = local.getX();
+            y2 = local.getY();
+        } else {
+            self = n;
+            x2 = x;
+            y2 = y;
+        }
+        if (x2 >= 0 &&
+                y2 >= 0 &&
+                x2 <= self.getBoundsInLocal().getWidth() &&
+                y2 <= self.getBoundsInLocal().getHeight()) {
+            list.add(0, self);
             if (n instanceof Parent) {
                 Parent p = (Parent) n;
                 List<Node> children;
