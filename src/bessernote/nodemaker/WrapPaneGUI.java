@@ -7,14 +7,15 @@ package bessernote.nodemaker;
 import bessernote.nodemaker.placement.PlacementGUI;
 import bessernote.nodemaker.placement.PlacementGUIRegion;
 import bessernote.ui.BNumberField;
-import bessernote.ui.BScrollPane;
+import bessernote.ui.BWrapPane;
+import bessernote.ui.BWrapPane;
 import java.awt.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.ColorPicker;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
@@ -22,39 +23,51 @@ import javafx.scene.text.Text;
  *
  * @author avarga
  */
-public class ScrollPaneGUI extends BaseGUI {
+public class WrapPaneGUI extends BaseGUI {
     
-    PlacementGUIRegion placement;
+    PlacementGUI placement;
     ColorPicker cp;
+    ColorPicker cp2;
     BNumberField padding;
 
-    public ScrollPaneGUI(Node top, double spacing) {
+    public WrapPaneGUI(Node top, double spacing) {
         super(top, spacing);
 
-        Text t = new Text("--- Pane GUI ---");
-
-        placement = new PlacementGUIRegion(top, spacing);
+        Text t = new Text("--- WrapPane GUI ---");
+        
+        // for now:
+        //placement = new PlacementGUIRegion(top, spacing);
+        placement = new PlacementGUI(top, spacing, true);
 
         Text t2 = new Text("Background Color:");
         cp = new ColorPicker();
+        
+//        Text t3 = new Text("Placeholder Color:");
+//        cp2 = new ColorPicker();
+//        cp2.setValue(Color.GRAY);
         
         HBox h = new HBox();
         h.getChildren().add(new Text("Padding:"));
         padding = new BNumberField("20");
         h.getChildren().add(padding);
 
-        getChildren().addAll(t, placement, t2, cp, h);
+        getChildren().addAll(t, placement, t2, cp, padding);
     }
 
     @Override
     public Node getNode() {
-        return new BScrollPane();
+        return new BWrapPane();
     }
     
     @Override
     public void editNode(Node n) {
         placement.editNode(n);
-        ((BScrollPane) n).getContent().setStyle("-fx-background-color: #"+cp.getValue().toString().substring(2) +";");
+        BWrapPane p = (BWrapPane) n;
+        double pad = padding.getNum();
+        p.setPrefMinSize(p.getPrefWidth(), p.getPrefHeight());
+        p.setPadding(pad);
+        p.setStyle("-fx-background-color: #"+cp.getValue().toString().substring(2) +";");
+        
     }
     
     @Override
