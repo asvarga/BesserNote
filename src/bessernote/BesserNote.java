@@ -93,7 +93,7 @@ public class BesserNote extends Application {
 
     @Override
     public void start(final Stage stage) {
-        System.out.println("JavaFX Verions: "+VersionInfo.getRuntimeVersion());// VersionInfo.getRuntimeVersion())‌​;
+        //System.out.println("JavaFX Verions: "+VersionInfo.getRuntimeVersion());// VersionInfo.getRuntimeVersion())‌​;
         root = new BorderPane();
         scene = new Scene(root, 960, 720, Color.BLACK);
         
@@ -123,6 +123,7 @@ public class BesserNote extends Application {
             new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent e) {
+                    //System.out.println(getCurrentFocus());
                     if (e.getButton() == MouseButton.PRIMARY) {
                         if (!e.isAltDown()) {
                             if (!e.isShiftDown()) {
@@ -155,6 +156,16 @@ public class BesserNote extends Application {
                         cancelSuperClick();
                         unselectAll();
                         dragBox.setVisible(false);
+                    }
+                    else if (event.getCode() == KeyCode.BACK_SPACE){
+                        for (Map.Entry<Node, DashedBox> entry : selectBoxes.entrySet()) {
+                            Node deleteMe = entry.getKey();
+                            System.out.println(deleteMe);
+                            Pane parent = (Pane) deleteMe.getParent();
+                            System.out.println(parent);
+                            parent.getChildren().remove(deleteMe);
+                            System.out.println("deleted");
+                        }
                     }
                 }
             }
@@ -392,7 +403,7 @@ public class BesserNote extends Application {
                             Point2D local2 = sheetToLocal(self,
                                     Math.max(startOutlineX, e.getX()), 
                                     Math.max(startOutlineY, e.getY()));
-                            System.out.println(local.getX());
+                            //System.out.println(local.getX());
                             nodeGUI.setPos(local.getX(), local.getY());
                             nodeGUI.setSize(local2.getX()-local.getX(), 
                                     local2.getY()-local.getY());
@@ -598,7 +609,7 @@ public class BesserNote extends Application {
             } else {
                 list.add(0, n);
             }
-            System.out.println(list);
+            //System.out.println(list);
             if (n instanceof Parent) {
                 Parent p = (Parent) n;
                 List<Node> children;
