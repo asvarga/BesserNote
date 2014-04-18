@@ -42,16 +42,16 @@ public class WrapPaneGUI extends BaseGUI {
         Text t2 = new Text("Background Color:");
         cp = new ColorPicker();
         
-        Text t3 = new Text("Placeholder Color:");
-        cp2 = new ColorPicker();
-        cp2.setValue(Color.GRAY);
+//        Text t3 = new Text("Placeholder Color:");
+//        cp2 = new ColorPicker();
+//        cp2.setValue(Color.GRAY);
         
         HBox h = new HBox();
         h.getChildren().add(new Text("Padding:"));
         padding = new BNumberField("20");
         h.getChildren().add(padding);
 
-        getChildren().addAll(t, placement, t2, cp, t3, cp2, padding);
+        getChildren().addAll(t, placement, t2, cp, padding);
     }
 
     @Override
@@ -63,11 +63,11 @@ public class WrapPaneGUI extends BaseGUI {
     public void editNode(Node n) {
         placement.editNode(n);
         BWrapPane p = (BWrapPane) n;
-        p.placeHolder.setPrefSize(p.getPrefWidth(), p.getPrefHeight());
-        //p.placeHolder.setPrefSize(padding.getNum()*10, padding.getNum()*10); 
-        p.placeHolder.setStyle("-fx-background-color: #"+cp2.getValue().toString().substring(2) +";");
+        double pad = padding.getNum();
+        p.setPrefMinSize(p.getPrefWidth(), p.getPrefHeight());
+        p.setPadding(pad);
         p.setStyle("-fx-background-color: #"+cp.getValue().toString().substring(2) +";");
-        p.setPadding(padding.getNum());
+        
     }
     
     @Override

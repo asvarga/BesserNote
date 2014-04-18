@@ -82,7 +82,7 @@ public class BesserNote extends Application {
     
     private double startOutlineX;
     private double startOutlineY;
-    private Pane target;
+    private Parent target;
 
     @Override
     public void start(final Stage stage) {
@@ -160,26 +160,24 @@ public class BesserNote extends Application {
                         if (superSelected != null) {
                             dragOffsetX = new HashMap<>();
                             dragOffsetY = new HashMap<>();
-                           toResize = new HashSet<Node>();
+                            toResize = new HashSet<Node>();
                             for (Map.Entry<Node, DashedBox> entry : selectBoxes.entrySet()) {
                                 Node n = entry.getKey();
-//                                checks if the bottom right corner was picked and adds toResize if selected
-                               if( DraggingUtil.toScaleArea(n, e.getX(), e.getY())){
-                                toResize.add(n);
-                               }
-                                
-                                
+// checks if the bottom right corner was picked and adds toResize if selected
+                                if (DraggingUtil.toScaleArea(n, e.getX(), e.getY())) {
+                                    toResize.add(n);
+                                }
+
                                 Point2D local = sheetToLocal(
-                                    n.getParent(), e.getX(), e.getY());
-                                dragOffsetX.put(n, local.getX()-n.getLayoutX());
-                                dragOffsetY.put(n, local.getY()-n.getLayoutY());
+                                        n.getParent(), e.getX(), e.getY());
+                                dragOffsetX.put(n, local.getX() - n.getLayoutX());
+                                dragOffsetY.put(n, local.getY() - n.getLayoutY());
                             }
                             dragging = true;
-                            if(!toResize.isEmpty()){
+                            if (!toResize.isEmpty()) {
                                 out("RESIZING BITCHES");
-                                resizing = true;
-                            }
-                            else{
+                                //resizing = true;
+                            } else {
                                 out("NOT RESIZING");
                             }
                         }
@@ -314,7 +312,7 @@ public class BesserNote extends Application {
                                     local.getX() <= n.getBoundsInLocal().getWidth() &&
                                     local.getY() <= n.getBoundsInLocal().getHeight()) {
                                 clickedSelected = true;
-                                target = (Pane) n;
+                                target = (Parent) n;
                                 break;
                             }
                         }
@@ -329,18 +327,18 @@ public class BesserNote extends Application {
                             cancelSuperClick();
                             unselectAll();
                             superClicked = superClick(e.getX(), e.getY());
-                            if (superClicked.size() > 0 && superClicked.get(0) instanceof Pane) {
+                            if (superClicked.size() > 0 && superClicked.get(0) instanceof Parent) {
                                 flipSelection(0);
-                                target = (Pane) superClicked.get(0);
-                                if (target instanceof ChildSpecifier) {
-                                    Node self = ((ChildSpecifier) target).specifySelf();
-                                    if (self instanceof Pane) {
-                                        target = (Pane) self;
-                                    } else {
-                                        unselectAll();
-                                        target = sheet;
-                                    }
-                                }
+                                target = (Parent) superClicked.get(0);
+//                                if (target instanceof ChildSpecifier) {
+//                                    Node self = ((ChildSpecifier) target).specifySelf();
+//                                    if (self instanceof Pane) {
+//                                        target = (Pane) self;
+//                                    } else {
+//                                        unselectAll();
+//                                        target = sheet;
+//                                    }
+//                                }
                             } else {
                                 unselectAll();
                                 target = sheet;
@@ -376,18 +374,23 @@ public class BesserNote extends Application {
                     if (e.getButton() == MouseButton.SECONDARY) {
                         double dx = startOutlineX-e.getX();
                         double dy = startOutlineY-e.getY();
+                        Node self = target;
+                        if (target instanceof ChildSpecifier) {
+                            self = ((ChildSpecifier) target).specifySelf();
+                        }
                         if (dx*dx+dy*dy >= 25) {
-                            Point2D local = sheetToLocal(target,
+                            Point2D local = sheetToLocal(self,
                                     Math.min(startOutlineX, e.getX()), 
                                     Math.min(startOutlineY, e.getY()));
-                            Point2D local2 = sheetToLocal(target,
+                            Point2D local2 = sheetToLocal(self,
                                     Math.max(startOutlineX, e.getX()), 
                                     Math.max(startOutlineY, e.getY()));
+                            System.out.println(local.getX());
                             nodeGUI.setPos(local.getX(), local.getY());
                             nodeGUI.setSize(local2.getX()-local.getX(), 
                                     local2.getY()-local.getY());
                         } else {
-                            Point2D local = sheetToLocal(target,startOutlineX, startOutlineY);
+                            Point2D local = sheetToLocal(self, startOutlineX, startOutlineY);
                             nodeGUI.setPos(local.getX(), local.getY());
                         }
                         popup.show(stage);
@@ -515,18 +518,24 @@ public class BesserNote extends Application {
     }
     
     public void showSelection(Node n) {
-        Node self;
-        if (n instanceof ChildSpecifier) {
-            self = ((ChildSpecifier) n).specifySelf();
-        } else {
-            self = n;
-        }
+//        Node self;
+//        if (n instanceof ChildSpecifier) {
+//            self = ((ChildSpecifier) n).specifySelf();
+//        } else {
+//            self = n;
+//        }
         DashedBox dashed = selectBoxes.get(n);
-        Bounds bounds = self.localToScene(self.getBoundsInLocal());
+        Bounds bounds = n.localToScene(n.getBoundsInLocal());
         bounds = sheet.sceneToLocal(bounds);
         dashed.setPrefSize(bounds.getWidth(), bounds.getHeight());
         dashed.setLayoutX(bounds.getMinX());
         dashed.setLayoutY(bounds.getMinY());
+    }
+    
+    public void showAllSelections() {
+        for (Map.Entry e : selectBoxes.entrySet()) {
+            showSelection((Node) e.getKey());
+        }
     }
     
     public void selectPrev() {
@@ -561,19 +570,15 @@ public class BesserNote extends Application {
     
     private void superClickHelper(double x, double y, Node n, List<Node> list) {
         // check if inside  
-        Node self;
-        double x2;
-        double y2;
-        if (n instanceof ChildSpecifier) {
-            self = ((ChildSpecifier) n).specifySelf();
-            Point2D local = self.sceneToLocal(n.localToScene(x, y));
-            x2 = local.getX();
-            y2 = local.getY();
-        } else {
-            self = n;
-            x2 = x;
-            y2 = y;
-        }
+        Node self = n;
+        double x2 = x;
+        double y2 = y;
+//        if (n instanceof ChildSpecifier) {
+//            self = ((ChildSpecifier) n).specifySelf();
+//            Point2D local = self.sceneToLocal(n.localToScene(x, y));
+//            x2 = local.getX();
+//            y2 = local.getY();
+//        }
         if (self.getBoundsInLocal().contains(x2, y2)) {
             if (self instanceof Pane) {
                 Pane p = (Pane) self;
@@ -648,6 +653,9 @@ public class BesserNote extends Application {
     public void createNode() {
         for (Map.Entry<Node, DashedBox> entry : selectBoxes.entrySet()) {
             Node n = entry.getKey();
+            if (n instanceof ChildSpecifier) {
+                n = ((ChildSpecifier) n).specifySelf();
+            }
             if (n instanceof Pane) {
                 Node newNode = nodeGUI.getNode();
         //        DraggingUtil.enableResizeDrag(newNode);

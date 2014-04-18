@@ -6,12 +6,14 @@ package bessernote.nodemaker;
 
 import bessernote.nodemaker.placement.PlacementGUI;
 import bessernote.nodemaker.placement.PlacementGUIRegion;
+import bessernote.ui.BNumberField;
 import bessernote.ui.BScrollPane;
 import java.awt.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -24,6 +26,7 @@ public class ScrollPaneGUI extends BaseGUI {
     
     PlacementGUIRegion placement;
     ColorPicker cp;
+    BNumberField padding;
 
     public ScrollPaneGUI(Node top, double spacing) {
         super(top, spacing);
@@ -34,8 +37,13 @@ public class ScrollPaneGUI extends BaseGUI {
 
         Text t2 = new Text("Background Color:");
         cp = new ColorPicker();
+        
+        HBox h = new HBox();
+        h.getChildren().add(new Text("Padding:"));
+        padding = new BNumberField("20");
+        h.getChildren().add(padding);
 
-        getChildren().addAll(t, placement, t2, cp);
+        getChildren().addAll(t, placement, t2, cp, h);
     }
 
     @Override

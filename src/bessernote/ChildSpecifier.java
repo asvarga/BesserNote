@@ -15,5 +15,5 @@ import javafx.scene.Node;
  */
 public interface ChildSpecifier {
     public List<Node> specifyChildren();
-    public Node specifySelf();
+    public Node specifySelf();  // where new children should go
 }

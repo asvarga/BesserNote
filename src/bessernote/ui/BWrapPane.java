@@ -29,16 +29,22 @@ import javafx.scene.layout.Pane;
  *
  * @author avarga
  */
-public class BWrapPane extends Pane {
+public class BWrapPane extends Pane implements ChildSpecifier {
     
     public Pane placeHolder;
+    public List<Node> clickable;
+    
     private double padding;
+    private double prefMinWidth;
+    private double prefMinHeight;
     
 //    ChangeListener oListener;
     ChangeListener bListener;
     
     public BWrapPane() {
         super();
+        
+        clickable = new ArrayList<>();
                                
         bListener = new ChangeListener() {
             @Override
@@ -46,7 +52,11 @@ public class BWrapPane extends Pane {
                 fixOutline();
             }
         };
-                   
+              
+        placeHolder = new Pane();
+        placeHolder.boundsInParentProperty().addListener(bListener);
+        getChildren().add(placeHolder);
+        
         final BWrapPane this2 = this;
         getChildren().addListener(new ListChangeListener<Node>() {
             @Override
@@ -60,9 +70,11 @@ public class BWrapPane extends Pane {
                              //update item
                     } else {
                         for (Node remItem : c.getRemoved()) {
+                            clickable.remove(remItem);
                             remItem.boundsInParentProperty().removeListener(bListener);
                         }
                         for (Node addItem : c.getAddedSubList()) {
+                            clickable.add(addItem);
                             addItem.boundsInParentProperty().addListener(bListener);
                         }
                         //fixOutline();
@@ -70,25 +82,12 @@ public class BWrapPane extends Pane {
                 }
                 if (getChildren().size() == 0) {
                     ((Pane)this2.getParent()).getChildren().remove(this2);
+                } else {
+                    fixOutline();
                 }
-                fixOutline();
             }
         });
         
-//        oListener = new ChangeListener() {
-//            @Override
-//            public void changed(ObservableValue ov, Object t, Object t1) {
-//                fixChildren();
-//            }
-//        };
-        
-//        this.layoutXProperty().addListener(oListener);
-//        this.layoutYProperty().addListener(oListener);
-        
-        placeHolder = new Pane();
-        placeHolder.setStyle("-fx-background-color: #FF00FF;");
-        getChildren().add(placeHolder);
-
         fixOutline();
         
     }
@@ -130,14 +129,33 @@ public class BWrapPane extends Pane {
     }
     
     public void setPadding(double d) {
+        placeHolder.setLayoutX(placeHolder.getLayoutX()+d-padding);
+        placeHolder.setLayoutY(placeHolder.getLayoutY()+d-padding);
         padding = d;
+        placeHolder.setPrefSize(prefMinWidth-2*padding, prefMinHeight-2*padding);
         fixOutline();
     }
     
-//    @Override
-//    public ObservableList<Node> getChildren() {
-//        return null;
-//    }
+    public void setPrefMinSize(double w, double h) {
+        prefMinWidth = w;
+        prefMinHeight = h;
+        placeHolder.setPrefSize(prefMinWidth-2*padding, prefMinHeight-2*padding);
+        fixOutline();
+    }
+    
+    public void setPreMinHeight(double d) {
+        
+    }
+    
+    @Override
+    public List<Node> specifyChildren() {
+        return clickable;
+    }
+
+    @Override
+    public Node specifySelf() {
+        return this;
+    }
     
 }
 
