@@ -287,6 +287,15 @@ public class BesserNote extends Application {
                             if (superClicked.size() > 0 && superClicked.get(0) instanceof Pane) {
                                 flipSelection(0);
                                 target = (Pane) superClicked.get(0);
+                                if (target instanceof ChildSpecifier) {
+                                    Node self = ((ChildSpecifier) target).specifySelf();
+                                    if (self instanceof Pane) {
+                                        target = (Pane) self;
+                                    } else {
+                                        unselectAll();
+                                        target = sheet;
+                                    }
+                                }
                             } else {
                                 unselectAll();
                                 target = sheet;
@@ -461,8 +470,14 @@ public class BesserNote extends Application {
     }
     
     public void showSelection(Node n) {
+        Node self;
+        if (n instanceof ChildSpecifier) {
+            self = ((ChildSpecifier) n).specifySelf();
+        } else {
+            self = n;
+        }
         DashedBox dashed = selectBoxes.get(n);
-        Bounds bounds = n.localToScene(n.getBoundsInLocal());
+        Bounds bounds = self.localToScene(self.getBoundsInLocal());
         bounds = sheet.sceneToLocal(bounds);
         dashed.setPrefSize(bounds.getWidth(), bounds.getHeight());
         dashed.setLayoutX(bounds.getMinX());
@@ -495,6 +510,7 @@ public class BesserNote extends Application {
     public List<Node> superClick(double x, double y) {
         List<Node> ret = new ArrayList<Node>();
         superClickHelper(x, y, sheet, ret);
+        //System.out.println(ret);
         return ret;
     }
     
@@ -513,11 +529,19 @@ public class BesserNote extends Application {
             x2 = x;
             y2 = y;
         }
-        if (x2 >= 0 &&
-                y2 >= 0 &&
-                x2 <= self.getBoundsInLocal().getWidth() &&
-                y2 <= self.getBoundsInLocal().getHeight()) {
-            list.add(0, self);
+        if (self.getBoundsInLocal().contains(x2, y2)) {
+            if (self instanceof Pane) {
+                Pane p = (Pane) self;
+                if (x2 >= 0 &&
+                        y2 >= 0 &&
+                        x2 <= p.getWidth() &&
+                        y2 <= p.getHeight()) {
+                    list.add(0, n);
+                }
+            } else {
+                list.add(0, n);
+            }
+            System.out.println(list);
             if (n instanceof Parent) {
                 Parent p = (Parent) n;
                 List<Node> children;
