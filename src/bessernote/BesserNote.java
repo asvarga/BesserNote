@@ -21,6 +21,8 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
@@ -30,6 +32,7 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Control;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -40,6 +43,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
@@ -71,7 +75,7 @@ public class BesserNote extends Application {
     
     private Map<Node, Double> dragOffsetX;
     private Map<Node, Double> dragOffsetY;
-    private HashSet<Node> toResize;
+    private HashSet<Parent> toResize;
     private boolean dragging = false;
     private boolean resizing = false;
     
@@ -160,12 +164,12 @@ public class BesserNote extends Application {
                         if (superSelected != null) {
                             dragOffsetX = new HashMap<>();
                             dragOffsetY = new HashMap<>();
-                           toResize = new HashSet<Node>();
+                           toResize = new HashSet<Parent>();
                             for (Map.Entry<Node, DashedBox> entry : selectBoxes.entrySet()) {
                                 Node n = entry.getKey();
 //                                checks if the bottom right corner was picked and adds toResize if selected
-                               if( DraggingUtil.toScaleArea(n, e.getX(), e.getY())){
-                                toResize.add(n);
+                               if( DraggingUtil.toScaleArea(n, e.getX(), e.getY()) && n instanceof Parent){
+                                toResize.add((Parent)n);
                                }
                                 
                                 
@@ -213,26 +217,56 @@ public class BesserNote extends Application {
                             }
                             }
                             else{//resizing
-                                for(Node n: toResize){
-                                    double offsetX = dragOffsetX.get(n);
-                                    double offsetY = dragOffsetY.get(n);
+                                for(Parent n: toResize){
+//                                    double offsetX = dragOffsetX.get(n);
+//                                    double offsetY = dragOffsetY.get(n);
+                                    double offsetX = e.getX() - n.localToScene(Point2D.ZERO).getX();
+                                    double offsetY = e.getY() - n.localToScene(Point2D.ZERO).getY();
+                                    
 //                                    double currWidth = n.getLayoutBounds().getWidth();
 //                                    double currHeight = n.getLayoutBounds().getHeight();
 //                                    double currWidth = n.getBoundsInParent().getWidth();
 //                                    double currHeight = n.getBoundsInParent().getHeight();
-                                     double currWidth = n.getBoundsInLocal().getWidth();
-                                    double currHeight = n.getBoundsInLocal().getHeight();
-                                    double offsetToCurrRatioX = offsetX / currWidth;
-                                    double offsetToCurrRatioY = offsetY / currHeight;
-                                    out("offsetX: %f",offsetX);
-                                    out("offsetY: %f",offsetY);
-                                    out("currWidth: %f",currWidth);
-                                    out("currHeight: %f",currHeight);
-                                    out("ratioX: %f",offsetToCurrRatioX);
-                                    out("ratioY: %f\n\n",offsetToCurrRatioY);
-                                    n.setScaleX(n.getScaleX() * offsetToCurrRatioX);
-                                    n.setScaleY(n.getScaleY() * offsetToCurrRatioY);
+////                                    double currWidth = n.getBoundsInLocal().getWidth();
+//                                    double currHeight = n.getBoundsInLocal().getHeight();
+//                                    double offsetToCurrRatioX = offsetX / currWidth;
+//                                    double offsetToCurrRatioY = offsetY / currHeight;
+//                                    out("offsetX: %f",offsetX);
+//                                    out("offsetY: %f",offsetY);
+//                                    out("currWidth: %f",currWidth);
+//                                    out("currHeight: %f",currHeight);
+//                                    out("ratioX: %f",offsetToCurrRatioX);
+//                                    out("ratioY: %f\n\n",offsetToCurrRatioY);
+////                                    out("is resizable %b",n.isResizable());
+//                                    KEEP TRACK OF THE ORIGINAL WIDTH NITWIT
+//                                    n.setScaleX(n.getScaleX() * offsetToCurrRatioX);
+//                                    n.setScaleY(n.getScaleY() * offsetToCurrRatioY);
+//                                    DoubleProperty width = new SimpleDoubleProperty(0);
+//                                    width.setValue(offsetX);
+//                                    width.getValue();
+//                                    DoubleProperty height = new SimpleDoubleProperty(offsetY);
+//                                    height.setValue(offsetY);
+//                                    height.getValue();
+                                 if(n instanceof Region){
+                                     Region r = (Region) n;
+                                     r.setPrefHeight(offsetY);
+                                     r.setPrefWidth(offsetX);
+                                     r.autosize();
+                                 }
+                                 else if(n instanceof Group){
+                                     Group g = (Group) n;
+                                     g.prefWidth(offsetX);
+                                     g.prefHeight(offsetY);
+                                     g.autoSizeChildrenProperty();
+                                     g.autosize();
+                                     
+                                 }
+//                                 else if(n instanceof Control){
+//                                     Control c = (Control) c;
+//                                     
+//                                 }
                                     
+//                                    n.resize(offsetX, offsetY);
                                 }
                             }
                         }

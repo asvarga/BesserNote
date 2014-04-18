@@ -10,7 +10,9 @@ import java.util.TimerTask;
 import javafx.application.Application;
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.geometry.Point2D;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.input.*;
 import javafx.scene.paint.Color;
@@ -31,13 +33,55 @@ public class HelloDragAndDrop extends Application {
         stage.setTitle("Hello Drag And Drop");
 
         Group root = new Group();
-        Scene scene = new Scene(root, 400, 200);
+        Scene scene = new Scene(root, 1000, 800);
         scene.setFill(Color.LIGHTGREEN);
  
-        final Text source = new Text(50, 100, "DRAG ME");
+        final Text sourceText = new Text(50, 50, "DRAG ME");
+        Node source = (Node) sourceText;
         source.setScaleX(2.0);
         source.setScaleY(2.0);
-        DraggingUtil.enableResizeDrag(source);
+        
+        
+        source.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>(){
+            private Node source;
+            private double x = 0;
+            private double y = 0;
+            private Scene scene= null;
+            @Override
+            public void handle(MouseEvent event) {
+//                source.setScaleX(1);
+//                source.setScaleY(1);
+             source.prefHeight(300);
+             source.prefWidth(300);
+             
+             double width = source.getBoundsInLocal().getWidth();
+             double height = source.getBoundsInLocal().getHeight();
+             
+             out("width: %f\nheight: %f",width,height);
+//             x = source.getBoundsInParent().getMinX();
+//             y = source.getBoundsInParent().getMinY();
+//             out("x: %f\ny: %f",x,y);
+//             source.setScaleX(1.5 * source.getScaleX());
+//             source.setScaleY(1.5 * source.getScaleX());
+             out("after rescale");
+             width = source.getBoundsInLocal().getWidth();
+             height = source.getBoundsInLocal().getHeight();
+             
+             out("width: %f\nheight: %f",width,height);
+             source.translateXProperty().add(.25 * width);
+             source.translateYProperty().add(.25 * height);
+             
+             
+             source.autosize();
+            }
+            
+            public EventHandler<MouseEvent> init(Node n,Scene s){
+                this.scene = scene;
+                this.source = n;
+                return this;
+            }
+        }.init(source,scene));
+//        DraggingUtil.enableResizeDrag(source);
         /*
         source.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
 
