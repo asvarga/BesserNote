@@ -45,9 +45,9 @@ public class PaneGUI extends BaseGUI {
     @Override
     public void editNode(Node n) {
         placement.editNode(n);
-//        Pane p = (Pane) n;
-//        p.setMinSize(p.getPrefWidth(), p.getPrefHeight());
-//        p.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
+        Pane p = (Pane) n;
+        p.setMinSize(p.getPrefWidth(), p.getPrefHeight());
+        p.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
         n.setStyle("-fx-background-color: #"+cp.getValue().toString().substring(2) +";");
     }
     

@@ -6,15 +6,21 @@
 
 package bessernote.ui;
 
+import bessernote.ChildSpecifier;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 
 /**
  *
  * @author Dan
  */
-public class BTextArea  extends TextArea{
+public class BTextArea  extends TextArea implements ChildSpecifier {
+        
     public BTextArea(){
         this("");
     }
@@ -27,6 +33,11 @@ public class BTextArea  extends TextArea{
 //                BTextArea.this.relocate(, USE_PREF_SIZE);
             }
         });
+    }
+    
+    @Override
+    public List<Node> specifyChildren() {
+        return new ArrayList<Node>();
     }
     
 }
