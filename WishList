@@ -28,7 +28,7 @@ ADD WHATEVER.
   + Make an EventStream of NodeChanges. See the docs. 
 + Tons of fancy shiiiiit 
   
-
+Prevent user from making teeny tiny boxes (both creation and resizing)
 
 
 
