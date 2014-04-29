@@ -59,11 +59,11 @@ public class NodeGUI extends BaseGUI {
 
         show1 = new ShowOneGUI(_top);
         show1.addGUI("ScrollPane", new ScrollPaneGUI(_top, spacing));
-        show1.addGUI("Pane", new PaneGUI(_top, spacing));
+        //show1.addGUI("Pane", new PaneGUI(_top, spacing));
         show1.addGUI("WrapPane", new WrapPaneGUI(_top, spacing));
         show1.addGUI("Label", new LabelGUI(_top, spacing));
-        show1.addGUI("HBox", new HBoxGUI(_top, spacing));
-        show1.addGUI("VBox", new VBoxGUI(_top, spacing));
+        //show1.addGUI("HBox", new HBoxGUI(_top, spacing));
+        //show1.addGUI("VBox", new VBoxGUI(_top, spacing));
         show1.addGUI("TextArea", new TextAreaGUI(_top, spacing));
         show1.addGUI("TabPane", new TabPaneGUI(_top, spacing));
         show1.addGUI("FlashCard", new FlashCardGUI2(_top, spacing));
