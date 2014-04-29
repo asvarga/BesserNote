@@ -26,6 +26,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Path;
 
 /**
  *
@@ -81,6 +82,18 @@ public class DrawingMenu extends VBox{
         //Adds buttons to the VBox 
         this.getChildren().addAll(cursor, line, circle, cp);
 
+        
+        //Listens for undos
+        EventHandler<KeyEvent> keyPressed = new EventHandler<KeyEvent>() {
+                    @Override
+                    public void handle(KeyEvent event){
+                        if (event.getCode() == KeyCode.D){
+                            besser.undoDrawing();
+                        }
+                    }
+                };
+        this.addEventFilter(KeyEvent.KEY_PRESSED, keyPressed);
+        
         //Listens for clicks
         group.selectedToggleProperty().addListener(new ChangeListener<Toggle>(){
             public void changed(ObservableValue<? extends Toggle> ov,
@@ -100,6 +113,7 @@ public class DrawingMenu extends VBox{
                  }
             });
 
+
         //Listens for exit
         
         this.addEventFilter(KeyEvent.KEY_PRESSED,
@@ -107,14 +121,13 @@ public class DrawingMenu extends VBox{
                 @Override
                 public void handle(KeyEvent event) {
                     if (event.getCode() == KeyCode.ESCAPE){
+                        System.out.println("Drawing mode off");
                         besser.circleOff();
                         besser.drawOff();
                     }
                 }
             }
         );
-        
-        
     }
 
     public Node getNode() {
@@ -131,6 +144,10 @@ public class DrawingMenu extends VBox{
     
     public void setSize(double x, double y) {
         
+    }
+    
+    public void transfer(Path path){
+        besser.addDoodle(path);
     }
 }
     

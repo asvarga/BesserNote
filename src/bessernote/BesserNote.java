@@ -4,6 +4,7 @@
  */
 package bessernote;
 
+
 import bessernote.canvases.DrawCanvas;
 import bessernote.nodemaker.DrawingMenu;
 import bessernote.nodemaker.NodeGUI;
@@ -22,6 +23,8 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
@@ -31,7 +34,7 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
+import javafx.scene.control.Control;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -42,8 +45,10 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Path;
 import javafx.stage.FileChooser;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
@@ -73,7 +78,7 @@ public class BesserNote extends Application {
     
     private Map<Node, Double> dragOffsetX;
     private Map<Node, Double> dragOffsetY;
-    private HashSet<Node> toResize;
+    private HashSet<Parent> toResize;
     private boolean dragging = false;
     private boolean resizing = false;
     
@@ -84,18 +89,21 @@ public class BesserNote extends Application {
     
     private double startOutlineX;
     private double startOutlineY;
-    private Parent target;
+    private Pane target;
     
     ///Drawing Canvases
-    private DrawCanvas drawCanvas = new DrawCanvas(2000, 2000);
+    private DrawCanvas drawCanvas = new DrawCanvas(this, 2000, 2000);
     //private Canvas circleCanvas = new Canvas();
     private String currentMode;
+    
+    
+    //
 
     @Override
     public void start(final Stage stage) {
-        //System.out.println("JavaFX Verions: "+VersionInfo.getRuntimeVersion());// VersionInfo.getRuntimeVersion())‌​;
+        System.out.println("JavaFX Verions: "+VersionInfo.getRuntimeVersion());// VersionInfo.getRuntimeVersion())‌​;
         root = new BorderPane();
-        scene = new Scene(root, 960, 720, Color.BLACK);
+        scene = new Scene(root, 640, 480, Color.BLACK);
         
         stackPane = new StackPane();
         root.setCenter(stackPane);
@@ -115,7 +123,6 @@ public class BesserNote extends Application {
         
         stackPane.getChildren().add(drawCanvas);
         
-        
         //// SELECTION ////
         
         selectBoxes = new HashMap<>();
@@ -123,7 +130,6 @@ public class BesserNote extends Application {
             new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent e) {
-                    //System.out.println(getCurrentFocus());
                     if (e.getButton() == MouseButton.PRIMARY) {
                         if (!e.isAltDown()) {
                             if (!e.isShiftDown()) {
@@ -136,6 +142,7 @@ public class BesserNote extends Application {
                             }
                         }
                     }
+                    
                 };
             }
         );
@@ -158,12 +165,15 @@ public class BesserNote extends Application {
                         dragBox.setVisible(false);
                     }
                     else if (event.getCode() == KeyCode.BACK_SPACE){
-                        for (Map.Entry<Node, DashedBox> entry : selectBoxes.entrySet()) {
+                        for(Map.Entry<Node, DashedBox> entry: selectBoxes.entrySet()){
                             Node deleteMe = entry.getKey();
                             Pane parent = (Pane) deleteMe.getParent();
                             parent.getChildren().remove(deleteMe);
-                            //showAllSelections();
+                            
+                            above.getChildren().remove(entry.getValue());
                         }
+                        
+                        selectBoxes.clear();
                     }
                 }
             }
@@ -179,24 +189,26 @@ public class BesserNote extends Application {
                         if (superSelected != null) {
                             dragOffsetX = new HashMap<>();
                             dragOffsetY = new HashMap<>();
-                            toResize = new HashSet<Node>();
+                           toResize = new HashSet<Parent>();
                             for (Map.Entry<Node, DashedBox> entry : selectBoxes.entrySet()) {
                                 Node n = entry.getKey();
-// checks if the bottom right corner was picked and adds toResize if selected
-                                if (DraggingUtil.toScaleArea(n, e.getX(), e.getY())) {
-                                    toResize.add(n);
-                                }
-
+//                                checks if the bottom right corner was picked and adds toResize if selected
+                               if( DraggingUtil.toScaleArea(n, e.getX(), e.getY()) && n instanceof Parent){
+                                toResize.add((Parent)n);
+                               }
+                                
+                                
                                 Point2D local = sheetToLocal(
-                                        n.getParent(), e.getX(), e.getY());
-                                dragOffsetX.put(n, local.getX() - n.getLayoutX());
-                                dragOffsetY.put(n, local.getY() - n.getLayoutY());
+                                    n.getParent(), e.getX(), e.getY());
+                                dragOffsetX.put(n, local.getX()-n.getLayoutX());
+                                dragOffsetY.put(n, local.getY()-n.getLayoutY());
                             }
                             dragging = true;
-                            if (!toResize.isEmpty()) {
+                            if(!toResize.isEmpty()){
                                 out("RESIZING BITCHES");
-                                //resizing = true;
-                            } else {
+                                resizing = true;
+                            }
+                            else{
                                 out("NOT RESIZING");
                             }
                         }
@@ -230,26 +242,56 @@ public class BesserNote extends Application {
                             }
                             }
                             else{//resizing
-                                for(Node n: toResize){
-                                    double offsetX = dragOffsetX.get(n);
-                                    double offsetY = dragOffsetY.get(n);
+                                for(Parent n: toResize){
+//                                    double offsetX = dragOffsetX.get(n);
+//                                    double offsetY = dragOffsetY.get(n);
+                                    double offsetX = e.getX() - n.localToScene(Point2D.ZERO).getX();
+                                    double offsetY = e.getY() - n.localToScene(Point2D.ZERO).getY();
+                                    
 //                                    double currWidth = n.getLayoutBounds().getWidth();
 //                                    double currHeight = n.getLayoutBounds().getHeight();
 //                                    double currWidth = n.getBoundsInParent().getWidth();
 //                                    double currHeight = n.getBoundsInParent().getHeight();
-                                     double currWidth = n.getBoundsInLocal().getWidth();
-                                    double currHeight = n.getBoundsInLocal().getHeight();
-                                    double offsetToCurrRatioX = offsetX / currWidth;
-                                    double offsetToCurrRatioY = offsetY / currHeight;
-                                    out("offsetX: %f",offsetX);
-                                    out("offsetY: %f",offsetY);
-                                    out("currWidth: %f",currWidth);
-                                    out("currHeight: %f",currHeight);
-                                    out("ratioX: %f",offsetToCurrRatioX);
-                                    out("ratioY: %f\n\n",offsetToCurrRatioY);
-                                    n.setScaleX(n.getScaleX() * offsetToCurrRatioX);
-                                    n.setScaleY(n.getScaleY() * offsetToCurrRatioY);
+////                                    double currWidth = n.getBoundsInLocal().getWidth();
+//                                    double currHeight = n.getBoundsInLocal().getHeight();
+//                                    double offsetToCurrRatioX = offsetX / currWidth;
+//                                    double offsetToCurrRatioY = offsetY / currHeight;
+//                                    out("offsetX: %f",offsetX);
+//                                    out("offsetY: %f",offsetY);
+//                                    out("currWidth: %f",currWidth);
+//                                    out("currHeight: %f",currHeight);
+//                                    out("ratioX: %f",offsetToCurrRatioX);
+//                                    out("ratioY: %f\n\n",offsetToCurrRatioY);
+////                                    out("is resizable %b",n.isResizable());
+//                                    KEEP TRACK OF THE ORIGINAL WIDTH NITWIT
+//                                    n.setScaleX(n.getScaleX() * offsetToCurrRatioX);
+//                                    n.setScaleY(n.getScaleY() * offsetToCurrRatioY);
+//                                    DoubleProperty width = new SimpleDoubleProperty(0);
+//                                    width.setValue(offsetX);
+//                                    width.getValue();
+//                                    DoubleProperty height = new SimpleDoubleProperty(offsetY);
+//                                    height.setValue(offsetY);
+//                                    height.getValue();
+                                 if(n instanceof Region){
+                                     Region r = (Region) n;
+                                     r.setPrefHeight(offsetY);
+                                     r.setPrefWidth(offsetX);
+                                     r.autosize();
+                                 }
+                                 else if(n instanceof Group){
+                                     Group g = (Group) n;
+                                     g.prefWidth(offsetX);
+                                     g.prefHeight(offsetY);
+                                     g.autoSizeChildrenProperty();
+                                     g.autosize();
+                                     
+                                 }
+//                                 else if(n instanceof Control){
+//                                     Control c = (Control) c;
+//                                     
+//                                 }
                                     
+//                                    n.resize(offsetX, offsetY);
                                 }
                             }
                         }
@@ -307,6 +349,9 @@ public class BesserNote extends Application {
             }
         });
         
+        //// PAINTING MENU ////
+        
+        
         
         //// RIGHT CLICK ////
                 
@@ -328,7 +373,7 @@ public class BesserNote extends Application {
                                     local.getX() <= n.getBoundsInLocal().getWidth() &&
                                     local.getY() <= n.getBoundsInLocal().getHeight()) {
                                 clickedSelected = true;
-                                target = (Parent) n;
+                                target = (Pane) n;
                                 break;
                             }
                         }
@@ -343,18 +388,9 @@ public class BesserNote extends Application {
                             cancelSuperClick();
                             unselectAll();
                             superClicked = superClick(e.getX(), e.getY());
-                            if (superClicked.size() > 0 && superClicked.get(0) instanceof Parent) {
+                            if (superClicked.size() > 0 && superClicked.get(0) instanceof Pane) {
                                 flipSelection(0);
-                                target = (Parent) superClicked.get(0);
-//                                if (target instanceof ChildSpecifier) {
-//                                    Node self = ((ChildSpecifier) target).specifySelf();
-//                                    if (self instanceof Pane) {
-//                                        target = (Pane) self;
-//                                    } else {
-//                                        unselectAll();
-//                                        target = sheet;
-//                                    }
-//                                }
+                                target = (Pane) superClicked.get(0);
                             } else {
                                 unselectAll();
                                 target = sheet;
@@ -390,23 +426,18 @@ public class BesserNote extends Application {
                     if (e.getButton() == MouseButton.SECONDARY) {
                         double dx = startOutlineX-e.getX();
                         double dy = startOutlineY-e.getY();
-                        Node self = target;
-                        if (target instanceof ChildSpecifier) {
-                            self = ((ChildSpecifier) target).specifySelf();
-                        }
                         if (dx*dx+dy*dy >= 25) {
-                            Point2D local = sheetToLocal(self,
+                            Point2D local = sheetToLocal(target,
                                     Math.min(startOutlineX, e.getX()), 
                                     Math.min(startOutlineY, e.getY()));
-                            Point2D local2 = sheetToLocal(self,
+                            Point2D local2 = sheetToLocal(target,
                                     Math.max(startOutlineX, e.getX()), 
                                     Math.max(startOutlineY, e.getY()));
-                            //System.out.println(local.getX());
                             nodeGUI.setPos(local.getX(), local.getY());
                             nodeGUI.setSize(local2.getX()-local.getX(), 
                                     local2.getY()-local.getY());
                         } else {
-                            Point2D local = sheetToLocal(self, startOutlineX, startOutlineY);
+                            Point2D local = sheetToLocal(target,startOutlineX, startOutlineY);
                             nodeGUI.setPos(local.getX(), local.getY());
                         }
                         popup.show(stage);
@@ -459,7 +490,7 @@ public class BesserNote extends Application {
         menuItemSave.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent t){
-                
+                saveFile();
             }
         });
         menuFile.getItems().addAll(
@@ -537,24 +568,12 @@ public class BesserNote extends Application {
     }
     
     public void showSelection(Node n) {
-//        Node self;
-//        if (n instanceof ChildSpecifier) {
-//            self = ((ChildSpecifier) n).specifySelf();
-//        } else {
-//            self = n;
-//        }
         DashedBox dashed = selectBoxes.get(n);
         Bounds bounds = n.localToScene(n.getBoundsInLocal());
         bounds = sheet.sceneToLocal(bounds);
         dashed.setPrefSize(bounds.getWidth(), bounds.getHeight());
         dashed.setLayoutX(bounds.getMinX());
         dashed.setLayoutY(bounds.getMinY());
-    }
-    
-    public void showAllSelections() {
-        for (Map.Entry e : selectBoxes.entrySet()) {
-            showSelection((Node) e.getKey());
-        }
     }
     
     public void selectPrev() {
@@ -583,34 +602,16 @@ public class BesserNote extends Application {
     public List<Node> superClick(double x, double y) {
         List<Node> ret = new ArrayList<Node>();
         superClickHelper(x, y, sheet, ret);
-        //System.out.println(ret);
         return ret;
     }
     
     private void superClickHelper(double x, double y, Node n, List<Node> list) {
         // check if inside  
-        Node self = n;
-        double x2 = x;
-        double y2 = y;
-//        if (n instanceof ChildSpecifier) {
-//            self = ((ChildSpecifier) n).specifySelf();
-//            Point2D local = self.sceneToLocal(n.localToScene(x, y));
-//            x2 = local.getX();
-//            y2 = local.getY();
-//        }
-        if (self.getBoundsInLocal().contains(x2, y2)) {
-            if (self instanceof Pane) {
-                Pane p = (Pane) self;
-                if (x2 >= 0 &&
-                        y2 >= 0 &&
-                        x2 <= p.getWidth() &&
-                        y2 <= p.getHeight()) {
-                    list.add(0, n);
-                }
-            } else {
-                list.add(0, n);
-            }
-            //System.out.println(list);
+        if (x >= 0 &&
+                y >= 0 &&
+                x <= n.getBoundsInLocal().getWidth() &&
+                y <= n.getBoundsInLocal().getHeight()) {
+            list.add(0, n);
             if (n instanceof Parent) {
                 Parent p = (Parent) n;
                 List<Node> children;
@@ -637,44 +638,28 @@ public class BesserNote extends Application {
                 );
         }
     }
-    /*
-    private void SaveFile(String content, File file){
-        try {
-            FileWriter fileWriter = null;
-
-            fileWriter = new FileWriter(file);
-            fileWriter.write(content);
-            fileWriter.close();
-        } catch (IOException ex) {
-            Logger.getLogger(BesserNote.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        }
     
-    
-              public void handle(ActionEvent event) {
+    private void saveFile(){    
+              
               FileChooser fileChooser = new FileChooser();
   
               //Set extension filter
-              FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+              FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("BSR files (*.txt)", "*.bsr");
               fileChooser.getExtensionFilters().add(extFilter);
               
               //Show save file dialog
               File file = fileChooser.showSaveDialog(primaryStage);
               
+              System.out.println(file);
               if(file != null){
-                  SaveFile(Santa_Claus_Is_Coming_To_Town, file);
+                  //Save method here.
               }
           }
-      });
-        */
+      
         
     public void createNode() {
         for (Map.Entry<Node, DashedBox> entry : selectBoxes.entrySet()) {
             Node n = entry.getKey();
-            if (n instanceof ChildSpecifier) {
-                n = ((ChildSpecifier) n).specifySelf();
-            }
             if (n instanceof Pane) {
                 Node newNode = nodeGUI.getNode();
         //        DraggingUtil.enableResizeDrag(newNode);
@@ -695,13 +680,16 @@ public class BesserNote extends Application {
         return this.scene.getFocusOwner();
     }
     
+    
     public void drawOn(){  
         currentMode = "draw";
         drawCanvas.setVisible(true);
+        drawCanvas.addListeners();
+        drawCanvas.toFront();
     }
     
     public void drawOff(){
-        drawCanvas.setVisible(false);
+       drawCanvas.removeListeners();
     }
     
     public void circleOn(){
@@ -713,15 +701,29 @@ public class BesserNote extends Application {
         //circleCanvas.setVisible(false);
     }
     
+    public void setupDrawListeners(){
+        
+    }
+    
+    public void setupCircleListeners(){
+        
+    }
+    
+    public void undoDrawing(){
+        drawCanvas.undoDrawing();
+    }
+    
+    public void addDoodle(Path path){
+        sheet.getChildren().add(path);
+    }
     
     public void strokeColor(Color c){
         switch(currentMode){
             case "draw":
                 drawCanvas.changeColor(c);
+            break;
         }
-                
     }
-    
     
     public static void out(Object o){
         System.out.println(o);
