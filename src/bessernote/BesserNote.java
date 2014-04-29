@@ -167,8 +167,10 @@ public class BesserNote extends Application {
                     else if (event.getCode() == KeyCode.BACK_SPACE){
                         for(Map.Entry<Node, DashedBox> entry: selectBoxes.entrySet()){
                             Node deleteMe = entry.getKey();
-                            Pane parent = (Pane) deleteMe.getParent();
-                            parent.getChildren().remove(deleteMe);
+                            if (deleteMe != sheet) {
+                                Pane parent = (Pane) deleteMe.getParent();
+                                parent.getChildren().remove(deleteMe);
+                            }
                             
                             above.getChildren().remove(entry.getValue());
                         }
