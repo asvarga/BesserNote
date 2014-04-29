@@ -48,6 +48,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Path;
 import javafx.stage.FileChooser;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
@@ -91,9 +92,12 @@ public class BesserNote extends Application {
     private Pane target;
     
     ///Drawing Canvases
-    private DrawCanvas drawCanvas = new DrawCanvas(2000, 2000);
+    private DrawCanvas drawCanvas = new DrawCanvas(this, 2000, 2000);
     //private Canvas circleCanvas = new Canvas();
     private String currentMode;
+    
+    
+    //
 
     @Override
     public void start(final Stage stage) {
@@ -138,6 +142,7 @@ public class BesserNote extends Application {
                             }
                         }
                     }
+                    
                 };
             }
         );
@@ -158,6 +163,14 @@ public class BesserNote extends Application {
                         cancelSuperClick();
                         unselectAll();
                         dragBox.setVisible(false);
+                    }
+                    else if (event.getCode() == KeyCode.BACK_SPACE){
+                        for(Map.Entry<Node, DashedBox> entry: selectBoxes.entrySet()){
+                            Node deleteMe = entry.getKey();
+                            Pane parent = (Pane) deleteMe.getParent();
+                            parent.getChildren().remove(deleteMe);
+                            entry.getValue().setVisible(false);
+                        }
                     }
                 }
             }
@@ -474,7 +487,7 @@ public class BesserNote extends Application {
         menuItemSave.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent t){
-                
+                saveFile();
             }
         });
         menuFile.getItems().addAll(
@@ -619,37 +632,24 @@ public class BesserNote extends Application {
                 );
         }
     }
-    /*
-    private void SaveFile(String content, File file){
-        try {
-            FileWriter fileWriter = null;
-
-            fileWriter = new FileWriter(file);
-            fileWriter.write(content);
-            fileWriter.close();
-        } catch (IOException ex) {
-            Logger.getLogger(BesserNote.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        }
     
-    
-              public void handle(ActionEvent event) {
+    private void saveFile(){    
+              
               FileChooser fileChooser = new FileChooser();
   
               //Set extension filter
-              FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+              FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("BSR files (*.txt)", "*.bsr");
               fileChooser.getExtensionFilters().add(extFilter);
               
               //Show save file dialog
               File file = fileChooser.showSaveDialog(primaryStage);
               
+              System.out.println(file);
               if(file != null){
-                  SaveFile(Santa_Claus_Is_Coming_To_Town, file);
+                  //Save method here.
               }
           }
-      });
-        */
+      
         
     public void createNode() {
         for (Map.Entry<Node, DashedBox> entry : selectBoxes.entrySet()) {
@@ -678,10 +678,12 @@ public class BesserNote extends Application {
     public void drawOn(){  
         currentMode = "draw";
         drawCanvas.setVisible(true);
+        drawCanvas.addListeners();
+        drawCanvas.toFront();
     }
     
     public void drawOff(){
-        drawCanvas.setVisible(false);
+       drawCanvas.removeListeners();
     }
     
     public void circleOn(){
@@ -701,12 +703,20 @@ public class BesserNote extends Application {
         
     }
     
+    public void undoDrawing(){
+        drawCanvas.undoDrawing();
+    }
+    
+    public void addDoodle(Path path){
+        sheet.getChildren().add(path);
+    }
+    
     public void strokeColor(Color c){
         switch(currentMode){
             case "draw":
                 drawCanvas.changeColor(c);
+            break;
         }
-                
     }
     
     public static void out(Object o){

@@ -6,12 +6,7 @@
 
 package bessernote.canvases;
 
-import javafx.event.EventHandler;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Path;
+import bessernote.BesserNote;
 import bessernote.DashedBox;
 import java.util.ArrayList;
 import java.util.Map;
@@ -20,10 +15,13 @@ import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 
 /**
@@ -34,54 +32,81 @@ import javafx.scene.shape.Path;
 public class DrawCanvas extends Canvas{
     
     //The start x and y where the user clicked.
+    public BesserNote besser;
     private double x;
     private double y;
     private Path doodle;
+    private MoveTo move;
     private GraphicsContext gc = this.getGraphicsContext2D();
+    private EventHandler<MouseEvent> clicked;
+    private EventHandler<MouseEvent> dragged;
+    private EventHandler<MouseEvent> released;
     
-    public DrawCanvas(double width, double height){
+    public DrawCanvas(final BesserNote besser, double width, double height){
         super(width, height);
-        this.setStyle("-fx-background-color: black;");
-        setup();
+        this.setStyle("-fx-background-color: rgba(0, 0, 0, 0);");
+        this.besser = besser;
         gc.setStroke(Color.WHITE);
         gc.setLineWidth(7);
         setVisible(false);
-    }
-    
-    
-    public final void setup(){
-          this.addEventFilter(MouseEvent.MOUSE_PRESSED, 
-            new EventHandler<MouseEvent>() {
+        
+        clicked = new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent e) {
                     System.out.println("Mouse clicked.");
+                    doodle = new Path();
+                    move = new MoveTo(e.getX(), e.getY());
                     gc.beginPath(); 
                     gc.lineTo(e.getX(), e.getY());
+                    doodle.getElements().add(move);
                     gc.stroke();
                     }
-                });
-        this.addEventFilter(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>() {
+                };
+        dragged = new EventHandler<MouseEvent>() {
             @Override 
             public void handle(MouseEvent e){
                 gc.lineTo(e.getX(), e.getY());
                 gc.moveTo(e.getX(), e.getY());
                 gc.stroke();
+                doodle.getElements().add(new MoveTo(e.getX(), e.getY()));
             }
-            });
-        this.addEventFilter(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>(){
+            };
+        released = new EventHandler<MouseEvent>(){
             @Override
             public void handle(MouseEvent e){
                 System.out.println("Mouse released");
                 gc.fill();
                 gc.stroke();
                 gc.closePath();
-
+                System.out.println(doodle);
+                besser.addDoodle(doodle);
+                gc.clearRect(0, 0, 2000, 2000);
             }
-        });
+        };
+
+        setup();
+    }
+    
+    
+    
+    
+    public final void setup(){
+        addListeners();
+    }
+    
+    public void addListeners(){
+        this.addEventFilter(MouseEvent.MOUSE_PRESSED, clicked);
+        this.addEventFilter(MouseEvent.MOUSE_DRAGGED, dragged);
+        this.addEventFilter(MouseEvent.MOUSE_RELEASED, released);
+    }
+    
+    public void removeListeners(){
+        this.removeEventFilter(MouseEvent.MOUSE_PRESSED, clicked);
+        this.removeEventFilter(MouseEvent.MOUSE_DRAGGED, dragged);
+        this.removeEventFilter(MouseEvent.MOUSE_RELEASED, released);
     }
     
     public void changeColor(Color c){
-        System.out.println(c);
         gc.setStroke(c);
     }
     
@@ -89,4 +114,13 @@ public class DrawCanvas extends Canvas{
         //TODO: Do something
     }
     
+    /*
+    Turns out gc.restore() only restores soft state. Poo-poo.
+    */
+    public void undoDrawing(){
+        System.out.println("FHIODUFHKDFH");
+        gc.restore();
+    }
+    
 }
+
