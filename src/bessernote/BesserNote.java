@@ -160,11 +160,9 @@ public class BesserNote extends Application {
                     else if (event.getCode() == KeyCode.BACK_SPACE){
                         for (Map.Entry<Node, DashedBox> entry : selectBoxes.entrySet()) {
                             Node deleteMe = entry.getKey();
-                            System.out.println(deleteMe);
                             Pane parent = (Pane) deleteMe.getParent();
-                            System.out.println(parent);
                             parent.getChildren().remove(deleteMe);
-                            System.out.println("deleted");
+                            //showAllSelections();
                         }
                     }
                 }
@@ -510,6 +508,9 @@ public class BesserNote extends Application {
         stage.setTitle("BesserNote"); 
         stage.setScene(scene); 
         stage.show(); 
+        
+        
+        //System.out.println(sheet.getWidth());
         
     } 
     
