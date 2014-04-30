@@ -154,6 +154,9 @@ public class BWrapPane extends Pane implements ChildSpecifier {
         placeHolder.setLayoutX(placeHolder.getLayoutX()+x-getLayoutX());
         placeHolder.setLayoutY(placeHolder.getLayoutY()+y-getLayoutY());
     }
+    public double padding(){
+        return padding;
+    }
     
     public void setPreMinHeight(double d) {
         

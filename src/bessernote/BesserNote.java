@@ -53,7 +53,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-        
+import saving.Saver;
+
 /**
  *
  * @author avarga
@@ -98,7 +99,7 @@ public class BesserNote extends Application {
     //
 
     @Override
-    public void start(final Stage stage) {
+    public void start(final Stage stage) throws IOException {
         System.out.println("JavaFX Verions: "+VersionInfo.getRuntimeVersion());// VersionInfo.getRuntimeVersion())‌​;
         root = new BorderPane();
         scene = new Scene(root, 640, 480, Color.BLACK);
@@ -107,7 +108,7 @@ public class BesserNote extends Application {
         root.setCenter(stackPane);
 
         sheet = new Pane();        
-        sheet.setStyle("-fx-background-color: black;");
+        sheet.setStyle("-fx-background-color: #000000");
         stackPane.getChildren().add(sheet);
         target = sheet;
         
@@ -120,6 +121,7 @@ public class BesserNote extends Application {
         above.getChildren().add(dragBox);
         
         stackPane.getChildren().add(drawCanvas);
+        drawCanvas.toBack();
         
         //// SELECTION ////
         
@@ -488,7 +490,11 @@ public class BesserNote extends Application {
         menuItemSave.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent t){
-                saveFile();
+                try {
+                    saveFile();
+                } catch (IOException ex) {
+                    Logger.getLogger(BesserNote.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
         menuFile.getItems().addAll(
@@ -538,9 +544,7 @@ public class BesserNote extends Application {
         stage.setScene(scene); 
         stage.show(); 
         
-        
         //System.out.println(sheet.getWidth());
-        
     } 
     
     public Point2D sheetToLocal(Node n, double sheetX, double sheetY) {
@@ -637,20 +641,19 @@ public class BesserNote extends Application {
         }
     }
     
-    private void saveFile(){    
+    private void saveFile() throws IOException{    
               
               FileChooser fileChooser = new FileChooser();
   
               //Set extension filter
-              FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("BSR files (*.txt)", "*.bsr");
+              FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("XML files (*.xml)", "*.xml");
               fileChooser.getExtensionFilters().add(extFilter);
               
               //Show save file dialog
               File file = fileChooser.showSaveDialog(primaryStage);
-              
-              System.out.println(file);
               if(file != null){
-                  //Save method here.
+                  Saver save = new Saver(file);
+                  save.save(sheet);
               }
           }
       
@@ -732,7 +735,6 @@ public class BesserNote extends Application {
     
     public static void out(String s, Object... o){
         System.out.println(String.format(s, o));
-        
     }
     
 }

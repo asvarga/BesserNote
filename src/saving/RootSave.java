@@ -6,8 +6,14 @@
 
 package saving;
 
+import bessernote.ui.BScrollPane;
+import bessernote.ui.BTabPane;
+import bessernote.ui.BTextArea;
+import bessernote.ui.BWrapPane;
+import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.layout.Pane;
 
 /**
@@ -17,16 +23,35 @@ import javafx.scene.layout.Pane;
  * The root is sheet.
  * 
  */
-public class RootSave {
+public class RootSave implements Savable{
        
     private double xDim, yDim;
-    private List<Node> children;
+    private List<Savable> children = new ArrayList<>();
+    private String color;
     
     public RootSave(Pane root){
+        //Saves this
         xDim = root.getWidth();
         yDim = root.getHeight();
-        children = root.getChildren();
-    }
+        color= root.getStyle().substring(root.getStyle().indexOf("#"), root.getStyle().length());
+        //Save children
+        for(Node node: root.getChildren()){
+            Savable saveObj = null;
+            if(node instanceof BTabPane){
+                saveObj = new BTabPaneSave((BTabPane)node);
+            }
+            else if(node instanceof BTextArea){
+                saveObj = new BTextAreaSave((BTextArea)node);
+            }
+            else if(node instanceof BScrollPane){
+                saveObj = new BScrollPaneSave((BScrollPane)node);
+            }
+            else if (node instanceof BWrapPane){
+                saveObj = new BWrapPaneSave((BWrapPane)node);
+            }
+            children.add(saveObj);
+        }
+    } 
     /*
     create() takes the RootSave object and draws it into a scene graph.
     */

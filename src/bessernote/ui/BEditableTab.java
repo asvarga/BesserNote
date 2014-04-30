@@ -31,16 +31,19 @@ public class BEditableTab extends Tab{
     private TextField textField = new TextField();
     
     public BEditableTab(String text){
-      label.setText(text);
+      this.setText(text);
+      label.setText(" ");
       this.setGraphic(label);
       
-     label.setOnMouseClicked(new EventHandler<MouseEvent>() {  
+  label.setOnMouseClicked(new EventHandler<MouseEvent>() {  
   @Override  
   public void handle(MouseEvent event) {  
     System.out.println("Handled");
     if (event.getClickCount()==2) {  
-      textField.setText(label.getText());  
-      BEditableTab.this.setGraphic(textField);  
+      //textField.setText(label.getText());  
+      textField.setText(BEditableTab.this.getText());
+      BEditableTab.this.setGraphic(textField);
+      BEditableTab.this.setText("");
       textField.selectAll();  
       textField.requestFocus();  
     }  
@@ -51,7 +54,8 @@ public class BEditableTab extends Tab{
 textField.setOnAction(new EventHandler<ActionEvent>() {  
   @Override  
   public void handle(ActionEvent event) {  
-    label.setText(textField.getText());  
+    //label.setText(textField.getText());  
+    BEditableTab.this.setText(textField.getText());
     BEditableTab.this.setGraphic(label);  
   }  
         });
@@ -62,7 +66,8 @@ textField.focusedProperty().addListener(new ChangeListener<Boolean>() {
   public void changed(ObservableValue<? extends Boolean> observable,  
       Boolean oldValue, Boolean newValue) {  
     if (! newValue) {  
-      label.setText(textField.getText());  
+      //label.setText(textField.getText());  
+        BEditableTab.this.setText(textField.getText());
       BEditableTab.this.setGraphic(label);            
     }  
   }  
