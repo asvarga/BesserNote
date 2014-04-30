@@ -8,18 +8,25 @@ package saving;
 
 import java.util.List;
 import javafx.scene.Node;
+import javafx.scene.layout.Pane;
 
 /**
  *
  * @author ddliu
  * RootSave is the object that contains the state of the entire GUI. 
+ * The root is sheet.
  * 
  */
 public class RootSave {
-    private double xdim, ydim;
+       
+    private double xDim, yDim;
     private List<Node> children;
     
-    
+    public RootSave(Pane root){
+        xDim = root.getWidth();
+        yDim = root.getHeight();
+        children = root.getChildren();
+    }
     /*
     create() takes the RootSave object and draws it into a scene graph.
     */

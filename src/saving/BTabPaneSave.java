@@ -8,13 +8,31 @@ package saving;
 
 import bessernote.ui.BTabPane;
 import java.io.Serializable;
+import java.util.List;
+import javafx.scene.Node;
+import javafx.scene.control.Tab;
+import javafx.scene.layout.Pane;
 
 /**
  *
  * @author ddliu
- * A BTabPane in the saved state.
+ * A BTabPane in the saved state. This includes the tabs, since the tabpane itself has a weird structure.
  */
 public class BTabPaneSave{
+    
+    class BEditableTabSave{
+        private Pane content;
+        
+        BEditableTabSave(Pane content){
+            
+        }
+        
+    }
+    
+    private double xPos, yPos;
+    private double xDim, yDim;
+    private double padding;
+    private List<Tab> tabs;
     
     public BTabPaneSave (BTabPane tabPane){
         

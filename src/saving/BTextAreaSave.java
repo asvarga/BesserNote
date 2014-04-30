@@ -8,6 +8,8 @@ package saving;
 
 import bessernote.ui.BTextArea;
 import java.io.Serializable;
+import java.util.List;
+import javafx.scene.Node;
 
 /**
  *
@@ -16,6 +18,11 @@ import java.io.Serializable;
  */
 public class BTextAreaSave{
 
+    private double xPos, yPos;
+    private double xDim, yDim;
+    private String content;
+    private List<Node> children; 
+    
     BTextAreaSave(BTextArea textArea) {
         
     }

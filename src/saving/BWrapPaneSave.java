@@ -8,6 +8,8 @@ package saving;
 
 import bessernote.ui.BWrapPane;
 import java.io.Serializable;
+import java.util.List;
+import javafx.scene.Node;
 
 /**
  *
@@ -16,8 +18,17 @@ import java.io.Serializable;
  */
 public class BWrapPaneSave{
     
+    private double xPos, yPos;
+    private double xDim, yDim;
+    private double padding;
+    private List<Node> children;
+    
     public BWrapPaneSave(BWrapPane wrapPane){
-        
+        xPos = wrapPane.getLayoutX();
+        yPos = wrapPane.getLayoutY();
+        xDim = wrapPane.getWidth();
+        yDim = wrapPane.getHeight();
+        children = wrapPane.getChildren();
     }
     
 }
