@@ -89,7 +89,7 @@ public class BesserNote extends Application {
     
     private double startOutlineX;
     private double startOutlineY;
-    private Pane target;
+    private Parent target;
     
     ///Drawing Canvases
     private DrawCanvas drawCanvas = new DrawCanvas(this, 2000, 2000);
@@ -171,11 +171,9 @@ public class BesserNote extends Application {
                                 Pane parent = (Pane) deleteMe.getParent();
                                 parent.getChildren().remove(deleteMe);
                             }
-                            
-                            above.getChildren().remove(entry.getValue());
                         }
                         
-                        selectBoxes.clear();
+                        unselectAll();
                     }
                 }
             }
@@ -369,13 +367,13 @@ public class BesserNote extends Application {
                         for (Map.Entry<Node, DashedBox> entry : selectBoxes.entrySet()) {
                             Node n = entry.getKey();
                             Point2D local = sheetToLocal(n, e.getX(), e.getY());
-                            if (n instanceof Pane &&
+                            if (n instanceof Region &&
                                     local.getX() >= 0 && 
                                     local.getY() >= 0 &&
                                     local.getX() <= n.getBoundsInLocal().getWidth() &&
                                     local.getY() <= n.getBoundsInLocal().getHeight()) {
                                 clickedSelected = true;
-                                target = (Pane) n;
+                                target = (Parent) n;
                                 break;
                             }
                         }
@@ -392,7 +390,7 @@ public class BesserNote extends Application {
                             superClicked = superClick(e.getX(), e.getY());
                             if (superClicked.size() > 0 && superClicked.get(0) instanceof Pane) {
                                 flipSelection(0);
-                                target = (Pane) superClicked.get(0);
+                                target = (Parent) superClicked.get(0);
                             } else {
                                 unselectAll();
                                 target = sheet;
@@ -662,6 +660,9 @@ public class BesserNote extends Application {
     public void createNode() {
         for (Map.Entry<Node, DashedBox> entry : selectBoxes.entrySet()) {
             Node n = entry.getKey();
+            if (n instanceof ChildSpecifier) {
+                n = ((ChildSpecifier) n).specifySelf();
+            }
             if (n instanceof Pane) {
                 Node newNode = nodeGUI.getNode();
         //        DraggingUtil.enableResizeDrag(newNode);
