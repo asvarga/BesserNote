@@ -53,8 +53,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-
-
+        
 /**
  *
  * @author avarga
@@ -94,8 +93,7 @@ public class BesserNote extends Application {
     ///Drawing Canvases
     private DrawCanvas drawCanvas = new DrawCanvas(this, 2000, 2000);
     //private Canvas circleCanvas = new Canvas();
-    private String currentMode;
-    
+    private String currentMode;    
     
     //
 

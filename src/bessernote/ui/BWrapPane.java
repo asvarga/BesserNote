@@ -34,9 +34,9 @@ public class BWrapPane extends Pane implements ChildSpecifier {
     public Pane placeHolder;
     public List<Node> clickable;
     
-    private double padding;
-    private double prefMinWidth;
-    private double prefMinHeight;
+    protected double padding;
+    protected double prefMinWidth;
+    protected double prefMinHeight;
     
 //    ChangeListener oListener;
     ChangeListener bListener;
@@ -72,10 +72,12 @@ public class BWrapPane extends Pane implements ChildSpecifier {
                         for (Node remItem : c.getRemoved()) {
                             clickable.remove(remItem);
                             remItem.boundsInParentProperty().removeListener(bListener);
+                            remItem.visibleProperty().removeListener(bListener);
                         }
                         for (Node addItem : c.getAddedSubList()) {
                             clickable.add(addItem);
                             addItem.boundsInParentProperty().addListener(bListener);
+                            addItem.visibleProperty().addListener(bListener);
                         }
                         //fixOutline();
                     }
@@ -93,7 +95,7 @@ public class BWrapPane extends Pane implements ChildSpecifier {
     }
     
     // I hate life
-    private void fixOutline() {
+    public void fixOutline() {
         Platform.runLater(new Runnable() {
             @Override public void run() {
                 new Thread(new Runnable() {
@@ -105,10 +107,12 @@ public class BWrapPane extends Pane implements ChildSpecifier {
                                 double minY = Double.MAX_VALUE;
                                 double maxY = -Double.MAX_VALUE;
                                 for (Node child : getChildren()) {
-                                    minX = Math.min(minX, child.getBoundsInParent().getMinX());
-                                    maxX = Math.max(maxX, child.getBoundsInParent().getMaxX());
-                                    minY = Math.min(minY, child.getBoundsInParent().getMinY());
-                                    maxY = Math.max(maxY, child.getBoundsInParent().getMaxY());
+                                    if (child.isVisible()) {
+                                        minX = Math.min(minX, child.getBoundsInParent().getMinX());
+                                        maxX = Math.max(maxX, child.getBoundsInParent().getMaxX());
+                                        minY = Math.min(minY, child.getBoundsInParent().getMinY());
+                                        maxY = Math.max(maxY, child.getBoundsInParent().getMaxY());
+                                    }
                                 }
                                 
                                 setLayoutX(getLayoutX()+minX-padding);
@@ -117,8 +121,11 @@ public class BWrapPane extends Pane implements ChildSpecifier {
                                 setPrefHeight(maxY-minY+padding*2);
                                 
                                 for (Node child : getChildren()) {
-                                    child.setLayoutX(child.getLayoutX()-minX+padding);
-                                    child.setLayoutY(child.getLayoutY()-minY+padding);
+                                    try {   // might be bound
+                                        child.setLayoutX(child.getLayoutX()-minX+padding);
+                                        child.setLayoutY(child.getLayoutY()-minY+padding);
+                                    } catch (Exception e) {
+                                    }
                                 }
                             }
                         });
@@ -141,6 +148,11 @@ public class BWrapPane extends Pane implements ChildSpecifier {
         prefMinHeight = h;
         placeHolder.setPrefSize(prefMinWidth-2*padding, prefMinHeight-2*padding);
         fixOutline();
+    }
+    
+    public void setMaxPosition(double x, double y) {
+        placeHolder.setLayoutX(placeHolder.getLayoutX()+x-getLayoutX());
+        placeHolder.setLayoutY(placeHolder.getLayoutY()+y-getLayoutY());
     }
     
     public void setPreMinHeight(double d) {

@@ -47,7 +47,7 @@ public class NodeGUI extends BaseGUI {
         Text t = new Text("--- Node Creation GUI ---");
 
         combo = new ComboBox();
-        combo.getItems().addAll("ScrollPane", "Pane", "WrapPane", "Label", "HBox", "VBox", "TextArea", "TabPane");
+        combo.getItems().addAll("ScrollPane", "Pane", "WrapPane", "Label", "HBox", "VBox", "TextArea", "TabPane", "FlashCard");
         combo.setValue("ScrollPane");
         combo.valueProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -66,6 +66,7 @@ public class NodeGUI extends BaseGUI {
         show1.addGUI("VBox", new VBoxGUI(_top, spacing));
         show1.addGUI("TextArea", new TextAreaGUI(_top, spacing));
         show1.addGUI("TabPane", new TabPaneGUI(_top, spacing));
+        show1.addGUI("FlashCard", new FlashCardGUI2(_top, spacing));
         
         HBox h = new HBox(spacing);
         cancelButton = new Button("Cancel");
