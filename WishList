@@ -1,0 +1,34 @@
+PUT YOUR INITIALS/NAME NEXT TO A TASK YOU'RE WORKING ON.
+DELETE WHAT YOU COMPLETE.
+ADD WHATEVER.
+
++ More UI Elements
+  + Grid
+  + Scrollpanes //AV
+  + [add more here]
+  + Sexy text area
+    + https://github.com/TomasMikula/RichTextFX //TM
++ Delete //DH
++ Saving
++ Loading
++ Drawing //DL 
++ Flash Cards
+  + Easy creation
++ Graphs
+  + http://docs.oracle.com/javafx/2/charts/jfxpub-charts.htm
++ Search
++ Node focus
+  + Full screen any node
+  + "move" into/out of any sheet
++ Appearance
+  + Color Schemes/skins
+  + Soft corners
++ Undo
+  + https://github.com/TomasMikula/UndoFX //TM
+  + Make an EventStream of NodeChanges. See the docs. 
++ Tons of fancy shiiiiit 
+  
+Prevent user from making teeny tiny boxes (both creation and resizing)
+
+
+
