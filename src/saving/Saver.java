@@ -51,9 +51,7 @@ public class Saver {
     public void save(Node node) throws IOException{
         RootSave saveObj = new RootSave((Pane) node);
         //xstream.toXML(saveObj, fw);
-        String myXML = xstream.toXML(saveObj);
-        RootSave retrieved = (RootSave) xstream.fromXML(myXML);
-        xstream.toXML(retrieved, fw);
+        xstream.toXML(saveObj, fw);
     }
     
 

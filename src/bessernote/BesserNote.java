@@ -53,6 +53,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import saving.Loader;
 import saving.Saver;
 
 /**
@@ -86,6 +87,7 @@ public class BesserNote extends Application {
     private NodeGUI nodeGUI;
     private Window primaryStage;
     private Desktop desktop = Desktop.getDesktop();
+    private FileChooser fileChooser = new FileChooser();
     
     private double startOutlineX;
     private double startOutlineY;
@@ -448,9 +450,9 @@ public class BesserNote extends Application {
 
         //// MENU BAR ////
 
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("BSSR files (*.xml)", "*.xml");
+        fileChooser.getExtensionFilters().add(extFilter);
         menuBar = new MenuBar();
-        
-        final FileChooser fileChooser = new FileChooser();
 
         // --- Menu File
         Menu menuFile = new Menu("File");
@@ -490,11 +492,14 @@ public class BesserNote extends Application {
         menuItemSave.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent t){
-                try {
-                    saveFile();
-                } catch (IOException ex) {
-                    Logger.getLogger(BesserNote.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                    File file = fileChooser.showOpenDialog(stage);
+                    if (file != null) {
+                        try {
+                            saveFile(file);
+                        } catch (IOException ex) {
+                            Logger.getLogger(BesserNote.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
             }
         });
         menuFile.getItems().addAll(
@@ -545,7 +550,11 @@ public class BesserNote extends Application {
         stage.show(); 
         
         //System.out.println(sheet.getWidth());
-    } 
+    }
+    
+    public void changeRoot(Pane newRoot){
+        sheet = newRoot;
+    }
     
     public Point2D sheetToLocal(Node n, double sheetX, double sheetY) {
         Point2D pointInScene = sheet.localToScene(sheetX, sheetY);
@@ -630,32 +639,17 @@ public class BesserNote extends Application {
         }
     }
     
+    
+    
     private void openFile(File file) {
-        try {
-            desktop.open(file);
-        } catch (IOException ex) {
-            Logger.getLogger(
-                BesserNote.class.getName()).log(
-                    Level.SEVERE, null, ex
-                );
-        }
+        Loader load = new Loader(file);
+        load.loadNew();
     }
     
-    private void saveFile() throws IOException{    
-              
-              FileChooser fileChooser = new FileChooser();
-  
-              //Set extension filter
-              FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("XML files (*.xml)", "*.xml");
-              fileChooser.getExtensionFilters().add(extFilter);
-              
-              //Show save file dialog
-              File file = fileChooser.showSaveDialog(primaryStage);
-              if(file != null){
-                  Saver save = new Saver(file);
-                  save.save(sheet);
-              }
-          }
+    private void saveFile(File file) throws IOException{    
+        Saver save = new Saver(file);
+        save.save(sheet);
+    }
       
         
     public void createNode() {
@@ -736,5 +730,6 @@ public class BesserNote extends Application {
     public static void out(String s, Object... o){
         System.out.println(String.format(s, o));
     }
+
     
 }
