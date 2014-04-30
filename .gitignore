@@ -2,4 +2,8 @@
 /build/classes
 *.class
 /dist/
+<<<<<<< HEAD
 /nbproject/*
+=======
+/nbproject/
+>>>>>>> 15b7a8e0bdb22cfa8fcc041f0e3b59e4109ff054
