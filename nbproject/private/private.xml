@@ -4,11 +4,20 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
+            <file>file:/Users/avarga/NetBeansProjects/BesserNote/src/bessernote/nodemaker/FlashCardGUI2.java</file>
+            <file>file:/Users/avarga/NetBeansProjects/BesserNote/src/bessernote/BesserNote.java</file>
+            <file>file:/Users/avarga/NetBeansProjects/BesserNote/src/bessernote/nodemaker/placement/PlacementGUI1D.java</file>
+            <file>file:/Users/avarga/NetBeansProjects/BesserNote/src/bessernote/nodemaker/WrapPaneGUI.java</file>
+            <file>file:/Users/avarga/NetBeansProjects/BesserNote/src/bessernote/ui/BFlashCard.java</file>
+            <file>file:/Users/avarga/NetBeansProjects/BesserNote/src/bessernote/ui/BWrapPane.java</file>
+=======
             <file>file:/Users/ddliu/Desktop/cs32/BesserNote/src/bessernote/ui/BWrapPane.java</file>
             <file>file:/Users/ddliu/Desktop/cs32/BesserNote/src/saving/Loader.java</file>
             <file>file:/Users/ddliu/Desktop/cs32/BesserNote/src/bessernote/BesserNote.java</file>
             <file>file:/Users/ddliu/Desktop/cs32/BesserNote/src/bessernote/nodemaker/NodeGUI.java</file>
             <file>file:/Users/ddliu/Desktop/cs32/BesserNote/src/saving/Saver.java</file>
+>>>>>>> c8c6bdb9e0fa21ec6ccfd821a50b49e04cab7d9e
         </group>
     </open-files>
 </project-private>
