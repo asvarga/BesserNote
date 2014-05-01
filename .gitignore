@@ -2,4 +2,6 @@
 build/
 *.class
 dist/
-
+nbproject/
+build.xml
+manifest.mf
