@@ -9,7 +9,10 @@ package saving;
 import bessernote.ui.BScrollPane;
 import bessernote.ui.BWrapPane;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 
 /**
  *
@@ -21,7 +24,6 @@ public class BScrollPaneSave implements Savable{
     private double xPos, yPos;
     private double xDim, yDim;
     private BWrapPaneSave content;
-    private String color;
     
     
     public BScrollPaneSave(BScrollPane scrollPane){
@@ -30,11 +32,25 @@ public class BScrollPaneSave implements Savable{
         yPos = scrollPane.getLayoutY();
         xDim = scrollPane.getPrefWidth();
         yDim = scrollPane.getPrefHeight();
-        color = scrollPane.getStyle().substring(scrollPane.getStyle().indexOf("#"), scrollPane.getStyle().length());
-                
         //Save child
         if(scrollPane.getContent() != null)
             content = new BWrapPaneSave((BWrapPane)scrollPane.getContent());       
+    }
+
+    @Override
+    public Parent create() {
+        BScrollPane returnMe = new BScrollPane();
+        returnMe.setLayoutX(xPos);
+        returnMe.setLayoutY(yPos);
+        returnMe.setPrefHeight(xDim);
+        returnMe.setPrefWidth(yDim);
+        returnMe.setContent(content.create());
+        return returnMe;
+    }
+
+    @Override
+    public List<Savable> getChildren() {
+        return new ArrayList<Savable>();
     }
     
 }

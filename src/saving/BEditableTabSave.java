@@ -22,4 +22,9 @@ public class BEditableTabSave {
             text = tab.getText();
         }
        
+        public BEditableTab create(){
+            BEditableTab returnMe = new BEditableTab(text);
+            returnMe.setContent(savedContent.create());
+            return returnMe;
+        }
 }

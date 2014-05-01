@@ -1,44 +1,55 @@
+package saving;
+
+
+import bessernote.ui.BScrollPane;
+import bessernote.ui.BTabPane;
+import bessernote.ui.BTextArea;
+import bessernote.ui.BWrapPane;
+import java.util.ArrayList;
+import java.util.List;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.layout.Pane;
+import saving.BScrollPaneSave;
+import saving.BTabPaneSave;
+import saving.BTextAreaSave;
+import saving.BWrapPaneSave;
+import saving.Savable;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 
-package saving;
-
-import bessernote.ui.BScrollPane;
-import bessernote.ui.BTabPane;
-import bessernote.ui.BTextArea;
-import bessernote.ui.BWrapPane;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.layout.Pane;
-
 /**
  *
  * @author ddliu
- * A BWrapPane in the saved state..
  */
-public class BWrapPaneSave implements Savable{
-    
+public class PaneSave implements Savable{
+        
     private double xPos, yPos;
     private double xDim, yDim;
     private double padding;
     private List<Savable> children = new ArrayList<>();
+    private String color;
     
-    public BWrapPaneSave(BWrapPane wrapPane){
+    public PaneSave(Pane pane){
         //Save this
-        xPos = wrapPane.getLayoutX();
-        yPos = wrapPane.getLayoutY();
-        xDim = wrapPane.getPrefWidth();
-        yDim = wrapPane.getPrefHeight();
-        padding = wrapPane.padding();
+        xPos = pane.getLayoutX();
+        yPos = pane.getLayoutY();
+        xDim = pane.getPrefWidth();
+        yDim = pane.getPrefHeight();
+        if(pane.getStyle().contains("#")){
+            color = pane.getStyle().substring(pane.getStyle().indexOf("#"), pane.getStyle().length());
+        }
+        else{
+            color = "#ffffff";
+        }
+
         //Save children, if not empty.
-        if(! wrapPane.getChildren().isEmpty()){
-            for(Node node: wrapPane.getChildren()){
+        if(! pane.getChildren().isEmpty()){
+            for(Node node: pane.getChildren()){
                 Savable saveObj = null;
                 if(node instanceof BTabPane){
                     saveObj = new BTabPaneSave((BTabPane)node);
@@ -63,7 +74,7 @@ public class BWrapPaneSave implements Savable{
 
     @Override
     public Parent create() {
-       BWrapPane returnMe = new BWrapPane();
+       Pane returnMe = new Pane();
        returnMe.setLayoutX(xPos);
        returnMe.setLayoutY(yPos);
        returnMe.setPrefHeight(xDim);
@@ -78,5 +89,6 @@ public class BWrapPaneSave implements Savable{
     public List<Savable> getChildren() {
         return this.getChildren();
     }
+    
     
 }

@@ -6,11 +6,17 @@
 
 package saving;
 
+import java.util.List;
+import javafx.scene.Parent;
+
 /**
  *
  * @author ddliu
  */
 public interface Savable {
+    
+    public Parent create();
+    public List<Savable> getChildren();
     
     
 }

@@ -30,6 +30,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -51,6 +52,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Path;
 import javafx.stage.FileChooser;
 import javafx.stage.Popup;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import saving.Loader;
@@ -476,7 +478,11 @@ public class BesserNote extends Application {
                 public void handle(final ActionEvent e) {
                     File file = fileChooser.showOpenDialog(stage);
                     if (file != null) {
-                        openFile(file);
+                        try {
+                            openFile(file);
+                        } catch (IOException ex) {
+                            Logger.getLogger(BesserNote.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
                 }
         });
@@ -492,14 +498,11 @@ public class BesserNote extends Application {
         menuItemSave.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent t){
-                    File file = fileChooser.showOpenDialog(stage);
-                    if (file != null) {
-                        try {
-                            saveFile(file);
-                        } catch (IOException ex) {
-                            Logger.getLogger(BesserNote.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
+                try {
+                    saveFile();
+                } catch (IOException ex) {
+                    Logger.getLogger(BesserNote.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
         menuFile.getItems().addAll(
@@ -543,8 +546,9 @@ public class BesserNote extends Application {
         root.setTop(menuBar);
 
         ////  ////
-
- 
+        
+        //stage.setMaximized(true);
+        
         stage.setTitle("BesserNote"); 
         stage.setScene(scene); 
         stage.show(); 
@@ -641,15 +645,20 @@ public class BesserNote extends Application {
     
     
     
-    private void openFile(File file) {
+    private void openFile(File file) throws IOException {
         Loader load = new Loader(file);
+        //changeRoot(load.getSheet());
         load.loadNew();
     }
     
-    private void saveFile(File file) throws IOException{    
-        Saver save = new Saver(file);
-        save.save(sheet);
-    }
+    private void saveFile() throws IOException{
+              //Show save file dialog
+              File file = fileChooser.showSaveDialog(primaryStage);
+              if(file != null){
+                  Saver save = new Saver(file);
+                  save.save(sheet);
+              }
+          }
       
         
     public void createNode() {

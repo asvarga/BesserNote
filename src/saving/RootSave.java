@@ -49,14 +49,39 @@ public class RootSave implements Savable{
             else if (node instanceof BWrapPane){
                 saveObj = new BWrapPaneSave((BWrapPane)node);
             }
+            else if (node instanceof Pane){
+                saveObj = new PaneSave((Pane)node);
+            }
             children.add(saveObj);
         }
+
     } 
-    /*
-    create() takes the RootSave object and draws it into a scene graph.
-    */
-    public void create(){
-        
+    
+    public void printChildren(){
+        System.out.println("xdim"+ xDim + "    ydim:" + yDim+ "     Color: "+color);
+        for(Savable child: children){
+            System.out.println(child);
+        }
     }
+    
+    /*
+    create() takes the RootSave object and draws it into a scene graph. Returns only the highest level for the pane. Dimensions and color.
+    */
+    public Pane create(){
+        Pane thisPane = new Pane();
+        thisPane.setPrefWidth(xDim);
+        thisPane.setPrefHeight(yDim);
+        thisPane.setStyle("-fx-background-color: " + color); 
+        return thisPane;
+    }
+    
+    public List<Savable> getChildren(){
+        return children;
+    }
+    
+    public String toString(){
+        return xDim + " " + yDim + " " + children + " " + color;
+    }
+    
     
 }
