@@ -80,7 +80,6 @@ public class BesserNote extends Application {
     //private DashedBox superBox;
     private List<Node> superClicked;
     
-    
     private Map<Node, Double> dragOffsetX;
     private Map<Node, Double> dragOffsetY;
     private HashSet<Parent> toResize;
@@ -671,7 +670,11 @@ public class BesserNote extends Application {
         }
     }
     
-    
+    public void replaceSheet(Pane newSheet) {
+        sheet = newSheet;
+        stackPane.getChildren().clear();
+        stackPane.getChildren().add(sheet);
+    }
     
     private void openFile(File file) throws IOException {
         Loader load = new Loader(file);
@@ -683,6 +686,7 @@ public class BesserNote extends Application {
         Stage anotherStage = new Stage();
         try {
             app2.start(anotherStage);
+            ((BesserNote) app2).replaceSheet(load.getSheet());
         } catch (Exception ex) {
             Logger.getLogger(BesserNote.class.getName()).log(Level.SEVERE, null, ex);
         }
