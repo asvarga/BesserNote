@@ -35,6 +35,7 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Control;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -91,6 +92,7 @@ public class BesserNote extends Application {
     private Window primaryStage;
     private Desktop desktop = Desktop.getDesktop();
     private FileChooser fileChooser = new FileChooser();
+    //private GraphicsContext gc;
     
     private double startOutlineX;
     private double startOutlineY;
@@ -374,11 +376,11 @@ public class BesserNote extends Application {
                             }
                             dragging = true;
                             if(!toResize.isEmpty()){
-                                out("RESIZING BITCHES");
+                                //out("RESIZING BITCHES");
                                 resizing = true;
                             }
                             else{
-                                out("NOT RESIZING");
+                                //out("NOT RESIZING");
                             }
                         }
                     }
@@ -670,17 +672,39 @@ public class BesserNote extends Application {
         }
     }
     
+    /*
     public void replaceSheet(Pane newSheet) {
         sheet = newSheet;
         stackPane.getChildren().clear();
         stackPane.getChildren().add(sheet);
+        sheet.toFront();
+    }
+    */
+    
+    public void replaceSheet(Pane newRoot){
+        stackPane.getChildren().remove(sheet);
+        selectBoxes.remove(sheet);
+        superSelected = null;
+        sheet = newRoot;
+        addSheetListeners();
+        stackPane.getChildren().add(sheet);
+        above.toFront();
+        target = sheet;
+        //superClicked.clear();
     }
     
     private void openFile(File file) throws IOException {
         Loader load = new Loader(file);
         //changeRoot(load.getSheet());
         load.loadNew();
-        System.out.println(load.getSheet().getChildren());
+        for (Node child: load.getSheet().getChildren()){
+            if(child instanceof Pane){
+                Pane printMe = (Pane) child;
+                //System.out.print(printMe.getPrefWidth() + " " + printMe.getPrefHeight() + " " + child.getLayoutX() + " " + child.getLayoutY());
+            }
+            //System.out.println(" " + child);
+        }
+        //System.out.println(load.getSheet().getChildren());
         
         Application app2 = new BesserNote();
         Stage anotherStage = new Stage();
@@ -764,7 +788,12 @@ public class BesserNote extends Application {
     }
     
     public void addDoodle(Path path){
+        path.setFill(Color.WHITE);
+        path.setStroke(Color.WHITE);
+        path.setStrokeWidth(5);
         sheet.getChildren().add(path);
+        System.out.println(sheet.getChildren());
+        System.out.println(path.getElements());
     }
     
     public void strokeColor(Color c){

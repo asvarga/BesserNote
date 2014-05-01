@@ -6,13 +6,13 @@ ADD WHATEVER.
   + Grid
   + Scrollpanes //AV
   + [add more here]
-  + Sexy text area
+  + Sexy text area //DH
     + https://github.com/TomasMikula/RichTextFX //TM
 + Delete //DH
-+ Saving
-+ Loading
++ Saving //DL
++ Loading //DL
 + Drawing //DL 
-+ Flash Cards
++ Flash Cards //AV
   + Easy creation
 + Graphs
   + http://docs.oracle.com/javafx/2/charts/jfxpub-charts.htm
@@ -23,7 +23,7 @@ ADD WHATEVER.
 + Appearance
   + Color Schemes/skins
   + Soft corners
-+ Undo
++ Undo //AV
   + https://github.com/TomasMikula/UndoFX //TM
   + Make an EventStream of NodeChanges. See the docs. 
 + Tons of fancy shiiiiit 

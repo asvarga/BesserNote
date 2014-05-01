@@ -40,7 +40,7 @@ public class DrawCanvas extends Canvas{
     private double y;
     private Path doodle;
     private MoveTo move;
-    private GraphicsContext gc = this.getGraphicsContext2D();
+        private GraphicsContext gc = this.getGraphicsContext2D();
     private EventHandler<MouseEvent> clicked;
     private EventHandler<MouseEvent> dragged;
     private EventHandler<MouseEvent> released;
@@ -93,9 +93,9 @@ public class DrawCanvas extends Canvas{
                 gc.fill();
                 gc.stroke();
                 gc.closePath();
-                System.out.println(doodle);
                 besser.addDoodle(doodle);
                 gc.clearRect(0, 0, 2000, 2000);
+                gc.restore();
             }
         };
 

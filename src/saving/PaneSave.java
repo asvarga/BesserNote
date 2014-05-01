@@ -41,7 +41,8 @@ public class PaneSave implements Savable{
         xDim = pane.getPrefWidth();
         yDim = pane.getPrefHeight();
         if(pane.getStyle().contains("#")){
-            color = pane.getStyle().substring(pane.getStyle().indexOf("#"), pane.getStyle().length());
+            color = pane.getStyle().substring(pane.getStyle().indexOf("#"));
+            System.out.println(color.toString());
         }
         else{
             color = "#ffffff";
@@ -79,8 +80,11 @@ public class PaneSave implements Savable{
        returnMe.setLayoutY(yPos);
        returnMe.setPrefHeight(yDim);
        returnMe.setPrefWidth(xDim);
-       for(Savable child: children){
-           returnMe.getChildren().add(child.create());
+       returnMe.setStyle("-fx-background-color:" + color);
+       if (children != null){
+            for(Savable child: children){
+                returnMe.getChildren().add(child.create());
+            }
        }
        return returnMe;
     }

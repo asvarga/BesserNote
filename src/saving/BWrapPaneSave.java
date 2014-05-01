@@ -68,8 +68,11 @@ public class BWrapPaneSave implements Savable{
        returnMe.setLayoutY(yPos);
        returnMe.setPrefHeight(yDim);
        returnMe.setPrefWidth(xDim);
-       for(Savable child: children){
-           returnMe.getChildren().add(child.create());
+       //returnMe.setStyle("-fx-background-color:" + color);
+       if(children != null){
+            for(Savable child: children){
+                returnMe.getChildren().add(child.create());
+            }
        }
        return returnMe;
     }
