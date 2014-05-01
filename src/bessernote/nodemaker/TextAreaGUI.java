@@ -28,16 +28,21 @@ import javafx.scene.text.TextAlignment;
 public class TextAreaGUI extends BaseGUI {
     
     PlacementGUIRegion placement;
+    ColorPicker cp;
 
     public TextAreaGUI (Node top, double spacing) {
         super(top, spacing);
 
         Text t = new Text("--- TextArea GUI ---");
+        
+        Text t2 = new Text("Background Color:");
+        cp = new ColorPicker();
 
         placement = new PlacementGUIRegion(top, spacing);
          
+        
 
-        getChildren().addAll(t, placement);
+        getChildren().addAll(t, placement, t2, cp);
     }
 
     @Override
@@ -47,6 +52,7 @@ public class TextAreaGUI extends BaseGUI {
 //        pane.setPrefSize(100, 100);
 //        return pane;
         BTextArea  b = new BTextArea();
+
 //        t.addEventFilter(MouseEvent.MOUSE_PRESSED, 
 //            new EventHandler<MouseEvent>() {
 //                @Override
@@ -56,13 +62,16 @@ public class TextAreaGUI extends BaseGUI {
 //                };
 //            }
 //        );
-        System.out.println("text area generated");
         return b;
     }
-    
+        
     @Override
     public void editNode(Node n) {
         placement.editNode(n);
+        //System.out.println("-fx-background-color: #" +cp.getValue().toString().substring(2, cp.getValue().toString().length()-2));
+        ((BTextArea) n).setStyle("-fx-background-color: #" +cp.getValue().toString().substring(2, cp.getValue().toString().length()-2));
+        //System.out.println(n.getStyle());
+              
     }
     
     @Override

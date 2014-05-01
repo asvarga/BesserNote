@@ -7,6 +7,7 @@
 package saving;
 
 import bessernote.ui.BEditableTab;
+import bessernote.ui.BFlashCard;
 import bessernote.ui.BScrollPane;
 import bessernote.ui.BTabPane;
 import bessernote.ui.BTextArea;
@@ -40,7 +41,9 @@ public class Saver {
         xstream.alias("tabPane", BTabPaneSave.class);
         xstream.alias("wrapPane", BWrapPaneSave.class);
         xstream.alias("textarea", BTextAreaSave.class);
+        xstream.alias("flashcard", BFlashCard.class);
         xstream.alias("root", RootSave.class);
+        xstream.alias("pane", PaneSave.class);
         }
     
     /**
@@ -51,10 +54,16 @@ public class Saver {
     public void save(Node node) throws IOException{
         RootSave saveObj = new RootSave((Pane) node);
         //xstream.toXML(saveObj, fw);
+        System.out.println(xstream.toXML(saveObj));
         xstream.toXML(saveObj, fw);
+        System.out.println(xstream.fromXML(file));
     }
     
-
+    public String outputXML(Node node) throws IOException{
+        RootSave saveObj = new RootSave((Pane) node);
+        return xstream.toXML(saveObj);
+    }
+    
     
     
 }

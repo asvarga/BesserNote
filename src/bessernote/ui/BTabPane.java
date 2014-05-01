@@ -18,6 +18,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
@@ -48,7 +49,7 @@ public class BTabPane extends BorderPane implements ChildSpecifier {
           public void handle(ActionEvent event) {
             final BEditableTab tab = new BEditableTab("Tab " + (tabPane.getTabs().size() + 1));
             //add.setPrefSize(tabPane.getTabMaxHeight(), tabPane.getTabMaxWidth());
-            Pane addMe = new BWrapPane();
+            BWrapPane addMe = new BWrapPane();
             addMe.setPrefSize(BTabPane.this.getPrefWidth(), BTabPane.this.getPrefHeight());
             addMe.setStyle("-fx-background-color: #FF7F50;");
             tab.setContent(addMe);
@@ -58,7 +59,7 @@ public class BTabPane extends BorderPane implements ChildSpecifier {
         });
         
         BEditableTab tab = new BEditableTab("Tab 1");
-        Pane addMe = new BWrapPane();
+        BWrapPane addMe = new BWrapPane();
         System.out.println(this.getPrefWidth());
         addMe.setPrefSize(this.getPrefWidth(), this.getPrefHeight());
         addMe.setStyle("-fx-background-color: #FF7F50;");
@@ -119,5 +120,9 @@ public class BTabPane extends BorderPane implements ChildSpecifier {
     
     public List<Tab> getTabs(){
         return tabPane.getTabs();
+    }
+    
+    public SingleSelectionModel<Tab> getSelectionModel(){
+        return tabPane.getSelectionModel();
     }
 }

@@ -15,8 +15,8 @@ import javafx.scene.Parent;
  */
 public interface Savable {
     
-    //public Parent create();
-    //public List<Savable> getChildren();
+    public Parent create();
+    public List<Savable> getChildren();
     
     
 }

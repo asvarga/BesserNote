@@ -9,6 +9,7 @@ package saving;
 import bessernote.BesserNote;
 import com.thoughtworks.xstream.XStream;
 import java.io.File;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
@@ -24,19 +25,22 @@ import javafx.stage.Stage;
  */
 public class Loader {
     
-    XStream xstream = new XStream();
-    RootSave loaded;
-    Pane rootSheet;
+    private XStream xstream = new XStream();
+    private RootSave loaded;
+    private Pane rootSheet;
+    private Saver save;
     
-    public Loader(File file){
+    public Loader(File file) throws IOException{
         xstream.alias("scrollPane", BScrollPaneSave.class);
         xstream.alias("tab", BEditableTabSave.class);
         xstream.alias("tabPane", BTabPaneSave.class);
         xstream.alias("wrapPane", BWrapPaneSave.class);
         xstream.alias("textarea", BTextAreaSave.class);
         xstream.alias("root", RootSave.class);
+        xstream.alias("pane", PaneSave.class);
         loaded = (RootSave) xstream.fromXML(file);
-        loaded.printChildren();
+        //loaded.printChildren();
+        save = new Saver(file);
     }
     
     /*
@@ -45,15 +49,10 @@ public class Loader {
     public void toSheet(){
         //Create the higheset level object
         rootSheet = loaded.create();
-        //Create the children.
-        for(Savable saveChild: loaded.getChildren()){
-            //All the children are Savable
-            //rootSheet.getChildren().add(toSheetHelper(saveChild));
-        }
-        
         
     }
     
+    /*
     public Parent unpack(Savable saveObj){
         //Unpack the top level
         Parent unpacked = saveObj.create();
@@ -71,12 +70,14 @@ public class Loader {
         //The whole thing is over, return the created object.
         return unpacked;
     }
+    */
     
     
     /*
     loadNew() launches a new instance of BesserNote with the objects deserialized from the XML file.
     */
-    public void loadNew(){
+    public void loadNew() throws IOException{
+        /*
         Application app2 = new BesserNote();
         Stage anotherStage = new Stage();
         try {
@@ -84,8 +85,16 @@ public class Loader {
         } catch (Exception ex) {
             Logger.getLogger(BesserNote.class.getName()).log(Level.SEVERE, null, ex);
         }      
+        */
+        toSheet();
+        //save.save(rootSheet);
+        System.out.println(save.outputXML(rootSheet));
         
-        
+    }
+    
+    public Pane getSheet(){
+        toSheet();
+        return rootSheet;
     }
     
     

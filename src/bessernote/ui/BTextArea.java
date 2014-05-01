@@ -23,6 +23,13 @@ public class BTextArea  extends TextArea implements ChildSpecifier {
         
     public BTextArea(){
         this("");
+        this.setStyle("-fx-background-color: #663666");
+        setOnDragDetected(new EventHandler<MouseEvent>(){
+            @Override
+            public void handle(MouseEvent e){
+//                BTextArea.this.relocate(, USE_PREF_SIZE);
+            }
+        });
     }
     
     public BTextArea(String s){

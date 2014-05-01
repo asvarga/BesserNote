@@ -66,7 +66,7 @@ public class WrapPaneGUI extends BaseGUI {
         double pad = padding.getNum();
         p.setPrefMinSize(p.getPrefWidth(), p.getPrefHeight());
         p.setPadding(pad);
-        p.setStyle("-fx-background-color: #"+cp.getValue().toString().substring(2) +";");
+        p.setStyle("-fx-background-color: #"+cp.getValue().toString().substring(2));
         
     }
     

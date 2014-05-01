@@ -65,9 +65,9 @@ public class FlashCardGUI2 extends BaseGUI {
         double pad = padding.getNum();
         p.setPrefMinSize(p.getPrefWidth(), p.getPrefHeight());
         p.setPadding(pad);
-        p.setStyle("-fx-background-color: #"+cp.getValue().toString().substring(2) +";");
-        
-        p.front.setStyle("-fx-background-color: #"+cp2.getValue().toString().substring(2) +";");
+        p.setStyle("-fx-background-color: #"+cp.getValue().toString().substring(2, cp.getValue().toString().length()-2));
+
+        p.front.setStyle("-fx-background-color: #"+cp2.getValue().toString().substring(2, cp2.getValue().toString().length()-2));
         
         Pane p2 = new Pane();
         p2.setPrefWidth(p.front.getPrefWidth());
@@ -75,7 +75,7 @@ public class FlashCardGUI2 extends BaseGUI {
         p2.setLayoutX(p.front.getLayoutX()+p.front.getPrefWidth()+pad);
         p2.setLayoutY(p.front.getLayoutY());
         p.getChildren().add(p2);
-        p2.setStyle("-fx-background-color: #"+cp2.getValue().toString().substring(2) +";");
+        p2.setStyle("-fx-background-color: #"+cp2.getValue().toString().substring(2, cp2.getValue().toString().length()-2));
     }
     
     @Override

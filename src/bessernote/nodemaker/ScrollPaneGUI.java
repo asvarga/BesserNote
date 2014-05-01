@@ -54,7 +54,7 @@ public class ScrollPaneGUI extends BaseGUI {
     @Override
     public void editNode(Node n) {
         placement.editNode(n);
-        ((BScrollPane) n).getContent().setStyle("-fx-background-color: #"+cp.getValue().toString().substring(2) +";");
+        ((BScrollPane) n).getContent().setStyle("-fx-background-color: #"+cp.getValue().toString().substring(2, cp.getValue().toString().length()-2));
     }
     
     @Override

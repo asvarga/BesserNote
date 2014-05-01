@@ -13,6 +13,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.Pane;
 
@@ -37,6 +38,26 @@ public class BTabPaneSave implements Savable{
         for(Tab tab: tabPane.getTabs()){
             tabs.add(new BEditableTabSave((BEditableTab)tab));
         }
+    }
+
+    @Override
+    public Parent create() {
+        BTabPane returnMe = new BTabPane();
+        returnMe.setLayoutX(xPos);
+        returnMe.setLayoutY(yPos);
+        returnMe.setPrefHeight(xDim);
+        returnMe.setPrefWidth(yDim);
+        for(BEditableTabSave tabSave: tabs){
+            BEditableTab thisTab = tabSave.create();
+            returnMe.getTabs().add(thisTab);
+            returnMe.getSelectionModel().select(thisTab);
+        }
+        return returnMe;
+    }
+
+    @Override
+    public List<Savable> getChildren() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

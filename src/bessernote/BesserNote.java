@@ -478,7 +478,11 @@ public class BesserNote extends Application {
                 public void handle(final ActionEvent e) {
                     File file = fileChooser.showOpenDialog(stage);
                     if (file != null) {
-                        openFile(file);
+                        try {
+                            openFile(file);
+                        } catch (IOException ex) {
+                            Logger.getLogger(BesserNote.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
                 }
         });
@@ -543,7 +547,7 @@ public class BesserNote extends Application {
 
         ////  ////
         
-        stage.setMaximized(true);
+        //stage.setMaximized(true);
         
         stage.setTitle("BesserNote"); 
         stage.setScene(scene); 
@@ -641,8 +645,9 @@ public class BesserNote extends Application {
     
     
     
-    private void openFile(File file) {
+    private void openFile(File file) throws IOException {
         Loader load = new Loader(file);
+        //changeRoot(load.getSheet());
         load.loadNew();
     }
     

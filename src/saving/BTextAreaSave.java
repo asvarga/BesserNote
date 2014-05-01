@@ -14,6 +14,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 
 /**
  *
@@ -25,7 +26,7 @@ public class BTextAreaSave implements Savable{
     private double xPos, yPos;
     private double xDim, yDim;
     private String text;
-    private List<Savable> children = new ArrayList<>(); 
+    //private List<Savable> children = new ArrayList<>(); 
     private String color;
     
     BTextAreaSave(BTextArea textArea) {
@@ -35,7 +36,9 @@ public class BTextAreaSave implements Savable{
         xDim = textArea.getPrefWidth();
         yDim = textArea.getPrefHeight();
         text = textArea.getText();
+        //System.out.println(textArea.getStyle());
         color= textArea.getStyle().substring(textArea.getStyle().indexOf("#"), textArea.getStyle().length());
+        /*
         //Save children
         for(Node node: textArea.getChildrenUnmodifiable()){
             Savable saveObj = null;
@@ -53,6 +56,24 @@ public class BTextAreaSave implements Savable{
             }
             children.add(saveObj);
         }
+                */
+    }
+
+    @Override
+    public Parent create() {
+        BTextArea returnMe = new BTextArea();
+        returnMe.setLayoutX(xPos);
+        returnMe.setLayoutY(yPos);
+        returnMe.setPrefHeight(xDim);
+        returnMe.setPrefWidth(yDim);
+        returnMe.setText(text);
+        returnMe.setStyle("-fx-background-color: " + color);
+        return returnMe;
+    }
+
+    @Override
+    public List<Savable> getChildren() {
+        return new ArrayList<Savable>();
     }
     
 }
