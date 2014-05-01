@@ -87,8 +87,9 @@ public class Loader {
         }      
         */
         toSheet();
+        System.out.println(rootSheet);
         //save.save(rootSheet);
-        System.out.println(save.outputXML(rootSheet));
+        //System.out.println(save.outputXML(rootSheet));
         
     }
     
