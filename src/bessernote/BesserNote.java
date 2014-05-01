@@ -289,6 +289,10 @@ public class BesserNote extends Application {
         //System.out.println(sheet.getWidth());
     }
     
+//    public void begin(final Stage stage) {
+//        
+//    }
+    
     public void addSheetListeners(){
         
                 
@@ -478,7 +482,7 @@ public class BesserNote extends Application {
             }
         );
 
-           //// RIGHT CLICK ////
+        //// RIGHT CLICK ////
                 
         sheet.addEventFilter(MouseEvent.MOUSE_PRESSED, 
             new EventHandler<MouseEvent>() {
@@ -573,16 +577,16 @@ public class BesserNote extends Application {
     }
 
         
-    public void changeRoot(Pane newRoot){
-        stackPane.getChildren().remove(sheet);
-        sheet = newRoot;
-        stackPane.getChildren().add(sheet);
-        target = sheet;
-        addSheetListeners();
-        sheet.toFront();
-
-        superClicked.clear();
-    }
+//    public void changeRoot(Pane newRoot){
+//        stackPane.getChildren().remove(sheet);
+//        sheet = newRoot;
+//        stackPane.getChildren().add(sheet);
+//        target = sheet;
+//        addSheetListeners();
+//        sheet.toFront();
+//
+//        //superClicked.clear();
+//    }
     
     public Point2D sheetToLocal(Node n, double sheetX, double sheetY) {
         Point2D pointInScene = sheet.localToScene(sheetX, sheetY);
@@ -674,7 +678,16 @@ public class BesserNote extends Application {
         //changeRoot(load.getSheet());
         load.loadNew();
         System.out.println(load.getSheet().getChildren());
-        changeRoot(load.getSheet());
+        
+        Application app2 = new BesserNote();
+        Stage anotherStage = new Stage();
+        try {
+            app2.start(anotherStage);
+        } catch (Exception ex) {
+            Logger.getLogger(BesserNote.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        //changeRoot(load.getSheet());
     }
     
     private void saveFile() throws IOException{
