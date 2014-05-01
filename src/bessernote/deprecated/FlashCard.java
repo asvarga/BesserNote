@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package bessernote;
+package bessernote.deprecated;
 
 import javafx.event.EventHandler;
 import javafx.scene.control.TextArea;

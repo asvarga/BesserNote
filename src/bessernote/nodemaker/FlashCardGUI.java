@@ -6,7 +6,7 @@
 
 package bessernote.nodemaker;
 
-import bessernote.FlashCard;
+import bessernote.deprecated.FlashCard;
 import bessernote.nodemaker.placement.PlacementGUI;
 import bessernote.nodemaker.placement.PlacementGUIRegion;
 import bessernote.ui.BTextArea;
