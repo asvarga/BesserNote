@@ -542,16 +542,8 @@ public class BesserNote extends Application {
         root.setTop(menuBar);
 
         ////  ////
-
-        Screen screen = Screen.getPrimary();
-        Rectangle2D bounds = screen.getVisualBounds();
         
-        System.out.println(bounds);
-
-        stage.setX(bounds.getMinX());
-        stage.setY(bounds.getMinY());
-        stage.setWidth(bounds.getWidth());
-        stage.setHeight(bounds.getHeight());
+        stage.setMaximized(true);
         
         stage.setTitle("BesserNote"); 
         stage.setScene(scene); 
