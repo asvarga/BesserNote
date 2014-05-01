@@ -10,9 +10,12 @@ import bessernote.BesserNote;
 import bessernote.DashedBox;
 import java.util.ArrayList;
 import java.util.Map;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
@@ -49,6 +52,18 @@ public class DrawCanvas extends Canvas{
         gc.setStroke(Color.WHITE);
         gc.setLineWidth(7);
         setVisible(false);
+        
+        DrawCanvas this2 = this;
+        this.parentProperty().addListener(new ChangeListener<Parent>() {
+            @Override
+            public void changed(ObservableValue<? extends Parent> ov, Parent t, Parent t1) {
+                if (this2.getParent() != null) {
+                    Pane p = (Pane) this2.getParent();
+                    this2.widthProperty().bind(p.widthProperty());
+                    this2.heightProperty().bind(p.heightProperty());
+                }
+            }
+        });
         
         clicked = new EventHandler<MouseEvent>() {
                 @Override
