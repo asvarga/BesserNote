@@ -64,10 +64,11 @@ public class BTextAreaSave implements Savable{
         BTextArea returnMe = new BTextArea();
         returnMe.setLayoutX(xPos);
         returnMe.setLayoutY(yPos);
-        returnMe.setPrefHeight(xDim);
-        returnMe.setPrefWidth(yDim);
-        returnMe.setText(text);
-        returnMe.setStyle("-fx-background-color: " + color);
+        returnMe.setPrefHeight(yDim);
+        returnMe.setPrefWidth(xDim);
+        if(text != null)
+             returnMe.setText(text);
+        //returnMe.setStyle("-fx-background-color: " + color);
         return returnMe;
     }
 

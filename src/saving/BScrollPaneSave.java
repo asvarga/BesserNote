@@ -42,8 +42,8 @@ public class BScrollPaneSave implements Savable{
         BScrollPane returnMe = new BScrollPane();
         returnMe.setLayoutX(xPos);
         returnMe.setLayoutY(yPos);
-        returnMe.setPrefHeight(xDim);
-        returnMe.setPrefWidth(yDim);
+        returnMe.setPrefHeight(yDim);
+        returnMe.setPrefWidth(xDim);
         returnMe.setContent(content.create());
         return returnMe;
     }

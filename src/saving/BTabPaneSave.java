@@ -45,8 +45,8 @@ public class BTabPaneSave implements Savable{
         BTabPane returnMe = new BTabPane();
         returnMe.setLayoutX(xPos);
         returnMe.setLayoutY(yPos);
-        returnMe.setPrefHeight(xDim);
-        returnMe.setPrefWidth(yDim);
+        returnMe.setPrefHeight(yDim);
+        returnMe.setPrefWidth(xDim);
         for(BEditableTabSave tabSave: tabs){
             BEditableTab thisTab = tabSave.create();
             returnMe.getTabs().add(thisTab);

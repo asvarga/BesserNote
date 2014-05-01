@@ -64,6 +64,7 @@ import saving.Saver;
  */
 public class BesserNote extends Application {
 
+    private Stage stage;
     private Scene scene;
     private BorderPane root;
     private MenuBar menuBar;
@@ -78,6 +79,7 @@ public class BesserNote extends Application {
     private int superIndex;
     //private DashedBox superBox;
     private List<Node> superClicked;
+    
     
     private Map<Node, Double> dragOffsetX;
     private Map<Node, Double> dragOffsetY;
@@ -104,6 +106,7 @@ public class BesserNote extends Application {
 
     @Override
     public void start(final Stage stage) throws IOException {
+        this.stage = stage;
         System.out.println("JavaFX Verions: "+VersionInfo.getRuntimeVersion());// VersionInfo.getRuntimeVersion())‌​;
         root = new BorderPane();
         scene = new Scene(root, 640, 480, Color.BLACK);
@@ -130,27 +133,164 @@ public class BesserNote extends Application {
         //// SELECTION ////
         
         selectBoxes = new HashMap<>();
-        sheet.addEventFilter(MouseEvent.MOUSE_PRESSED, 
-            new EventHandler<MouseEvent>() {
+
+
+        
+        addSheetListeners();
+
+        //// NODE MAKER ////
+
+        popup = new Popup();
+        nodeGUI = new NodeGUI(5);
+        popup.getContent().addAll(nodeGUI);
+        popup.setAutoFix(false);
+        popup.setHideOnEscape(true);
+        
+        popup.addEventFilter(KeyEvent.KEY_PRESSED, 
+            new EventHandler<KeyEvent>() {
                 @Override
-                public void handle(MouseEvent e) {
-                    if (e.getButton() == MouseButton.PRIMARY) {
-                        if (!e.isAltDown()) {
-                            if (!e.isShiftDown()) {
-                                unselectAll();
-                            }
-                            cancelSuperClick();
-                            superClicked = superClick(e.getX(), e.getY());
-                            if (superClicked.size() > 0) {
-                                flipSelection(0);
-                            }
-                        }
+                public void handle(KeyEvent e) {
+                    if (e.getCode().equals(KeyCode.ENTER)) {
+                        createNode();
+                        dragBox.setVisible(false);
                     }
-                    
                 };
             }
         );
         
+        nodeGUI.createButton.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent e) {
+                createNode();
+                dragBox.setVisible(false);
+            }
+        });
+        
+        nodeGUI.cancelButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                popup.hide();
+                dragBox.setVisible(false);
+            }
+        });
+        
+        
+        
+        //// PAINTING MENU ////
+        
+        
+        
+
+
+        //// MENU BAR ////
+
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("BSSR files (*.xml)", "*.xml");
+        fileChooser.getExtensionFilters().add(extFilter);
+        menuBar = new MenuBar();
+
+        // --- Menu File
+        Menu menuFile = new Menu("File");
+        MenuItem menuItemNew = new MenuItem("New...");
+        menuItemNew.setOnAction(new EventHandler<ActionEvent> () {
+            @Override
+            public void handle(final ActionEvent e){
+                Application app2 = new BesserNote();
+                Stage anotherStage = new Stage();
+                try {
+                    app2.start(anotherStage);
+                } catch (Exception ex) {
+                    Logger.getLogger(BesserNote.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        
+        MenuItem menuItemOpen = new MenuItem("Open...");
+        menuItemOpen.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(final ActionEvent e) {
+                    File file = fileChooser.showOpenDialog(stage);
+                    if (file != null) {
+                        try {
+                            openFile(file);
+                        } catch (IOException ex) {
+                            Logger.getLogger(BesserNote.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                }
+        });
+        MenuItem menuItemExit = new MenuItem("Exit");
+        menuItemExit.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent t) {
+                System.exit(0);
+            }
+        });
+        MenuItem menuItemSave = new MenuItem("Save");
+        menuItemSave.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent t){
+                try {
+                    saveFile();
+                } catch (IOException ex) {
+                    Logger.getLogger(BesserNote.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        menuFile.getItems().addAll(
+                menuItemNew,
+                menuItemOpen,
+                menuItemSave,
+                new SeparatorMenuItem(),
+                menuItemExit);
+
+        // --- Menu Edit
+        Menu menuEdit = new Menu("Edit");
+        MenuItem menuItemAdd = new MenuItem("Add");
+        menuItemAdd.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent t) {
+                popup.show(stage);
+            }
+        });
+        menuEdit.getItems().addAll(menuItemAdd);
+        
+        MenuItem menuItemDraw = new MenuItem("Draw");
+        menuItemDraw.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent t){
+                Popup drawingMenu = new Popup();
+                try {
+                    drawingMenu.getContent().addAll(new DrawingMenu(BesserNote.this));
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(BesserNote.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                drawingMenu.show(stage, scene.getX(), scene.getY());
+            }
+        });
+        menuEdit.getItems().addAll(menuItemDraw);
+
+        // --- Menu View
+        Menu menuView = new Menu("View");
+
+        menuBar.getMenus().addAll(menuFile, menuEdit, menuView);
+        root.setTop(menuBar);
+
+        ////  ////
+        
+        //stage.setMaximized(true);
+        
+        stage.setTitle("BesserNote"); 
+        stage.setScene(scene); 
+        stage.show(); 
+        //System.out.println(sheet.getWidth());
+    }
+    
+    public void addSheetListeners(){
+        
+                
         scene.addEventFilter(KeyEvent.KEY_PRESSED,
             new EventHandler<KeyEvent>() {
                 @Override
@@ -183,6 +323,27 @@ public class BesserNote extends Application {
             }
         );
         
+         sheet.addEventFilter(MouseEvent.MOUSE_PRESSED, 
+            new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent e) {
+                    if (e.getButton() == MouseButton.PRIMARY) {
+                        if (!e.isAltDown()) {
+                            if (!e.isShiftDown()) {
+                                unselectAll();
+                            }
+                            cancelSuperClick();
+                            superClicked = superClick(e.getX(), e.getY());
+                            if (superClicked.size() > 0) {
+                                flipSelection(0);
+                            }
+                        }
+                    }
+                    
+                };
+            }
+        );
+                
         //// DRAG ////
         
         sheet.addEventFilter(MouseEvent.MOUSE_PRESSED, 
@@ -316,48 +477,7 @@ public class BesserNote extends Application {
             }
         );
 
-        //// NODE MAKER ////
-
-        popup = new Popup();
-        nodeGUI = new NodeGUI(5);
-        popup.getContent().addAll(nodeGUI);
-        popup.setAutoFix(false);
-        popup.setHideOnEscape(true);
-        
-        popup.addEventFilter(KeyEvent.KEY_PRESSED, 
-            new EventHandler<KeyEvent>() {
-                @Override
-                public void handle(KeyEvent e) {
-                    if (e.getCode().equals(KeyCode.ENTER)) {
-                        createNode();
-                        dragBox.setVisible(false);
-                    }
-                };
-            }
-        );
-        
-        nodeGUI.createButton.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent e) {
-                createNode();
-                dragBox.setVisible(false);
-            }
-        });
-        
-        nodeGUI.cancelButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                popup.hide();
-                dragBox.setVisible(false);
-            }
-        });
-        
-        //// PAINTING MENU ////
-        
-        
-        
-        //// RIGHT CLICK ////
+           //// RIGHT CLICK ////
                 
         sheet.addEventFilter(MouseEvent.MOUSE_PRESSED, 
             new EventHandler<MouseEvent>() {
@@ -448,116 +568,19 @@ public class BesserNote extends Application {
                     }
                 };
             }
-        );
-
-        //// MENU BAR ////
-
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("BSSR files (*.xml)", "*.xml");
-        fileChooser.getExtensionFilters().add(extFilter);
-        menuBar = new MenuBar();
-
-        // --- Menu File
-        Menu menuFile = new Menu("File");
-        MenuItem menuItemNew = new MenuItem("New...");
-        menuItemNew.setOnAction(new EventHandler<ActionEvent> () {
-            @Override
-            public void handle(final ActionEvent e){
-                Application app2 = new BesserNote();
-                Stage anotherStage = new Stage();
-                try {
-                    app2.start(anotherStage);
-                } catch (Exception ex) {
-                    Logger.getLogger(BesserNote.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        });
-        
-        MenuItem menuItemOpen = new MenuItem("Open...");
-        menuItemOpen.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(final ActionEvent e) {
-                    File file = fileChooser.showOpenDialog(stage);
-                    if (file != null) {
-                        try {
-                            openFile(file);
-                        } catch (IOException ex) {
-                            Logger.getLogger(BesserNote.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                }
-        });
-        MenuItem menuItemExit = new MenuItem("Exit");
-        menuItemExit.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent t) {
-                System.exit(0);
-            }
-        });
-        MenuItem menuItemSave = new MenuItem("Save");
-        menuItemSave.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent t){
-                try {
-                    saveFile();
-                } catch (IOException ex) {
-                    Logger.getLogger(BesserNote.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        });
-        menuFile.getItems().addAll(
-                menuItemNew,
-                menuItemOpen,
-                menuItemSave,
-                new SeparatorMenuItem(),
-                menuItemExit);
-
-        // --- Menu Edit
-        Menu menuEdit = new Menu("Edit");
-        MenuItem menuItemAdd = new MenuItem("Add");
-        menuItemAdd.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent t) {
-                popup.show(stage);
-            }
-        });
-        menuEdit.getItems().addAll(menuItemAdd);
-        
-        MenuItem menuItemDraw = new MenuItem("Draw");
-        menuItemDraw.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent t){
-                Popup drawingMenu = new Popup();
-                try {
-                    drawingMenu.getContent().addAll(new DrawingMenu(BesserNote.this));
-                } catch (FileNotFoundException ex) {
-                    Logger.getLogger(BesserNote.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                drawingMenu.show(stage, scene.getX(), scene.getY());
-            }
-        });
-        menuEdit.getItems().addAll(menuItemDraw);
-
-        // --- Menu View
-        Menu menuView = new Menu("View");
-
-        menuBar.getMenus().addAll(menuFile, menuEdit, menuView);
-        root.setTop(menuBar);
-
-        ////  ////
-        
-        //stage.setMaximized(true);
-        
-        stage.setTitle("BesserNote"); 
-        stage.setScene(scene); 
-        stage.show(); 
-        
-        //System.out.println(sheet.getWidth());
+        );     
     }
-    
+
+        
     public void changeRoot(Pane newRoot){
+        stackPane.getChildren().remove(sheet);
         sheet = newRoot;
+        stackPane.getChildren().add(sheet);
+        target = sheet;
+        addSheetListeners();
+        sheet.toFront();
+
+        superClicked.clear();
     }
     
     public Point2D sheetToLocal(Node n, double sheetX, double sheetY) {
@@ -649,7 +672,7 @@ public class BesserNote extends Application {
         Loader load = new Loader(file);
         //changeRoot(load.getSheet());
         load.loadNew();
-        System.out.println(load.getSheet());
+        System.out.println(load.getSheet().getChildren());
         changeRoot(load.getSheet());
     }
     

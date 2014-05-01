@@ -35,24 +35,26 @@ public class RootSave implements Savable{
         yDim = root.getHeight();
         color= root.getStyle().substring(root.getStyle().indexOf("#"), root.getStyle().length());
         //Save children
-        for(Node node: root.getChildren()){
-            Savable saveObj = null;
-            if(node instanceof BTabPane){
-                saveObj = new BTabPaneSave((BTabPane)node);
+        if(! root.getChildren().isEmpty()){
+            for(Node node: root.getChildren()){
+                Savable saveObj = null;
+                if(node instanceof BTabPane){
+                    saveObj = new BTabPaneSave((BTabPane)node);
+                }
+                else if(node instanceof BTextArea){
+                    saveObj = new BTextAreaSave((BTextArea)node);
+                }
+                else if(node instanceof BScrollPane){
+                    saveObj = new BScrollPaneSave((BScrollPane)node);
+                }
+                else if (node instanceof BWrapPane){
+                    saveObj = new BWrapPaneSave((BWrapPane)node);
+                }
+                else if (node instanceof Pane){
+                    saveObj = new PaneSave((Pane)node);
+                }
+                children.add(saveObj);
             }
-            else if(node instanceof BTextArea){
-                saveObj = new BTextAreaSave((BTextArea)node);
-            }
-            else if(node instanceof BScrollPane){
-                saveObj = new BScrollPaneSave((BScrollPane)node);
-            }
-            else if (node instanceof BWrapPane){
-                saveObj = new BWrapPaneSave((BWrapPane)node);
-            }
-            else if (node instanceof Pane){
-                saveObj = new PaneSave((Pane)node);
-            }
-            children.add(saveObj);
         }
 
     } 
@@ -72,6 +74,9 @@ public class RootSave implements Savable{
         thisPane.setPrefWidth(xDim);
         thisPane.setPrefHeight(yDim);
         thisPane.setStyle("-fx-background-color: " + color); 
+        for(Savable saveChild: children){
+            thisPane.getChildren().add(saveChild.create());
+        }
         return thisPane;
     }
     
