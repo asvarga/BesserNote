@@ -492,14 +492,11 @@ public class BesserNote extends Application {
         menuItemSave.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent t){
-                    File file = fileChooser.showOpenDialog(stage);
-                    if (file != null) {
-                        try {
-                            saveFile(file);
-                        } catch (IOException ex) {
-                            Logger.getLogger(BesserNote.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
+                try {
+                    saveFile();
+                } catch (IOException ex) {
+                    Logger.getLogger(BesserNote.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
         menuFile.getItems().addAll(
@@ -646,10 +643,14 @@ public class BesserNote extends Application {
         load.loadNew();
     }
     
-    private void saveFile(File file) throws IOException{    
-        Saver save = new Saver(file);
-        save.save(sheet);
-    }
+    private void saveFile() throws IOException{
+              //Show save file dialog
+              File file = fileChooser.showSaveDialog(primaryStage);
+              if(file != null){
+                  Saver save = new Saver(file);
+                  save.save(sheet);
+              }
+          }
       
         
     public void createNode() {

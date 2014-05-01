@@ -28,6 +28,7 @@ public class RootSave implements Savable{
     private double xDim, yDim;
     private List<Savable> children = new ArrayList<>();
     private String color;
+    private Pane thisPane;
     
     public RootSave(Pane root){
         //Saves this
@@ -51,12 +52,30 @@ public class RootSave implements Savable{
             }
             children.add(saveObj);
         }
+
     } 
-    /*
-    create() takes the RootSave object and draws it into a scene graph.
-    */
-    public void create(){
-        
+    
+    public void printChildren(){
+        System.out.println("xdim"+ xDim + "    ydim:" + yDim+ "     Color: "+color);
+        for(Savable child: children){
+            System.out.println(child);
+        }
     }
+    
+    /*
+    create() takes the RootSave object and draws it into a scene graph. Returns only the highest level for the pane. Dimensions and color.
+    */
+    public Pane create(){
+        thisPane = new Pane();
+        thisPane.setPrefWidth(xDim);
+        thisPane.setPrefHeight(yDim);
+        thisPane.setStyle("-fx-background-color: " + color); 
+        return thisPane;
+    }
+    
+    public List<Savable> getChildren(){
+        return children;
+    }
+    
     
 }
