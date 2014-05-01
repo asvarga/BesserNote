@@ -107,7 +107,8 @@ public class BesserNote extends Application {
     @Override
     public void start(final Stage stage) throws IOException {
         this.stage = stage;
-        System.out.println("JavaFX Verions: "+VersionInfo.getRuntimeVersion());// VersionInfo.getRuntimeVersion())‌​;
+        System.out.println("JavaFX Version: "+VersionInfo.getRuntimeVersion());// VersionInfo.getRuntimeVersion())‌​;
+
         root = new BorderPane();
         scene = new Scene(root, 640, 480, Color.BLACK);
         

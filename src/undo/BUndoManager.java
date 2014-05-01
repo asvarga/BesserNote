@@ -6,8 +6,13 @@
 
 package undo;
 
+import java.util.function.Consumer;
 import javax.swing.undo.UndoManager;
-//import org.reactfx.EventStream;
+import org.fxmisc.undo.UndoManagerFactory;
+import org.reactfx.EventStream;
+import static org.reactfx.EventStreams.merge;
+import static org.reactfx.EventStreams.never;
+import org.reactfx.Subscription;
 
 /**
  *
@@ -15,9 +20,23 @@ import javax.swing.undo.UndoManager;
  */
 public class BUndoManager {
 //    private final UndoManager undoManager;
-//    private final EventStream<Change> changes;
+//    private EventStream<BChange> changes;
 //    
 //    public BUndoManager() {
-//       // changes = changesOf(circle.fillProperty()).map(c -> new ColorChange(c));
+//        changes = never();
+//        undoManager = UndoManagerFactory.fixedSizeHistoryUndoManager(
+//                changes, 
+//                c -> c.redo(), 
+//                c -> c.undo(), 
+//                (c1, c2) -> c1.mergeWith(c2), 
+//                25);    // number of changes saved
+//    }
+//    
+//    public void trackProperty(EventStream<BChange> stream) {
+//        if (changes == null) {
+//            changes = stream;
+//        } else {
+//            changes = merge(changes, stream);
+//        }
 //    }
 }
