@@ -28,7 +28,6 @@ public class Loader {
     private XStream xstream = new XStream();
     private RootSave loaded;
     private Pane rootSheet;
-    private Saver save;
     
     public Loader(File file) throws IOException{
         xstream.alias("scrollPane", BScrollPaneSave.class);
@@ -40,7 +39,6 @@ public class Loader {
         xstream.alias("pane", PaneSave.class);
         loaded = (RootSave) xstream.fromXML(file);
         //loaded.printChildren();
-        save = new Saver(file);
     }
     
     /*
@@ -87,7 +85,7 @@ public class Loader {
         }      
         */
         toSheet();
-        System.out.println(rootSheet);
+        //System.out.println(rootSheet);
         //save.save(rootSheet);
         //System.out.println(save.outputXML(rootSheet));
         

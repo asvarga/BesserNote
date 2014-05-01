@@ -649,6 +649,8 @@ public class BesserNote extends Application {
         Loader load = new Loader(file);
         //changeRoot(load.getSheet());
         load.loadNew();
+        System.out.println(load.getSheet());
+        changeRoot(load.getSheet());
     }
     
     private void saveFile() throws IOException{
