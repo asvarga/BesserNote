@@ -13,6 +13,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import undo.BUndoManager;
 
 /**
  *
@@ -51,7 +52,11 @@ public class BaseGUI extends VBox {
         }
     }
 
-    public Node getNode() {
+//    public Node getNode() {
+//        return null;
+//    }
+    
+    public Node getNode(BUndoManager undoManager) {
         return null;
     }
 

@@ -8,7 +8,6 @@ import bessernote.nodemaker.placement.PlacementGUI;
 import bessernote.nodemaker.placement.PlacementGUIRegion;
 import bessernote.ui.BNumberField;
 import bessernote.ui.BWrapPane;
-import bessernote.ui.BWrapPane;
 import java.awt.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -18,6 +17,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import undo.BUndoManager;
 
 /**
  *
@@ -55,8 +55,8 @@ public class WrapPaneGUI extends BaseGUI {
     }
 
     @Override
-    public Node getNode() {
-        return new BWrapPane();
+    public Node getNode(BUndoManager undoManager) {
+        return new BWrapPane(undoManager);
     }
     
     @Override

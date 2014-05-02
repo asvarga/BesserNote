@@ -80,6 +80,7 @@ public class PlacementGUI1D extends BaseGUI {
                 if (combo.getValue().equals("Manual")) {
                     r.setLayoutX(coord.getNum());
                     r.setPrefWidth(size.getNum());
+                    
                 } else {
                     double num = pad.getNum();
                     EasyBind.bind(r.layoutXProperty(), num);

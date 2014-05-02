@@ -20,6 +20,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import undo.BUndoManager;
 
 /**
  *
@@ -46,7 +47,7 @@ public class TextAreaGUI extends BaseGUI {
     }
 
     @Override
-    public Node getNode() {
+    public Node getNode(BUndoManager undoManager) {
 //        Pane pane = new Pane();
 //        pane.setStyle("-fx-background-color: #"+cp.getValue().toString().substring(2) +";");
 //        pane.setPrefSize(100, 100);

@@ -15,7 +15,8 @@ import saving.BScrollPaneSave;
 import saving.BTabPaneSave;
 import saving.BTextAreaSave;
 import saving.BWrapPaneSave;
-import saving.Savable;
+import saving.Saveable;
+import undo.BUndoManager;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -27,12 +28,12 @@ import saving.Savable;
  *
  * @author ddliu
  */
-public class PaneSave implements Savable{
+public class PaneSave implements Saveable{
         
     private double xPos, yPos;
     private double xDim, yDim;
     private double padding;
-    private List<Savable> children = new ArrayList<>();
+    private List<Saveable> children = new ArrayList<>();
     private String color;
     
     public PaneSave(Pane pane){
@@ -52,7 +53,7 @@ public class PaneSave implements Savable{
         //Save children, if not empty.
         if(! pane.getChildren().isEmpty()){
             for(Node node: pane.getChildren()){
-                Savable saveObj = null;
+                Saveable saveObj = null;
                 if(node instanceof BTabPane){
                     saveObj = new BTabPaneSave((BTabPane)node);
                 }
@@ -78,23 +79,24 @@ public class PaneSave implements Savable{
     }
 
     @Override
-    public Parent create() {
+    public Parent create(BUndoManager undoManager) {
        Pane returnMe = new Pane();
        returnMe.setLayoutX(xPos);
        returnMe.setLayoutY(yPos);
        returnMe.setPrefHeight(yDim);
        returnMe.setPrefWidth(xDim);
+
        returnMe.setStyle("-fx-background-color:" + color);
        if (children != null){
-            for(Savable child: children){
-                returnMe.getChildren().add(child.create());
+            for(Saveable child: children){
+                returnMe.getChildren().add(child.create(undoManager));
             }
        }
        return returnMe;
     }
 
     @Override
-    public List<Savable> getChildren() {
+    public List<Saveable> getChildren() {
         return this.getChildren();
     }
     

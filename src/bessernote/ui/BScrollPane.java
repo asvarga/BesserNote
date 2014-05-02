@@ -25,6 +25,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import undo.BUndoManager;
 
 /**
  *
@@ -35,8 +36,8 @@ public class BScrollPane extends ScrollPane implements ChildSpecifier {
     public BWrapPane p;
     double padding;
         
-    public BScrollPane() {
-        p = new BWrapPane();
+    public BScrollPane(BUndoManager undoManager) {
+        p = new BWrapPane(undoManager);
         this.setContent(p);
         
         this.boundsInParentProperty().addListener(new ChangeListener() {

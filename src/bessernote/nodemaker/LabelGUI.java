@@ -13,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import undo.BUndoManager;
 
 /**
  *
@@ -36,7 +37,7 @@ public class LabelGUI extends BaseGUI {
     }
 
     @Override
-    public Node getNode() {
+    public Node getNode(BUndoManager undoManager) {
         BLabel label = new BLabel("LABEL!!!");
         
         return label;

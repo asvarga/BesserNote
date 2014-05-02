@@ -16,18 +16,19 @@ import java.util.List;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.layout.Pane;
+import undo.BUndoManager;
 
 /**
  *
  * @author ddliu
  * A FlashCard in the saved state.
  */
-public class BFlashCardSave implements Savable{
+public class BFlashCardSave implements Saveable{
     
     private double xPos, yPos;
     private double xDim, yDim;
     private double padding;
-    private List<Savable> children = new ArrayList<>();
+    private List<Saveable> children = new ArrayList<>();
     
     public BFlashCardSave(BFlashCard flashCard){
         //Save this
@@ -41,7 +42,7 @@ public class BFlashCardSave implements Savable{
         if(flashCard.getChildren().size() > 0){
             for(int i = 0; i < flashCard.getChildren().size(); i++){
                 Node node = flashCard.getChildren().get(i);
-                Savable saveObj = null;
+                Saveable saveObj = null;
                 if(node instanceof BTabPane){
                     saveObj = new BTabPaneSave((BTabPane)node);
                 }
@@ -66,8 +67,8 @@ public class BFlashCardSave implements Savable{
     }
 
     @Override
-    public Parent create() {
-       BFlashCard returnMe = new BFlashCard();
+    public Parent create(BUndoManager undoManager) {
+       BFlashCard returnMe = new BFlashCard(undoManager);
        returnMe.setLayoutX(xPos);
        returnMe.setLayoutY(yPos);
        returnMe.setPrefHeight(yDim);
@@ -75,7 +76,7 @@ public class BFlashCardSave implements Savable{
        //returnMe.setStyle("-fx-background-color:" + color);
        if(children.size() > 0){
            for(int i = 0; i < children.size(); i ++){
-               returnMe.getChildren().add(children.get(i).create());
+               returnMe.getChildren().add(children.get(i).create(undoManager));
            }
 //            for(Savable child: children){
 //                returnMe.getChildren().add(child.create());
@@ -85,7 +86,7 @@ public class BFlashCardSave implements Savable{
     }
 
     @Override
-    public List<Savable> getChildren() {
+    public List<Saveable> getChildren() {
         return this.getChildren();
     }
 }

@@ -19,6 +19,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import undo.BUndoManager;
 
 /**
  *
@@ -47,9 +48,9 @@ public class Loader {
     /*
     toSheet() takes loaded and converts it into the pane (rootSheet) that we then insert into BesserNote.
     */
-    public void toSheet(){
+    public void toSheet(BUndoManager undoManager){
         //Create the higheset level object
-        rootSheet = loaded.create();
+        rootSheet = loaded.create(undoManager);
         
     }
     
@@ -77,7 +78,7 @@ public class Loader {
     /*
     loadNew() launches a new instance of BesserNote with the objects deserialized from the XML file.
     */
-    public void loadNew() throws IOException{
+    public void loadNew(BUndoManager undoManager) throws IOException{
         /*
         Application app2 = new BesserNote();
         Stage anotherStage = new Stage();
@@ -87,15 +88,15 @@ public class Loader {
             Logger.getLogger(BesserNote.class.getName()).log(Level.SEVERE, null, ex);
         }      
         */
-        toSheet();
+        toSheet(undoManager);
         //System.out.println(rootSheet);
         //save.save(rootSheet);
         //System.out.println(save.outputXML(rootSheet));
         
     }
     
-    public Pane getSheet(){
-        toSheet();
+    public Pane getSheet(BUndoManager undoManager){
+        toSheet(undoManager);
         return rootSheet;
     }
     

@@ -16,6 +16,7 @@ import javafx.scene.Node;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import undo.BUndoManager;
 
 /**
  *
@@ -40,8 +41,8 @@ public class TabPaneGUI extends BaseGUI {
     }
     
     @Override
-    public Node getNode() {
-        BTabPane pane = new BTabPane();
+    public Node getNode(BUndoManager undoManager) {
+        BTabPane pane = new BTabPane(undoManager);
         pane.setStyle("-fx-background-color: #"+cp.getValue().toString().substring(2) +";");
         return pane;
     }

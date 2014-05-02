@@ -10,6 +10,7 @@ import java.util.Map;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.layout.StackPane;
+import undo.BUndoManager;
 
 /**
  *
@@ -63,8 +64,8 @@ public class ShowOneGUI extends BaseGUI {
     }
 
     @Override
-    public Node getNode() {
-        return shown.getNode();
+    public Node getNode(BUndoManager undoManager) {
+        return shown.getNode(undoManager);
     }
     
     @Override

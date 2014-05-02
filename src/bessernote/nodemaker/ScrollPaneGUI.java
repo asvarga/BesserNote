@@ -17,6 +17,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import undo.BUndoManager;
 
 /**
  *
@@ -47,8 +48,8 @@ public class ScrollPaneGUI extends BaseGUI {
     }
 
     @Override
-    public Node getNode() {
-        return new BScrollPane();
+    public Node getNode(BUndoManager undoManager) {
+        return new BScrollPane(undoManager);
     }
     
     @Override

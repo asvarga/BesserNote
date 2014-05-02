@@ -17,18 +17,19 @@ import java.util.List;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.layout.Pane;
+import undo.BUndoManager;
 
 /**
  *
  * @author ddliu
  * A BWrapPane in the saved state..
  */
-public class BWrapPaneSave implements Savable{
+public class BWrapPaneSave implements Saveable{
     
     private double xPos, yPos;
     private double xDim, yDim;
     private double padding;
-    private List<Savable> children = new ArrayList<>();
+    private List<Saveable> children = new ArrayList<>();
     
     public BWrapPaneSave(BWrapPane wrapPane){
         //Save this
@@ -40,7 +41,7 @@ public class BWrapPaneSave implements Savable{
         //Save children, if not empty.
         if(! wrapPane.getChildren().isEmpty()){
             for(Node node: wrapPane.getChildren()){
-                Savable saveObj = null;
+                Saveable saveObj = null;
                 if(node instanceof BTabPane){
                     saveObj = new BTabPaneSave((BTabPane)node);
                 }
@@ -66,23 +67,23 @@ public class BWrapPaneSave implements Savable{
     }
 
     @Override
-    public Parent create() {
-       BWrapPane returnMe = new BWrapPane();
+    public Parent create(BUndoManager undoManager) {
+       BWrapPane returnMe = new BWrapPane(undoManager);
        returnMe.setLayoutX(xPos);
        returnMe.setLayoutY(yPos);
        returnMe.setPrefHeight(yDim);
        returnMe.setPrefWidth(xDim);
        //returnMe.setStyle("-fx-background-color:" + color);
        if(children != null){
-            for(Savable child: children){
-                returnMe.getChildren().add(child.create());
+            for(Saveable child: children){
+                returnMe.getChildren().add(child.create(undoManager));
             }
        }
        return returnMe;
     }
 
     @Override
-    public List<Savable> getChildren() {
+    public List<Saveable> getChildren() {
         return this.getChildren();
     }
     

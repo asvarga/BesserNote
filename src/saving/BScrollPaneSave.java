@@ -13,13 +13,14 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import undo.BUndoManager;
 
 /**
  *
  * @author ddliu
  * BScrollPaneSave is the model for a ScrollPane in the saved state.
  */
-public class BScrollPaneSave implements Savable{
+public class BScrollPaneSave implements Saveable {
     
     private double xPos, yPos;
     private double xDim, yDim;
@@ -38,19 +39,19 @@ public class BScrollPaneSave implements Savable{
     }
 
     @Override
-    public Parent create() {
-        BScrollPane returnMe = new BScrollPane();
+    public Parent create(BUndoManager undoManager) {
+        BScrollPane returnMe = new BScrollPane(undoManager);
         returnMe.setLayoutX(xPos);
         returnMe.setLayoutY(yPos);
         returnMe.setPrefHeight(yDim);
         returnMe.setPrefWidth(xDim);
-        returnMe.setContent(content.create());
+        returnMe.setContent(content.create(undoManager));
         return returnMe;
     }
 
     @Override
-    public List<Savable> getChildren() {
-        return new ArrayList<Savable>();
+    public List<Saveable> getChildren() {
+        return new ArrayList<Saveable>();
     }
     
 }

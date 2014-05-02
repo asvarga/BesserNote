@@ -16,13 +16,14 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.Pane;
+import undo.BUndoManager;
 
 /**
  *
  * @author ddliu
  * A BTabPane in the saved state. This includes the tabs, since the tabpane itself has a weird structure.
  */
-public class BTabPaneSave implements Savable{
+public class BTabPaneSave implements Saveable{
     
     private double xPos, yPos;
     private double xDim, yDim;
@@ -41,21 +42,21 @@ public class BTabPaneSave implements Savable{
     }
 
     @Override
-    public Parent create() {
-        BTabPane returnMe = new BTabPane();
+    public Parent create(BUndoManager undoManager) {
+        BTabPane returnMe = new BTabPane(undoManager);
         returnMe.setLayoutX(xPos);
         returnMe.setLayoutY(yPos);
         returnMe.setPrefHeight(yDim);
         returnMe.setPrefWidth(xDim);
         /*
         for(BEditableTabSave tabSave: tabs){
-            BEditableTab thisTab = tabSave.create();
+            BEditableTab thisTab = tabSave.create(undoManager);
             returnMe.getTabs().add(thisTab);
             returnMe.getSelectionModel().select(thisTab);
         }
         */
         for(int i=0; i < tabs.size() - 1; i++){
-            BEditableTab thisTab = tabs.get(i).create();
+            BEditableTab thisTab = tabs.get(i).create(undoManager);
             returnMe.getTabs().add(thisTab);
             returnMe.getSelectionModel().select(thisTab);
         }
@@ -63,7 +64,7 @@ public class BTabPaneSave implements Savable{
     }
 
     @Override
-    public List<Savable> getChildren() {
+    public List<Saveable> getChildren() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
