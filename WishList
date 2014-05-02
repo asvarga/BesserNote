@@ -2,18 +2,14 @@ PUT YOUR INITIALS/NAME NEXT TO A TASK YOU'RE WORKING ON.
 DELETE WHAT YOU COMPLETE.
 ADD WHATEVER.
 
++ Prevent User from making super small boxes
++ Keyboard shortcuts
++ Hints
 + More UI Elements
   + Grid
-  + Scrollpanes //AV
-  + [add more here]
   + Sexy text area //DH
     + https://github.com/TomasMikula/RichTextFX //TM
-+ Delete //DH
-+ Saving //DL
-+ Loading //DL
 + Drawing //DL 
-+ Flash Cards //AV
-  + Easy creation
 + Graphs
   + http://docs.oracle.com/javafx/2/charts/jfxpub-charts.htm
 + Search
@@ -23,13 +19,5 @@ ADD WHATEVER.
 + Appearance
   + Color Schemes/skins
   + Soft corners
-+ Undo //AV
-  + https://github.com/TomasMikula/UndoFX //TM
-  + Make an EventStream of NodeChanges. See the docs. 
 + Tons of fancy shiiiiit 
-  
-Prevent user from making teeny tiny boxes (both creation and resizing)
 
-- Keyboard Shortcuts
-- Hints: A tutorial
-- Usable UI: Dock the different modes on the left hand side.

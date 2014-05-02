@@ -851,6 +851,10 @@ public class BesserNote extends Application {
         System.out.println(path.getElements());
     }
     
+    public void drawPath(Path path){
+        
+    }
+    
     public void strokeColor(Color c){
         switch(currentMode){
             case "draw":

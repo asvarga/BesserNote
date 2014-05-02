@@ -94,7 +94,7 @@ public class DrawCanvas extends Canvas{
                 gc.stroke();
                 gc.closePath();
                 //TODO: MAKE THE DOODLE ACTUALLY WORK!
-                //besser.addDoodle(doodle);
+                besser.addDoodle(doodle);
                 //gc.clearRect(0, 0, 2000, 2000);
                 gc.restore();
             }

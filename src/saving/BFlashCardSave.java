@@ -69,6 +69,7 @@ public class BFlashCardSave implements Saveable{
     @Override
     public Parent create(BUndoManager undoManager) {
        BFlashCard returnMe = new BFlashCard(undoManager);
+       returnMe.setPadding(padding);
        returnMe.setLayoutX(xPos);
        returnMe.setLayoutY(yPos);
        returnMe.setPrefHeight(yDim);
