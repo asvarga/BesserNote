@@ -48,7 +48,7 @@ public class DrawingMenu extends VBox{
     
     public DrawingMenu(final BesserNote besser) throws FileNotFoundException {
         super();
-        setAlignment(Pos.BOTTOM_LEFT);
+        //setAlignment(Pos.BOTTOM_LEFT);
         
         this.besser = besser;
         

@@ -68,7 +68,7 @@ public class DrawCanvas extends Canvas{
         clicked = new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent e) {
-                    System.out.println("Mouse clicked.");
+                    //System.out.println("Mouse clicked.");
                     doodle = new Path();
                     move = new MoveTo(e.getX(), e.getY());
                     gc.beginPath(); 
@@ -89,12 +89,13 @@ public class DrawCanvas extends Canvas{
         released = new EventHandler<MouseEvent>(){
             @Override
             public void handle(MouseEvent e){
-                System.out.println("Mouse released");
+                //System.out.println("Mouse released");
                 gc.fill();
                 gc.stroke();
                 gc.closePath();
-                besser.addDoodle(doodle);
-                gc.clearRect(0, 0, 2000, 2000);
+                //TODO: MAKE THE DOODLE ACTUALLY WORK!
+                //besser.addDoodle(doodle);
+                //gc.clearRect(0, 0, 2000, 2000);
                 gc.restore();
             }
         };

@@ -90,6 +90,7 @@ public class NodeGUI extends BaseGUI {
     
     @Override
     public void editNode(Node n) {
+        //n.setStyle("-fx-background-color: #" + color);
         show1.editNode(n);
     }
     
@@ -101,6 +102,18 @@ public class NodeGUI extends BaseGUI {
     @Override
     public void setSize(double x, double y) {
         show1.setSize(x, y);
+    }
+    
+    /*
+    Sets the value for the combo box. Called in dockingMenu.
+    */
+    public void setValue(String mode){
+        combo.setValue(mode);
+    }
+    
+    @Override
+    public void setColor(String color){
+        show1.setColor(color);
     }
     
 //    public void setTarget(Pane node) {

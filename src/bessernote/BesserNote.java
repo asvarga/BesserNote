@@ -8,6 +8,7 @@ package bessernote;
 import bessernote.canvases.DrawCanvas;
 import bessernote.nodemaker.DrawingMenu;
 import bessernote.nodemaker.NodeGUI;
+import bessernote.nodemaker.dockingMenu;
 import bessernote.nodemaker.placement.DraggingUtil;
 import com.sun.javafx.runtime.VersionInfo;
 import java.awt.Desktop;
@@ -97,6 +98,8 @@ public class BesserNote extends Application {
     private FileChooser fileChooser = new FileChooser();
     //private GraphicsContext gc;
     
+    private dockingMenu dockingMenu;
+    
     private double startOutlineX;
     private double startOutlineY;
     private Parent target;
@@ -141,17 +144,23 @@ public class BesserNote extends Application {
         
         selectBoxes = new HashMap<>();
 
+
         undoManager = new BUndoManager();
+
         
         addSheetListeners();
 
         //// NODE MAKER ////
+
 
         popup = new Popup();
         nodeGUI = new NodeGUI(5);
         popup.getContent().addAll(nodeGUI);
         popup.setAutoFix(false);
         popup.setHideOnEscape(true);
+        
+        dockingMenu = new dockingMenu(nodeGUI);
+        root.setLeft(dockingMenu);
         
         popup.addEventFilter(KeyEvent.KEY_PRESSED, 
             new EventHandler<KeyEvent>() {
@@ -305,7 +314,7 @@ public class BesserNote extends Application {
 
         ////  ////
         
-        //stage.setMaximized(true);
+        stage.setMaximized(true);
         
         stage.setTitle("BesserNote"); 
         stage.setScene(scene); 
@@ -594,7 +603,10 @@ public class BesserNote extends Application {
                             Point2D local = sheetToLocal(target,startOutlineX, startOutlineY);
                             nodeGUI.setPos(local.getX(), local.getY());
                         }
-                        popup.show(stage);
+                        //createNode();
+                        //TODO: MAKE THE POPUP NOT SHOW AND JUST INSERT MANUALLY
+                        createNode();
+                        //popup.show(stage);
                     }
                 };
             }
@@ -602,7 +614,7 @@ public class BesserNote extends Application {
     }
 
         
-//    public void changeRoot(Pane newRoot){
+//    publienode void changeRoot(Pane newRoot){
 //        stackPane.getChildren().remove(sheet);
 //        sheet = newRoot;
 //        stackPane.getChildren().add(sheet);
@@ -757,6 +769,15 @@ public class BesserNote extends Application {
       
         
     public void createNode() {
+        /*
+        Node myNode = null; //dockingMenu.createNode();
+        System.out.println(myNode);
+        if (myNode != null){
+            nodeGUI.editNode(myNode);
+            sheet.getChildren().add(myNode);
+        }
+        */
+
         for (Map.Entry<Node, DashedBox> entry : selectBoxes.entrySet()) {
             Node n = entry.getKey();
             if (n instanceof ChildSpecifier) {
@@ -764,6 +785,7 @@ public class BesserNote extends Application {
             }
             if (n instanceof Pane) {
                 Node newNode = nodeGUI.getNode(undoManager);
+
         //        DraggingUtil.enableResizeDrag(newNode);
                 if (newNode != null) {
                     ((Pane) n).getChildren().add(newNode);
@@ -771,9 +793,11 @@ public class BesserNote extends Application {
                     undoManager.trackMyPlacementChanges((Region) newNode);
                     undoManager.addChange(new AddChange(newNode, (Pane) n));
                 }
+                        
             }
         }
         popup.hide();
+                      
     }
       
     public static void main(String[] args) {

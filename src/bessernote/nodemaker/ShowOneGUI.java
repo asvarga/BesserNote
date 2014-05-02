@@ -81,6 +81,13 @@ public class ShowOneGUI extends BaseGUI {
     }
     
     @Override
+    public void setColor(String color){
+        //System.out.println(color);
+        //System.out.println(shown);
+        shown.setColor(color);
+    }
+    
+    @Override
     public void setSize(double x, double y) {
         for (Map.Entry<String, BaseGUI> mapEntry : map.entrySet()) {
             mapEntry.getValue().setSize(x, y);
