@@ -58,7 +58,9 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 import saving.Loader;
 import saving.Saver;
+import undo.AddChange;
 import undo.BUndoManager;
+import undo.DeleteChange;
 
 /**
  *
@@ -341,6 +343,7 @@ public class BesserNote extends Application {
                             if (deleteMe != sheet) {
                                 Pane parent = (Pane) deleteMe.getParent();
                                 parent.getChildren().remove(deleteMe);
+                                undoManager.addChange(new DeleteChange(deleteMe, parent));
                             }
                         }
                         
@@ -766,7 +769,7 @@ public class BesserNote extends Application {
                     ((Pane) n).getChildren().add(newNode);
                     nodeGUI.editNode(newNode);
                     undoManager.trackMyPlacementChanges((Region) newNode);
-                    System.out.println(123);
+                    undoManager.addChange(new AddChange(newNode, (Pane) n));
                 }
             }
         }

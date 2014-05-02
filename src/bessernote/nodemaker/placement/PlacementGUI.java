@@ -65,14 +65,12 @@ public class PlacementGUI extends BaseGUI {
     
     @Override
     public void editNode(Node n) {
-        System.out.println("start");
         n.setLayoutX(xNum.getNum());
         n.setLayoutY(yNum.getNum());
         if (chooseSize) {
             ((Region) n).setPrefWidth(wNum.getNum());
             ((Region) n).setPrefHeight(hNum.getNum());
         }
-        System.out.println("end");
     }
     
     @Override
