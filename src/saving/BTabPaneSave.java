@@ -48,8 +48,15 @@ public class BTabPaneSave implements Saveable{
         returnMe.setLayoutY(yPos);
         returnMe.setPrefHeight(yDim);
         returnMe.setPrefWidth(xDim);
+        /*
         for(BEditableTabSave tabSave: tabs){
             BEditableTab thisTab = tabSave.create(undoManager);
+            returnMe.getTabs().add(thisTab);
+            returnMe.getSelectionModel().select(thisTab);
+        }
+        */
+        for(int i=0; i < tabs.size() - 1; i++){
+            BEditableTab thisTab = tabs.get(i).create(undoManager);
             returnMe.getTabs().add(thisTab);
             returnMe.getSelectionModel().select(thisTab);
         }

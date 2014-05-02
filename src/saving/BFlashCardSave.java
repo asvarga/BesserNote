@@ -21,24 +21,27 @@ import undo.BUndoManager;
 /**
  *
  * @author ddliu
- * RootSave is the object that contains the state of the entire GUI. 
- * The root is sheet.
- * 
+ * A FlashCard in the saved state.
  */
-public class RootSave implements Saveable{
-       
-    private double xDim, yDim;
-    private List<Saveable> children = new ArrayList<>();
-    private String color;
+public class BFlashCardSave implements Saveable{
     
-    public RootSave(Pane root){
-        //Saves this
-        xDim = root.getWidth();
-        yDim = root.getHeight();
-        color= root.getStyle().substring(root.getStyle().indexOf("#"), root.getStyle().length());
-        //Save children
-        if(! root.getChildren().isEmpty()){
-            for(Node node: root.getChildren()){
+    private double xPos, yPos;
+    private double xDim, yDim;
+    private double padding;
+    private List<Saveable> children = new ArrayList<>();
+    
+    public BFlashCardSave(BFlashCard flashCard){
+        //Save this
+        xPos = flashCard.getLayoutX();
+        yPos = flashCard.getLayoutY();
+        xDim = flashCard.getPrefWidth();
+        yDim = flashCard.getPrefHeight();
+        padding = flashCard.padding();
+        //Save children, if there's more than front, which we don't care about.
+        //System.out.println(flashCard.getChildren());
+        if(flashCard.getChildren().size() > 0){
+            for(int i = 0; i < flashCard.getChildren().size(); i++){
+                Node node = flashCard.getChildren().get(i);
                 Saveable saveObj = null;
                 if(node instanceof BTabPane){
                     saveObj = new BTabPaneSave((BTabPane)node);
@@ -61,37 +64,29 @@ public class RootSave implements Saveable{
                 children.add(saveObj);
             }
         }
+    }
 
-    } 
-    
-    public void printChildren(){
-        System.out.println("xdim"+ xDim + "    ydim:" + yDim+ "     Color: "+color);
-        for(Saveable child: children){
-            System.out.println(child);
-        }
+    @Override
+    public Parent create(BUndoManager undoManager) {
+       BFlashCard returnMe = new BFlashCard(undoManager);
+       returnMe.setLayoutX(xPos);
+       returnMe.setLayoutY(yPos);
+       returnMe.setPrefHeight(yDim);
+       returnMe.setPrefWidth(xDim);
+       //returnMe.setStyle("-fx-background-color:" + color);
+       if(children.size() > 0){
+           for(int i = 0; i < children.size(); i ++){
+               returnMe.getChildren().add(children.get(i).create(undoManager));
+           }
+//            for(Savable child: children){
+//                returnMe.getChildren().add(child.create());
+//            }
+       }
+       return returnMe;
     }
-    
-    /*
-    create() takes the RootSave object and draws it into a scene graph. Returns only the highest level for the pane. Dimensions and color.
-    */
-    public Pane create(BUndoManager undoManager){
-        Pane thisPane = new Pane();
-        thisPane.setPrefWidth(xDim);
-        thisPane.setPrefHeight(yDim);
-        thisPane.setStyle("-fx-background-color: " + color); 
-        for(Saveable saveChild: children){
-            thisPane.getChildren().add(saveChild.create(undoManager));
-        }
-        return thisPane;
+
+    @Override
+    public List<Saveable> getChildren() {
+        return this.getChildren();
     }
-    
-    public List<Saveable> getChildren(){
-        return children;
-    }
-    
-    public String toString(){
-        return xDim + " " + yDim + " " + children + " " + color;
-    }
-    
-    
 }

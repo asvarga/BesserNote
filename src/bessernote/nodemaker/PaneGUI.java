@@ -49,7 +49,7 @@ public class PaneGUI extends BaseGUI {
 //        Pane p = (Pane) n;
 //        p.setMinSize(p.getPrefWidth(), p.getPrefHeight());
 //        p.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
-        n.setStyle("-fx-background-color: #"+cp.getValue().toString().substring(2) +";");
+        n.setStyle("-fx-background-color: #"+cp.getValue().toString().substring(2, cp.getValue().toString().length()-2));
     }
     
     @Override

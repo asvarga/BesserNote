@@ -1,6 +1,7 @@
 package saving;
 
 
+import bessernote.ui.BFlashCard;
 import bessernote.ui.BScrollPane;
 import bessernote.ui.BTabPane;
 import bessernote.ui.BTextArea;
@@ -42,7 +43,8 @@ public class PaneSave implements Saveable{
         xDim = pane.getPrefWidth();
         yDim = pane.getPrefHeight();
         if(pane.getStyle().contains("#")){
-            color = pane.getStyle().substring(pane.getStyle().indexOf("#"), pane.getStyle().length());
+            color = pane.getStyle().substring(pane.getStyle().indexOf("#"));
+            System.out.println(color.toString());
         }
         else{
             color = "#ffffff";
@@ -61,6 +63,9 @@ public class PaneSave implements Saveable{
                 else if(node instanceof BScrollPane){
                     saveObj = new BScrollPaneSave((BScrollPane)node);
                 }
+                else if (node instanceof BFlashCard){
+                    saveObj = new BFlashCardSave((BFlashCard)node);
+                }             
                 else if (node instanceof BWrapPane){
                     saveObj = new BWrapPaneSave((BWrapPane)node);
                 }
@@ -80,8 +85,12 @@ public class PaneSave implements Saveable{
        returnMe.setLayoutY(yPos);
        returnMe.setPrefHeight(yDim);
        returnMe.setPrefWidth(xDim);
-       for(Saveable child: children){
-           returnMe.getChildren().add(child.create(undoManager));
+
+       returnMe.setStyle("-fx-background-color:" + color);
+       if (children != null){
+            for(Saveable child: children){
+                returnMe.getChildren().add(child.create(undoManager));
+            }
        }
        return returnMe;
     }
