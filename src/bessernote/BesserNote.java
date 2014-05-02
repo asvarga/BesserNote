@@ -353,7 +353,7 @@ public class BesserNote extends Application {
             }
         );
         
-         sheet.addEventFilter(MouseEvent.MOUSE_PRESSED, 
+        sheet.addEventFilter(MouseEvent.MOUSE_PRESSED, 
             new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent e) {
