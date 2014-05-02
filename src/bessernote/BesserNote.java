@@ -50,8 +50,10 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Path;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Popup;
 import javafx.stage.Screen;
@@ -306,10 +308,49 @@ public class BesserNote extends Application {
         });
         menuEdit.getItems().addAll(menuItemDraw);
 
-        // --- Menu View
-        Menu menuView = new Menu("View");
+        // --- Menu Help
+        Menu menuHelp = new Menu("Help");
+        MenuItem menuItemHelp = new MenuItem("Help");
+        menuItemHelp.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent t){
+                Popup helpMenu = new Popup();
+                VBox helpStuff = new VBox();
+                helpStuff.setStyle("-fx-background-color: #ffffff");
+                helpStuff.setPrefSize(500, 800);
+                Text tutorial1 = new Text("   --- Welcome to BesserNote! ---     (Press esc to quit this brief tutorial.) \n");
+                Text tutorial2 = new Text("  The basic idea of BesserNote is to give note takers as much flexibility as possible.\n");
+                Text tutorial3 = new Text("  The most basic levels of organization are panes and wrap panes.\n");
+                Text tutorial4 = new Text("  A wrap pane adjusts its dimensions to objects that move and resize in it. A pane is static.\n");
+                Text tutorial5 = new Text("  More complicated organizational tools are scrollpanes, which have virtually unlimited space because of scrolling in two dimensions.");
+                Text tutorial6 = new Text("  A tab pane can create multiple tabs, which help divide topics.\n");
+                Text tutorial7 = new Text("  A flashcard has two sides. The left side is the `front` while the right side is the `back`. Click on the front and mouse over it to");
+                Text tutorial8 = new Text("  make the back disappear. Flashcards!");
+                
+                Text tutorial9 = new Text("  The best part is that all of these elements are customizable and nestable. You can change color, size, position, and children. \n");
+                Text tutorial10 = new Text("  Literally everything can contain anything else. You could have 100 tab panes nested inside of each other.\n \n");
+                
+                Text tutorial11 = new Text("  Click on one of the icons on the left, right click, and drag out a shape to start inserting things.\n \n");
+                
+                Text tutorial12 = new Text("           -------- ADVANCED FEATURES ------- \n");
+                Text tutorial13 = new Text("  We have invented a feature called the superclick. If you have multiple things on top of each other, simply press tab to cycle through them. \n");
+                Text tutorial14 = new Text("  Undo and redo changes by going to edit. \n");
+                Text tutorial15 = new Text("  Draw by going to edit and then draw. Select the pencil icon to draw lines. \n");
+                Text tutorial16 = new Text("  Open old bessernote projects by clicking open, and save by clicking save. Easy! \n \n");
+                
+                Text tutorial17 = new Text("  We want BesserNote to be easy and intuitive to use. Hopefully you find it that way.");
+                
+                
+                helpStuff.getChildren().addAll(tutorial1, tutorial2, tutorial3, tutorial4, tutorial5, tutorial6, tutorial7, tutorial8, tutorial9, tutorial10, tutorial11);
+                helpStuff.getChildren().addAll(tutorial12, tutorial13, tutorial14, tutorial15, tutorial16, tutorial17);
+                helpMenu.getContent().addAll(helpStuff);
+                helpMenu.show(sheet, scene.getWidth()/2.75, scene.getHeight()/2.75);
+            }
+        });
+        menuHelp.getItems().addAll(menuItemHelp);
+    
 
-        menuBar.getMenus().addAll(menuFile, menuEdit, menuView);
+        menuBar.getMenus().addAll(menuFile, menuEdit, menuHelp);
         root.setTop(menuBar);
 
         ////  ////
