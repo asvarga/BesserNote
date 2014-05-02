@@ -21,6 +21,7 @@ import javafx.scene.text.Text;
 public class BaseGUI extends VBox {
     
     protected Node _top;
+    protected String color;
     
     public BaseGUI(Node top) {
         super();
@@ -56,6 +57,10 @@ public class BaseGUI extends VBox {
 
     public void editNode(Node n) {
         
+    }
+    
+    public void setColor(String color){
+        this.color = color;
     }
     
     public void setPos(double x, double y) {

@@ -50,7 +50,7 @@ public class NodeGUI extends BaseGUI {
         //combo.getItems().addAll("ScrollPane", "Pane", "WrapPane", "Label", "HBox", "VBox", "TextArea", "TabPane", "FlashCard");
         combo.getItems().addAll("ScrollPane", "Pane", "WrapPane", "TextArea", "TabPane", "FlashCard");
         //"Pane" "Label" "Hbox" "VBox" deleted from indices 1, 3, 4, 5
-        combo.setValue("ScrollPane");
+        combo.setValue("Pane");
         combo.valueProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue ov, String t, String t1) {
@@ -89,6 +89,7 @@ public class NodeGUI extends BaseGUI {
     
     @Override
     public void editNode(Node n) {
+        //n.setStyle("-fx-background-color: #" + color);
         show1.editNode(n);
     }
     
@@ -100,6 +101,18 @@ public class NodeGUI extends BaseGUI {
     @Override
     public void setSize(double x, double y) {
         show1.setSize(x, y);
+    }
+    
+    /*
+    Sets the value for the combo box. Called in dockingMenu.
+    */
+    public void setValue(String mode){
+        combo.setValue(mode);
+    }
+    
+    @Override
+    public void setColor(String color){
+        show1.setColor(color);
     }
     
 //    public void setTarget(Pane node) {

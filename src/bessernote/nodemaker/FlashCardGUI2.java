@@ -65,7 +65,7 @@ public class FlashCardGUI2 extends BaseGUI {
         double pad = padding.getNum();
         p.setPrefMinSize(p.getPrefWidth(), p.getPrefHeight());
         p.setPadding(pad);
-        p.setStyle("-fx-background-color: #"+cp.getValue().toString().substring(2, cp.getValue().toString().length()-2));
+        p.setStyle("-fx-background-color: #"+color);
 
         p.front.setStyle("-fx-background-color: #"+cp2.getValue().toString().substring(2, cp2.getValue().toString().length()-2));
         
