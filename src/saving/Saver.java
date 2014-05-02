@@ -6,6 +6,7 @@
 
 package saving;
 
+import bessernote.deprecated.FlashCard;
 import bessernote.ui.BEditableTab;
 import bessernote.ui.BFlashCard;
 import bessernote.ui.BScrollPane;
@@ -39,9 +40,9 @@ public class Saver {
         xstream.alias("scrollPane", BScrollPaneSave.class);
         xstream.alias("tab", BEditableTabSave.class);
         xstream.alias("tabPane", BTabPaneSave.class);
+        xstream.alias("flashcard", BFlashCardSave.class);
         xstream.alias("wrapPane", BWrapPaneSave.class);
         xstream.alias("textarea", BTextAreaSave.class);
-        xstream.alias("flashcard", BFlashCard.class);
         xstream.alias("root", RootSave.class);
         xstream.alias("pane", PaneSave.class);
         }

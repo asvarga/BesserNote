@@ -11,7 +11,6 @@ import bessernote.ui.BScrollPane;
 import bessernote.ui.BTabPane;
 import bessernote.ui.BTextArea;
 import bessernote.ui.BWrapPane;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.Node;
@@ -21,25 +20,27 @@ import javafx.scene.layout.Pane;
 /**
  *
  * @author ddliu
- * A BWrapPane in the saved state..
+ * A FlashCard in the saved state.
  */
-public class BWrapPaneSave implements Savable{
+public class BFlashCardSave implements Savable{
     
     private double xPos, yPos;
     private double xDim, yDim;
     private double padding;
     private List<Savable> children = new ArrayList<>();
     
-    public BWrapPaneSave(BWrapPane wrapPane){
+    public BFlashCardSave(BFlashCard flashCard){
         //Save this
-        xPos = wrapPane.getLayoutX();
-        yPos = wrapPane.getLayoutY();
-        xDim = wrapPane.getPrefWidth();
-        yDim = wrapPane.getPrefHeight();
-        padding = wrapPane.padding();
-        //Save children, if not empty.
-        if(! wrapPane.getChildren().isEmpty()){
-            for(Node node: wrapPane.getChildren()){
+        xPos = flashCard.getLayoutX();
+        yPos = flashCard.getLayoutY();
+        xDim = flashCard.getPrefWidth();
+        yDim = flashCard.getPrefHeight();
+        padding = flashCard.padding();
+        //Save children, if there's more than front, which we don't care about.
+        //System.out.println(flashCard.getChildren());
+        if(flashCard.getChildren().size() > 0){
+            for(int i = 0; i < flashCard.getChildren().size(); i++){
+                Node node = flashCard.getChildren().get(i);
                 Savable saveObj = null;
                 if(node instanceof BTabPane){
                     saveObj = new BTabPaneSave((BTabPane)node);
@@ -50,7 +51,7 @@ public class BWrapPaneSave implements Savable{
                 else if(node instanceof BScrollPane){
                     saveObj = new BScrollPaneSave((BScrollPane)node);
                 }
-                 else if (node instanceof BFlashCard){
+                else if (node instanceof BFlashCard){
                     saveObj = new BFlashCardSave((BFlashCard)node);
                 }
                 else if (node instanceof BWrapPane){
@@ -62,21 +63,23 @@ public class BWrapPaneSave implements Savable{
                 children.add(saveObj);
             }
         }
-                
     }
 
     @Override
     public Parent create() {
-       BWrapPane returnMe = new BWrapPane();
+       BFlashCard returnMe = new BFlashCard();
        returnMe.setLayoutX(xPos);
        returnMe.setLayoutY(yPos);
        returnMe.setPrefHeight(yDim);
        returnMe.setPrefWidth(xDim);
        //returnMe.setStyle("-fx-background-color:" + color);
-       if(children != null){
-            for(Savable child: children){
-                returnMe.getChildren().add(child.create());
-            }
+       if(children.size() > 0){
+           for(int i = 0; i < children.size(); i ++){
+               returnMe.getChildren().add(children.get(i).create());
+           }
+//            for(Savable child: children){
+//                returnMe.getChildren().add(child.create());
+//            }
        }
        return returnMe;
     }
@@ -85,5 +88,4 @@ public class BWrapPaneSave implements Savable{
     public List<Savable> getChildren() {
         return this.getChildren();
     }
-    
 }

@@ -7,6 +7,8 @@
 package saving;
 
 import bessernote.BesserNote;
+import bessernote.deprecated.FlashCard;
+import bessernote.ui.BFlashCard;
 import com.thoughtworks.xstream.XStream;
 import java.io.File;
 import java.io.IOException;
@@ -33,6 +35,7 @@ public class Loader {
         xstream.alias("scrollPane", BScrollPaneSave.class);
         xstream.alias("tab", BEditableTabSave.class);
         xstream.alias("tabPane", BTabPaneSave.class);
+        xstream.alias("flashcard", BFlashCardSave.class);
         xstream.alias("wrapPane", BWrapPaneSave.class);
         xstream.alias("textarea", BTextAreaSave.class);
         xstream.alias("root", RootSave.class);
