@@ -94,6 +94,7 @@ public class dockingMenu extends VBox{
         //// Color Picker ////
         
         //Initialize color to white
+        c = cp.getValue();
         nodeGUI.setColor(cp.getValue().toString().substring(2, cp.getValue().toString().length() -2 ));
         cp.setOnAction(new EventHandler(){
             @Override
