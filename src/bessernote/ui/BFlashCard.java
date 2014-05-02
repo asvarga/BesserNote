@@ -21,19 +21,14 @@ import undo.BUndoManager;
  * @author avarga
  */
 public class BFlashCard extends BWrapPane {
-    public Pane front = new Pane();
-    boolean vis = true;
-    boolean clicked = true;
+    boolean vis = false;
+    boolean clicked = false;
     boolean mouseOver = false;
     
     public BFlashCard(BUndoManager undoManager) {
         super(undoManager);
-        front.layoutXProperty().bind(placeHolder.layoutXProperty());
-        front.layoutYProperty().bind(placeHolder.layoutYProperty());
-        front.prefWidthProperty().bind(placeHolder.prefWidthProperty());
-        front.prefHeightProperty().bind(placeHolder.prefHeightProperty());
         
-        front.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
+        placeHolder.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 mouseOver = true;
@@ -41,7 +36,7 @@ public class BFlashCard extends BWrapPane {
             };
         });
         
-        front.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
+        placeHolder.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 mouseOver = false;
@@ -49,7 +44,7 @@ public class BFlashCard extends BWrapPane {
             };
         });
         
-        front.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+        placeHolder.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 clicked = !clicked;
@@ -57,7 +52,7 @@ public class BFlashCard extends BWrapPane {
             };
         });
         
-        getChildren().add(front);
+        clickable.add(placeHolder);
         
         getChildren().addListener(new ListChangeListener<Node>() {
             @Override
@@ -87,7 +82,7 @@ public class BFlashCard extends BWrapPane {
     private void setClickableVisibility(boolean b) {
         vis = b;
         for (Node n : clickable) {
-            if (n != front) {
+            if (n != placeHolder) {
                 n.setVisible(b);
             }
         }

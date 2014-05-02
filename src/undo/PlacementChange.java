@@ -142,7 +142,6 @@ public class PlacementChange extends BChange {
                 break;
             case WIDTH:
                 oldWidth = oldVal;
-                System.out.println(oldWidth);
                 newWidth = newVal;
                 break;
             case HEIGHT:
