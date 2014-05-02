@@ -28,6 +28,7 @@ public class BFlashCardSave implements Saveable{
     private double xPos, yPos;
     private double xDim, yDim;
     private double padding;
+    private String color;
     private List<Saveable> children = new ArrayList<>();
     
     public BFlashCardSave(BFlashCard flashCard){
@@ -37,6 +38,13 @@ public class BFlashCardSave implements Saveable{
         xDim = flashCard.getPrefWidth();
         yDim = flashCard.getPrefHeight();
         padding = flashCard.padding();
+        if(flashCard.getStyle().contains("#")){
+            color = flashCard.getStyle().substring(flashCard.getStyle().indexOf("#"));
+            System.out.println(color.toString());
+        }
+        else{
+            color = "#ffffff";
+        }
         //Save children, if there's more than front, which we don't care about.
         //System.out.println(flashCard.getChildren());
         if(flashCard.getChildren().size() > 0){
@@ -74,6 +82,8 @@ public class BFlashCardSave implements Saveable{
        returnMe.setLayoutY(yPos);
        returnMe.setPrefHeight(yDim);
        returnMe.setPrefWidth(xDim);
+
+       returnMe.setStyle("-fx-background-color:" + color);       
        //returnMe.setStyle("-fx-background-color:" + color);
        if(children.size() > 0){
            for(int i = 0; i < children.size(); i ++){
@@ -83,6 +93,7 @@ public class BFlashCardSave implements Saveable{
 //                returnMe.getChildren().add(child.create());
 //            }
        }
+       //System.out.println(returnMe.getChildren());
        return returnMe;
     }
 

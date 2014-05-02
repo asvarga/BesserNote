@@ -177,6 +177,11 @@ public class BWrapPane extends Pane implements ChildSpecifier {
     public Node specifySelf() {
         return this;
     }
+    
+    public void setPlaceholder(Pane p){
+        placeHolder = p;
+        getChildren().add(placeHolder);
+    }
 
     
 }

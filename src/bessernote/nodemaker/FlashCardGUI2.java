@@ -75,8 +75,8 @@ public class FlashCardGUI2 extends BaseGUI {
         p2.setPrefHeight(p.placeHolder.getPrefHeight());
         p2.setLayoutX(p.placeHolder.getLayoutX()+p.placeHolder.getPrefWidth()+pad);
         p2.setLayoutY(p.placeHolder.getLayoutY());
-        p.getChildren().add(p2);
         p2.setStyle("-fx-background-color: #"+cp2.getValue().toString().substring(2, cp2.getValue().toString().length()-2));
+        p.getChildren().add(p2);
     }
     
     @Override

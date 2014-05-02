@@ -44,7 +44,7 @@ public class PaneSave implements Saveable{
         yDim = pane.getPrefHeight();
         if(pane.getStyle().contains("#")){
             color = pane.getStyle().substring(pane.getStyle().indexOf("#"));
-            System.out.println(color.toString());
+            //System.out.println(color.toString());
         }
         else{
             color = "#ffffff";

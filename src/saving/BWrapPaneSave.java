@@ -29,6 +29,7 @@ public class BWrapPaneSave implements Saveable{
     private double xPos, yPos;
     private double xDim, yDim;
     private double padding;
+    private String color;
     private List<Saveable> children = new ArrayList<>();
     
     public BWrapPaneSave(BWrapPane wrapPane){
@@ -38,6 +39,13 @@ public class BWrapPaneSave implements Saveable{
         xDim = wrapPane.getPrefWidth();
         yDim = wrapPane.getPrefHeight();
         padding = wrapPane.padding();
+        if(wrapPane.getStyle().contains("#")){
+            color = wrapPane.getStyle().substring(wrapPane.getStyle().indexOf("#"));
+            //System.out.println(color.toString());
+        }
+        else{
+            color = "#ffffff";
+        }
         //Save children, if not empty.
         if(! wrapPane.getChildren().isEmpty()){
             for(Node node: wrapPane.getChildren()){
@@ -69,14 +77,23 @@ public class BWrapPaneSave implements Saveable{
     @Override
     public Parent create(BUndoManager undoManager) {
        BWrapPane returnMe = new BWrapPane(undoManager);
+       //returnMe.setPlaceholder((Pane)children.get(0).create(undoManager));
+       returnMe.setPadding(padding);
        returnMe.setLayoutX(xPos);
        returnMe.setLayoutY(yPos);
        returnMe.setPrefHeight(yDim);
        returnMe.setPrefWidth(xDim);
+       returnMe.setStyle("-fx-background-color:" + color);
+       //returnMe.setPadding(padding);
        //returnMe.setStyle("-fx-background-color:" + color);
-       if(children != null){
+       if(children.size() > 0){
+//           for(int i = 1; i <children.size(); i ++){
+//               returnMe.getChildren().add(children.get(i).create(undoManager));
+//           }
             for(Saveable child: children){
-                returnMe.getChildren().add(child.create(undoManager));
+                Node myChild = child.create(undoManager);
+                myChild.setStyle("-fx-background-color: " + color);
+                returnMe.getChildren().add(myChild);
             }
        }
        return returnMe;
