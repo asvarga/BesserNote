@@ -606,6 +606,7 @@ public class BesserNote extends Application {
                         //createNode();
                         //TODO: MAKE THE POPUP NOT SHOW AND JUST INSERT MANUALLY
                         createNode();
+                        dragBox.setVisible(false);
                         //popup.show(stage);
                     }
                 };
