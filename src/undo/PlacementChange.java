@@ -20,17 +20,16 @@ import org.reactfx.Change;
  *
  * @author avarga
  */
-public class PlacementChange implements BChange {
+public class PlacementChange extends BChange {
     
-    static final int MODE_X = 0;
-    static final int MODE_Y = 1;
-    static final int PAD_X = 2;
-    static final int PAD_Y = 3;
-    static final int X = 4;
-    static final int Y = 5;
-    static final int WIDTH = 6;
-    static final int HEIGHT = 7;
-    
+    public static final int MODE_X = 0;
+    public static final int MODE_Y = 1;
+    public static final int PAD_X = 2;
+    public static final int PAD_Y = 3;
+    public static final int X = 4;
+    public static final int Y = 5;
+    public static final int WIDTH = 6;
+    public static final int HEIGHT = 7;
     
     protected final Region node;
     
@@ -120,49 +119,80 @@ public class PlacementChange implements BChange {
                 break;
         }
     }
+    
+    // somehow this doesn't work without the pointles bool
+    protected PlacementChange(Region node, int property, Double oldVal, Double newVal, Boolean b) {
+        this.node = node;
+        switch (property) {
+            case PAD_X:
+                oldPadX = oldVal;
+                newPadX = newVal;
+                break;
+            case PAD_Y:
+                oldPadY = oldVal;
+                newPadY = newVal;
+                break;
+            case X:
+                oldX = oldVal;
+                newX = newVal;
+                break;    
+            case Y:
+                oldY = oldVal;
+                newY = newVal;
+                break;
+            case WIDTH:
+                oldWidth = oldVal;
+                System.out.println(oldWidth);
+                newWidth = newVal;
+                break;
+            case HEIGHT:
+                oldHeight = oldVal;
+                newHeight = newVal;
+                break;
+        }
+    }
 
     @Override
     public void redo() {
-        if (newX != Double.NaN) { node.setLayoutX(newX); }
-        if (newY != Double.NaN) { node.setLayoutX(newY); }
-        if (newModeX.equals("Manual")) {
-            if (newWidth != Double.NaN) { node.setPrefWidth(newWidth); }
-        } else {
-            if (newPadX != Double.NaN) {
+        if (!Double.isNaN(newX)) { node.setLayoutX(newX); }
+        if (!Double.isNaN(newY)) { node.setLayoutY(newY); }
+        if (node.prefWidthProperty().isBound()) {
+            if (!Double.isNaN(newPadX)) {
                 Region parent = (Region) node.parentProperty().getValue();
                 node.prefWidthProperty().bind(Bindings.max(parent.widthProperty().subtract(2*newPadX), 0));
             }
-        }
-        if (newModeY.equals("Manual")) {
-            if (newHeight != Double.NaN) { node.setPrefHeight(newHeight); }
         } else {
-            if (newPadY != Double.NaN) {
+            if (!Double.isNaN(newWidth)) { node.setPrefWidth(newWidth); }
+        }
+        if (node.prefHeightProperty().isBound()) {
+            if (!Double.isNaN(newPadY)) {
                 Region parent = (Region) node.parentProperty().getValue();
                 node.prefHeightProperty().bind(Bindings.max(parent.heightProperty().subtract(2*newPadY), 0));
             }
+        } else {
+            if (!Double.isNaN(newHeight)) { node.setPrefHeight(newHeight); }
         }
-        
     };
     
     @Override
     public void undo() {
-        if (oldX != Double.NaN) { node.setLayoutX(oldX); }
-        if (oldY != Double.NaN) { node.setLayoutX(oldY); }
-        if (oldModeX.equals("Manual")) {
-            if (oldWidth != Double.NaN) { node.setPrefWidth(oldWidth); }
-        } else {
-            if (oldPadX != Double.NaN) {
+        if (!Double.isNaN(oldX)) { node.setLayoutX(oldX); }
+        if (!Double.isNaN(oldY)) { node.setLayoutY(oldY); }
+        if (node.prefWidthProperty().isBound()) {
+            if (!Double.isNaN(oldPadX)) {
                 Region parent = (Region) node.parentProperty().getValue();
                 node.prefWidthProperty().bind(Bindings.max(parent.widthProperty().subtract(2*oldPadX), 0));
             }
-        }
-        if (oldModeY.equals("Manual")) {
-            if (oldHeight != Double.NaN) { node.setPrefHeight(oldHeight); }
         } else {
-            if (oldPadY != Double.NaN) {
+            if (!Double.isNaN(oldWidth)) { node.setPrefWidth(oldWidth); }
+        }
+        if (node.prefHeightProperty().isBound()) {
+            if (!Double.isNaN(oldPadY)) {
                 Region parent = (Region) node.parentProperty().getValue();
                 node.prefHeightProperty().bind(Bindings.max(parent.heightProperty().subtract(2*oldPadY), 0));
             }
+        } else {
+            if (!Double.isNaN(oldHeight)) { node.setPrefHeight(oldHeight); }
         }
         
     };
@@ -173,11 +203,27 @@ public class PlacementChange implements BChange {
             PlacementChange pc = (PlacementChange) other;
             if (node == pc.node) {
                 // This might be wrong:
-                return Optional.of((BChange) new PlacementChange(node,
-                    oldModeX, oldModeY, oldPadX, oldPadY,
-                    oldX, oldY, oldWidth, oldHeight,
-                    pc.newModeX, pc.newModeY, pc.newPadX, pc.newPadY,
-                    pc.newX, pc.newY, pc.newWidth, pc.newHeight));
+                String omx = (oldModeX == null) ? pc.oldModeX : oldModeX;
+                String omy = (oldModeY == null) ? pc.oldModeY : oldModeY;
+                Double opx = Double.isNaN(oldPadX) ? pc.oldPadX : oldPadX;
+                Double opy = Double.isNaN(oldPadY) ? pc.oldPadY : oldPadY;
+                Double ox = Double.isNaN(oldX) ? pc.oldX : oldX;
+                Double oy = Double.isNaN(oldY) ? pc.oldY : oldY;
+                Double ow = Double.isNaN(oldWidth) ? pc.oldWidth : oldWidth;
+                Double oh = Double.isNaN(oldHeight) ? pc.oldHeight : oldHeight;
+                
+                String nmx = (pc.newModeX == null) ? newModeX : pc.newModeX;
+                String nmy = (pc.newModeY == null) ? newModeY : pc.newModeY;
+                Double npx = Double.isNaN(pc.newPadX) ? newPadX : pc.newPadX;
+                Double npy = Double.isNaN(pc.newPadY) ? newPadY : pc.newPadY;
+                Double nx = Double.isNaN(pc.newX) ? newX : pc.newX;
+                Double ny = Double.isNaN(pc.newY) ? newY : pc.newY;
+                Double nw = Double.isNaN(pc.newWidth) ? newWidth : pc.newWidth;
+                Double nh = Double.isNaN(pc.newHeight) ? newHeight : pc.newHeight;
+                
+                return Optional.of(new PlacementChange(node,
+                    omx, omy, opx, opy, ox, oy, ow, oh,
+                    nmx, nmy, npx, npy, nx, ny, nw, nh));
             }
         }
         return Optional.empty();

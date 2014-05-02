@@ -15,13 +15,14 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import undo.BUndoManager;
 
 /**
  *
  * @author ddliu
  * A BTextArea in the saved state.
  */
-public class BTextAreaSave implements Savable{
+public class BTextAreaSave implements Saveable{
 
     private double xPos, yPos;
     private double xDim, yDim;
@@ -60,7 +61,7 @@ public class BTextAreaSave implements Savable{
     }
 
     @Override
-    public Parent create() {
+    public Parent create(BUndoManager undoManager) {
         BTextArea returnMe = new BTextArea();
         returnMe.setLayoutX(xPos);
         returnMe.setLayoutY(yPos);
@@ -73,8 +74,8 @@ public class BTextAreaSave implements Savable{
     }
 
     @Override
-    public List<Savable> getChildren() {
-        return new ArrayList<Savable>();
+    public List<Saveable> getChildren() {
+        return new ArrayList<Saveable>();
     }
     
 }

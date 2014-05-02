@@ -8,6 +8,7 @@ package saving;
 
 import bessernote.ui.BEditableTab;
 import bessernote.ui.BWrapPane;
+import undo.BUndoManager;
 
 /**
  *
@@ -22,9 +23,9 @@ public class BEditableTabSave {
             text = tab.getText();
         }
        
-        public BEditableTab create(){
+        public BEditableTab create(BUndoManager undoManager){
             BEditableTab returnMe = new BEditableTab(text);
-            returnMe.setContent(savedContent.create());
+            returnMe.setContent(savedContent.create(undoManager));
             return returnMe;
         }
 }

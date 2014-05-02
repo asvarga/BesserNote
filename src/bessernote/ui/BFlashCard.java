@@ -14,6 +14,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import undo.BUndoManager;
 
 /**
  *
@@ -25,8 +26,8 @@ public class BFlashCard extends BWrapPane {
     boolean clicked = true;
     boolean mouseOver = false;
     
-    public BFlashCard() {
-        super();
+    public BFlashCard(BUndoManager undoManager) {
+        super(undoManager);
         front.layoutXProperty().bind(placeHolder.layoutXProperty());
         front.layoutYProperty().bind(placeHolder.layoutYProperty());
         front.prefWidthProperty().bind(placeHolder.prefWidthProperty());

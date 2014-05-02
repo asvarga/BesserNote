@@ -8,15 +8,16 @@ package saving;
 
 import java.util.List;
 import javafx.scene.Parent;
+import undo.BUndoManager;
 
 /**
  *
  * @author ddliu
  */
-public interface Savable {
+public interface Saveable {
     
-    public Parent create();
-    public List<Savable> getChildren();
+    public Parent create(BUndoManager undoManager);
+    public List<Saveable> getChildren();
     
     
 }

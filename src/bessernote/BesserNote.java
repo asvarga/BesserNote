@@ -57,6 +57,7 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 import saving.Loader;
 import saving.Saver;
+import undo.BUndoManager;
 
 /**
  *
@@ -99,7 +100,9 @@ public class BesserNote extends Application {
     ///Drawing Canvases
     private DrawCanvas drawCanvas = new DrawCanvas(this, 2000, 2000);
     //private Canvas circleCanvas = new Canvas();
-    private String currentMode;    
+    private String currentMode;  
+    
+    private BUndoManager undoManager;
     
     //
 
@@ -134,7 +137,7 @@ public class BesserNote extends Application {
         
         selectBoxes = new HashMap<>();
 
-
+        undoManager = new BUndoManager();
         
         addSheetListeners();
 
@@ -247,9 +250,27 @@ public class BesserNote extends Application {
 
         // --- Menu Edit
         Menu menuEdit = new Menu("Edit");
+        
+        MenuItem menuItemUndo = new MenuItem("Undo");
+        menuItemUndo.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent t) {
+                undoManager.undo();
+            }
+        });
+        menuEdit.getItems().addAll(menuItemUndo);
+        
+        MenuItem menuItemRedo = new MenuItem("Redo");
+        menuItemRedo.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent t) {
+                undoManager.redo();
+            }
+        });
+        menuEdit.getItems().addAll(menuItemRedo);
+        
         MenuItem menuItemAdd = new MenuItem("Add");
         menuItemAdd.setOnAction(new EventHandler<ActionEvent>() {
-
             @Override
             public void handle(ActionEvent t) {
                 popup.show(stage);
@@ -679,14 +700,14 @@ public class BesserNote extends Application {
     private void openFile(File file) throws IOException {
         Loader load = new Loader(file);
         //changeRoot(load.getSheet());
-        load.loadNew();
-        System.out.println(load.getSheet().getChildren());
+        load.loadNew(undoManager);
+        System.out.println(load.getSheet(undoManager).getChildren());
         
         Application app2 = new BesserNote();
         Stage anotherStage = new Stage();
         try {
             app2.start(anotherStage);
-            ((BesserNote) app2).replaceSheet(load.getSheet());
+            ((BesserNote) app2).replaceSheet(load.getSheet(undoManager));
         } catch (Exception ex) {
             Logger.getLogger(BesserNote.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -711,11 +732,13 @@ public class BesserNote extends Application {
                 n = ((ChildSpecifier) n).specifySelf();
             }
             if (n instanceof Pane) {
-                Node newNode = nodeGUI.getNode();
+                Node newNode = nodeGUI.getNode(undoManager);
         //        DraggingUtil.enableResizeDrag(newNode);
                 if (newNode != null) {
                     ((Pane) n).getChildren().add(newNode);
                     nodeGUI.editNode(newNode);
+                    undoManager.trackMyPlacementChanges((Region) newNode);
+                    System.out.println(123);
                 }
             }
         }

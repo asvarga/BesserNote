@@ -15,6 +15,7 @@ import java.util.List;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.layout.Pane;
+import undo.BUndoManager;
 
 /**
  *
@@ -23,10 +24,10 @@ import javafx.scene.layout.Pane;
  * The root is sheet.
  * 
  */
-public class RootSave implements Savable{
+public class RootSave implements Saveable{
        
     private double xDim, yDim;
-    private List<Savable> children = new ArrayList<>();
+    private List<Saveable> children = new ArrayList<>();
     private String color;
     
     public RootSave(Pane root){
@@ -37,7 +38,7 @@ public class RootSave implements Savable{
         //Save children
         if(! root.getChildren().isEmpty()){
             for(Node node: root.getChildren()){
-                Savable saveObj = null;
+                Saveable saveObj = null;
                 if(node instanceof BTabPane){
                     saveObj = new BTabPaneSave((BTabPane)node);
                 }
@@ -61,7 +62,7 @@ public class RootSave implements Savable{
     
     public void printChildren(){
         System.out.println("xdim"+ xDim + "    ydim:" + yDim+ "     Color: "+color);
-        for(Savable child: children){
+        for(Saveable child: children){
             System.out.println(child);
         }
     }
@@ -69,18 +70,18 @@ public class RootSave implements Savable{
     /*
     create() takes the RootSave object and draws it into a scene graph. Returns only the highest level for the pane. Dimensions and color.
     */
-    public Pane create(){
+    public Pane create(BUndoManager undoManager){
         Pane thisPane = new Pane();
         thisPane.setPrefWidth(xDim);
         thisPane.setPrefHeight(yDim);
         thisPane.setStyle("-fx-background-color: " + color); 
-        for(Savable saveChild: children){
-            thisPane.getChildren().add(saveChild.create());
+        for(Saveable saveChild: children){
+            thisPane.getChildren().add(saveChild.create(undoManager));
         }
         return thisPane;
     }
     
-    public List<Savable> getChildren(){
+    public List<Saveable> getChildren(){
         return children;
     }
     

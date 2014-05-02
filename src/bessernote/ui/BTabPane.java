@@ -27,6 +27,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import undo.BUndoManager;
 
 /**
  *
@@ -42,14 +43,14 @@ public class BTabPane extends BorderPane implements ChildSpecifier {
     final TabPane tabPane = new TabPane();
     private final ColorPicker cp = new ColorPicker();
     
-    public BTabPane() {
+    public BTabPane(BUndoManager undoManager) {
         
       addButton.setOnAction(new EventHandler<ActionEvent>() {
       @Override
           public void handle(ActionEvent event) {
             final BEditableTab tab = new BEditableTab("Tab " + (tabPane.getTabs().size() + 1));
             //add.setPrefSize(tabPane.getTabMaxHeight(), tabPane.getTabMaxWidth());
-            BWrapPane addMe = new BWrapPane();
+            BWrapPane addMe = new BWrapPane(undoManager);
             addMe.setPrefSize(BTabPane.this.getPrefWidth(), BTabPane.this.getPrefHeight());
             addMe.setStyle("-fx-background-color: #FF7F50;");
             tab.setContent(addMe);
@@ -59,7 +60,7 @@ public class BTabPane extends BorderPane implements ChildSpecifier {
         });
         
         BEditableTab tab = new BEditableTab("Tab 1");
-        BWrapPane addMe = new BWrapPane();
+        BWrapPane addMe = new BWrapPane(undoManager);
         System.out.println(this.getPrefWidth());
         addMe.setPrefSize(this.getPrefWidth(), this.getPrefHeight());
         addMe.setStyle("-fx-background-color: #FF7F50;");

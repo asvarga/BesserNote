@@ -17,6 +17,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import undo.BUndoManager;
 
 /**
  *
@@ -54,8 +55,8 @@ public class FlashCardGUI2 extends BaseGUI {
     }
 
     @Override
-    public Node getNode() {
-        return new BFlashCard();
+    public Node getNode(BUndoManager undoManager) {
+        return new BFlashCard(undoManager);
     }
     
     @Override

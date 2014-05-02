@@ -12,6 +12,7 @@ import bessernote.nodemaker.placement.PlacementGUIRegion;
 import bessernote.ui.BTextArea;
 import javafx.scene.Node;
 import javafx.scene.text.Text;
+import undo.BUndoManager;
 
 /**
  *
@@ -31,7 +32,7 @@ public class FlashCardGUI extends BaseGUI{
     }
     
     @Override
-    public Node getNode() {
+    public Node getNode(BUndoManager undoManager) {
 //        Pane pane = new Pane();
 //        pane.setStyle("-fx-background-color: #"+cp.getValue().toString().substring(2) +";");
 //        pane.setPrefSize(100, 100);

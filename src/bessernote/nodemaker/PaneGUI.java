@@ -14,6 +14,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import undo.BUndoManager;
 
 /**
  *
@@ -38,7 +39,7 @@ public class PaneGUI extends BaseGUI {
     }
 
     @Override
-    public Node getNode() {
+    public Node getNode(BUndoManager undoManager) {
         return new Pane();
     }
     

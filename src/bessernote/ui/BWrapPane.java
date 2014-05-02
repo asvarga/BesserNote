@@ -7,6 +7,7 @@
 package bessernote.ui;
 
 import bessernote.ChildSpecifier;
+import bessernote.deprecated.Undoable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +25,10 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
+import org.reactfx.EventStream;
+import undo.BChange;
+import undo.BUndoManager;
+import undo.PlacementChange;
 
 /**
  *
@@ -41,7 +46,9 @@ public class BWrapPane extends Pane implements ChildSpecifier {
 //    ChangeListener oListener;
     ChangeListener bListener;
     
-    public BWrapPane() {
+    BUndoManager undoManager;
+        
+    public BWrapPane(BUndoManager undoManager) {
         super();
         
         clickable = new ArrayList<>();
@@ -92,6 +99,8 @@ public class BWrapPane extends Pane implements ChildSpecifier {
         
         fixOutline();
         
+        this.undoManager = undoManager;
+//        undoManager.trackMyPlacementChanges(this);
     }
     
     // I hate life
@@ -154,7 +163,7 @@ public class BWrapPane extends Pane implements ChildSpecifier {
         placeHolder.setLayoutX(placeHolder.getLayoutX()+x-getLayoutX());
         placeHolder.setLayoutY(placeHolder.getLayoutY()+y-getLayoutY());
     }
-    public double padding(){
+    public double padding() {
         return padding;
     }
     
@@ -171,6 +180,7 @@ public class BWrapPane extends Pane implements ChildSpecifier {
     public Node specifySelf() {
         return this;
     }
+
     
 }
 

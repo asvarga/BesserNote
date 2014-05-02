@@ -12,10 +12,13 @@ import java.util.Optional;
  *
  * @author avarga
  */
-public interface BChange {
+public abstract class BChange {
 
     abstract void redo();
     abstract void undo();
 
-    Optional<BChange> mergeWith(BChange other);
+    Optional<BChange> mergeWith(BChange other) {
+        // don't merge changes by default
+        return Optional.empty();
+    }
 };

@@ -20,6 +20,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import undo.BUndoManager;
 
 /**
  *
@@ -49,7 +50,7 @@ public class HBoxGUI extends BaseGUI {
     }
 
     @Override
-    public Node getNode() {
+    public Node getNode(BUndoManager undoManager) {
         return new HBox();
     }
     
