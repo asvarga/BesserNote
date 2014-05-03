@@ -5,39 +5,29 @@
 package bessernote;
 
 
-import bessernote.canvases.DrawCanvas;
-import bessernote.nodemaker.DrawingMenu;
 import bessernote.nodemaker.NodeGUI;
 import bessernote.nodemaker.dockingMenu;
 import bessernote.nodemaker.placement.DraggingUtil;
 import com.sun.javafx.runtime.VersionInfo;
 import java.awt.Desktop;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
-import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Control;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -52,11 +42,9 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Path;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Popup;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import saving.Loader;
@@ -107,7 +95,7 @@ public class BesserNote extends Application {
     private Parent target;
     
     ///Drawing Canvases
-    private DrawCanvas drawCanvas = new DrawCanvas(this, 2000, 2000);
+    //private DrawCanvas drawCanvas = new DrawCanvas(this, 2000, 2000);
     //private Canvas circleCanvas = new Canvas();
     private String currentMode;  
     
@@ -139,8 +127,8 @@ public class BesserNote extends Application {
         dragBox.setVisible(false);
         above.getChildren().add(dragBox);
         
-        stackPane.getChildren().add(drawCanvas);
-        drawCanvas.toBack();
+//        stackPane.getChildren().add(drawCanvas);
+//        drawCanvas.toBack();
         
         //// SELECTION ////
         
@@ -292,21 +280,21 @@ public class BesserNote extends Application {
             }
         });
         menuEdit.getItems().addAll(menuItemAdd);
-        
-        MenuItem menuItemDraw = new MenuItem("Draw");
-        menuItemDraw.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent t){
-                Popup drawingMenu = new Popup();
-                try {
-                    drawingMenu.getContent().addAll(new DrawingMenu(BesserNote.this));
-                } catch (FileNotFoundException ex) {
-                    Logger.getLogger(BesserNote.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                drawingMenu.show(stage, scene.getX(), scene.getY());
-            }
-        });
-        menuEdit.getItems().addAll(menuItemDraw);
+//        
+//        MenuItem menuItemDraw = new MenuItem("Draw");
+//        menuItemDraw.setOnAction(new EventHandler<ActionEvent>() {
+//            @Override
+//            public void handle(ActionEvent t){
+//                Popup drawingMenu = new Popup();
+//                try {
+//                    drawingMenu.getContent().addAll(new DrawingMenu(BesserNote.this));
+//                } catch (FileNotFoundException ex) {
+//                    Logger.getLogger(BesserNote.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//                drawingMenu.show(stage, scene.getX(), scene.getY());
+//            }
+//        });
+//        menuEdit.getItems().addAll(menuItemDraw);
 
         // --- Menu Help
         Menu menuHelp = new Menu("Help");
@@ -376,7 +364,8 @@ public class BesserNote extends Application {
     
     public void addSheetListeners(){
         
-                
+        ///Key listeners
+
         scene.addEventFilter(KeyEvent.KEY_PRESSED,
             new EventHandler<KeyEvent>() {
                 @Override
@@ -394,7 +383,7 @@ public class BesserNote extends Application {
                         unselectAll();
                         dragBox.setVisible(false);
                     }
-                    else if (event.getCode() == KeyCode.BACK_SPACE){
+                    else if (event.getCode() == KeyCode.BACK_SPACE && event.isShortcutDown()){
                         for(Map.Entry<Node, DashedBox> entry: selectBoxes.entrySet()){
                             Node deleteMe = entry.getKey();
                             if (deleteMe != sheet) {
@@ -406,23 +395,29 @@ public class BesserNote extends Application {
                         
                         unselectAll();
                     }
+                    else if (event.getCode() == KeyCode.Z && event.isShortcutDown()){
+                        undoManager.undo();
+                    }
+                    else if (event.getCode() == KeyCode.Y && event.isShortcutDown()){
+                        undoManager.redo();
+                    }
                     // Listeners to change the insertion mode.
-                    else if(event.getCode() == KeyCode.P){
+                    else if(event.getCode() == KeyCode.P && event.isShortcutDown()){
                         dockingMenu.setPaneMode();
                     }
-                    else if (event.getCode() == KeyCode.W){
+                    else if (event.getCode() == KeyCode.W && event.isShortcutDown()){
                         dockingMenu.setWrapPaneMode();
                     }
-                    else if (event.getCode() == KeyCode.T){
+                    else if (event.getCode() == KeyCode.T && event.isShortcutDown()){
                         dockingMenu.setTabPaneMode();
                     }
-                    else if (event.getCode() == KeyCode.F){
+                    else if (event.getCode() == KeyCode.F && event.isShortcutDown()){
                         dockingMenu.setFlashCardMode();
                     }
-                    else if (event.getCode() == KeyCode.S){
+                    else if (event.getCode() == KeyCode.S && event.isShortcutDown()){
                         dockingMenu.setScrollPaneMode();
                     }
-                    else if (event.getCode() == KeyCode.I){
+                    else if (event.getCode() == KeyCode.I && event.isShortcutDown()){
                         dockingMenu.setTextAreaMode();
                     }
                 }
@@ -456,7 +451,7 @@ public class BesserNote extends Application {
             new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent e) {
-                    if (e.getButton() == MouseButton.PRIMARY && e.isAltDown()) {
+                    if (e.getButton() == MouseButton.PRIMARY) { // && e.isAltDown()
                         if (superSelected != null) {
                             dragOffsetX = new HashMap<>();
                             dragOffsetY = new HashMap<>();
@@ -872,71 +867,71 @@ public class BesserNote extends Application {
         launch(args);
     }
     
-    public Node getCurrentFocus(){
-        return this.scene.getFocusOwner();
-    }
-    
-    
-    public void drawOn(){  
-        currentMode = "draw";
-        drawCanvas.setVisible(true);
-        drawCanvas.addListeners();
-        drawCanvas.toFront();
-    }
-    
-    public void drawOff(){
-       drawCanvas.removeListeners();
-    }
-    
-    public void circleOn(){
-        //Bring to front
-        //circleCanvas.setVisible(true);
-    }
-    
-    public void circleOff(){
-        //circleCanvas.setVisible(false);
-    }
-    
-    public void setupDrawListeners(){
-        
-    }
-    
-    public void setupCircleListeners(){
-        
-    }
-    
-    public void undoDrawing(){
-        drawCanvas.undoDrawing();
-    }
-    
-    public void addDoodle(Path path){
-        path.setFill(Color.WHITE);
-        path.setStroke(Color.WHITE);
-        path.setStrokeWidth(5);
-        sheet.getChildren().add(path);
-        System.out.println(sheet.getChildren());
-        System.out.println(path.getElements());
-    }
-    
-    public void drawPath(Path path){
-        
-    }
-    
-    public void strokeColor(Color c){
-        switch(currentMode){
-            case "draw":
-                drawCanvas.changeColor(c);
-            break;
-        }
-    }
-    
-    public static void out(Object o){
-        System.out.println(o);
-    }
-    
-    public static void out(String s, Object... o){
-        System.out.println(String.format(s, o));
-    }
+//    public Node getCurrentFocus(){
+//        return this.scene.getFocusOwner();
+//    }
+//    
+//    
+//    public void drawOn(){  
+//        currentMode = "draw";
+//        drawCanvas.setVisible(true);
+//        drawCanvas.addListeners();
+//        drawCanvas.toFront();
+//    }
+//    
+//    public void drawOff(){
+//       drawCanvas.removeListeners();
+//    }
+//    
+//    public void circleOn(){
+//        //Bring to front
+//        //circleCanvas.setVisible(true);
+//    }
+//    
+//    public void circleOff(){
+//        //circleCanvas.setVisible(false);
+//    }
+//    
+//    public void setupDrawListeners(){
+//        
+//    }
+//    
+//    public void setupCircleListeners(){
+//        
+//    }
+//    
+//    public void undoDrawing(){
+//        drawCanvas.undoDrawing();
+//    }
+//    
+//    public void addDoodle(Path path){
+//        path.setFill(Color.WHITE);
+//        path.setStroke(Color.WHITE);
+//        path.setStrokeWidth(5);
+//        sheet.getChildren().add(path);
+//        System.out.println(sheet.getChildren());
+//        System.out.println(path.getElements());
+//    }
+//    
+//    public void drawPath(Path path){
+//        
+//    }
+//    
+//    public void strokeColor(Color c){
+//        switch(currentMode){
+//            case "draw":
+//                drawCanvas.changeColor(c);
+//            break;
+//        }
+//    }
+//    
+//    public static void out(Object o){
+//        System.out.println(o);
+//    }
+//    
+//    public static void out(String s, Object... o){
+//        System.out.println(String.format(s, o));
+//    }
 
     
 }

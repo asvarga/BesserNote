@@ -6,10 +6,10 @@ TODO: Basically, make it more usable.
 - Decide what to do about rich text. 
    - Being able to make outlines would be really good, almost essential.
 - Flashcard binders?
-- Make deleting text not delete the entire node.
-- Make resizing and moving not rely on click.
+- Make deleting text not delete the entire node. //DONE
+- Make resizing and moving not rely on click. //DONE
 - Make insertion smarter: don't need to have a box highlighted.
-- Keyboard shortcuts. 
+- Keyboard shortcuts.  //DONE
 - Either make drawing work or take it out.
 - Improve tutorial (doesn't matter that much, since JJ won't be using our program, anyways).
 
