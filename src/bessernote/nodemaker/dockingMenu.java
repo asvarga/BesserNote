@@ -58,7 +58,7 @@ public class dockingMenu extends VBox{
     public NodeGUI nodeGUI;
     
     public dockingMenu(NodeGUI nodeGUI) throws FileNotFoundException{
-        
+        //this.getStylesheets().add(getClass().getResource("toggle-button.css").toExternalForm());
         this.nodeGUI = nodeGUI;
         
         setStyle("-fx-background-color: grey;"); 
@@ -116,27 +116,86 @@ public class dockingMenu extends VBox{
                     nodeGUI.setColor(c.toString().substring(2, c.toString().length() -2 ));
                  }
             });
+        
+        
+        
     }
     
     public void toggleNodeGUIMode(){
         if(Pane.isSelected()){
             nodeGUI.setValue("Pane");
+            Pane.setSelected(true);
         }
         else if(WrapPane.isSelected()){
             nodeGUI.setValue("WrapPane");
+            WrapPane.setSelected(true);
         }
         else if(TextArea.isSelected()){
             nodeGUI.setValue("TextArea");
+            TextArea.setSelected(true);
         }
         else if(ScrollPane.isSelected()){
             nodeGUI.setValue("ScrollPane");
+            ScrollPane.setSelected(true);
         }
         else if(TabPane.isSelected()){
             nodeGUI.setValue("TabPane");
+            TabPane.setSelected(true);
         }
         else if(FlashCard.isSelected()){
             nodeGUI.setValue("FlashCard");
+            FlashCard.setSelected(true);
         }
         //No mode is selected.
     }
+    
+    public void setPaneMode(){
+        Pane.setSelected(true);
+        group.selectToggle(Pane);
+        nodeGUI.setValue("Pane");
+        Pane.requestFocus();
+        Pane.fire();
+    }
+    
+    public void setWrapPaneMode(){
+        WrapPane.setSelected(true);
+        group.selectToggle(WrapPane);
+        nodeGUI.setValue("WrapPane");
+        WrapPane.requestFocus();
+        WrapPane.fire();
+    }
+    
+    public void setTextAreaMode(){
+        TextArea.setSelected(true);
+        group.selectToggle(TextArea);
+        nodeGUI.setValue("TextArea");
+        TextArea.requestFocus();
+        TextArea.fire();        
+    }
+    
+    public void setScrollPaneMode(){
+        ScrollPane.setSelected(true);
+        group.selectToggle(ScrollPane);
+        nodeGUI.setValue("ScrollPane");
+        ScrollPane.requestFocus();
+        ScrollPane.fire();
+    }
+    
+    public void setTabPaneMode(){
+        TabPane.setSelected(true);
+        group.selectToggle(TabPane);
+        nodeGUI.setValue("TabPane");
+        TabPane.requestFocus();
+        TabPane.fire();
+    }
+    
+    public void setFlashCardMode(){
+        FlashCard.setSelected(true);
+        group.selectToggle(FlashCard);
+        nodeGUI.setValue("FlashCard");
+        FlashCard.requestFocus();
+        FlashCard.fire();
+    }
+    
+    
 }

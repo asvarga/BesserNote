@@ -406,6 +406,25 @@ public class BesserNote extends Application {
                         
                         unselectAll();
                     }
+                    // Listeners to change the insertion mode.
+                    else if(event.getCode() == KeyCode.P){
+                        dockingMenu.setPaneMode();
+                    }
+                    else if (event.getCode() == KeyCode.W){
+                        dockingMenu.setWrapPaneMode();
+                    }
+                    else if (event.getCode() == KeyCode.T){
+                        dockingMenu.setTabPaneMode();
+                    }
+                    else if (event.getCode() == KeyCode.F){
+                        dockingMenu.setFlashCardMode();
+                    }
+                    else if (event.getCode() == KeyCode.S){
+                        dockingMenu.setScrollPaneMode();
+                    }
+                    else if (event.getCode() == KeyCode.I){
+                        dockingMenu.setTextAreaMode();
+                    }
                 }
             }
         );

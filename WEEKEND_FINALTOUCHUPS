@@ -28,7 +28,7 @@ The pitch
 
 3. Demonstrate saving and loading.
 
-4. Explain how we plan to build this up even further, with plugins. BesserNote is the base. Because it's recursive and generic, it can be modified very easily. Ideas:
+4. Explain how we plan to build this up even further, with plugins. BesserNote is the base. Because it's recursive and generic, it can be modified very easily. We could even make an API so that other people could develop for BesserNote. Ideas:
  - Orgo thing
  - Outlines
  - Graphs
