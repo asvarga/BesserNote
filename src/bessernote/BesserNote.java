@@ -345,6 +345,13 @@ public class BesserNote extends Application {
                 helpStuff.getChildren().addAll(tutorial12, tutorial13, tutorial14, tutorial15, tutorial16, tutorial17);
                 helpMenu.getContent().addAll(helpStuff);
                 helpMenu.show(sheet, scene.getWidth()/2.75, scene.getHeight()/2.75);
+                
+                
+                Popup labelMenu = new Popup();
+                Text text1 = new Text("PANE \n \n \n \n WrapPane \n \n \n \n \n Text \n \n \n \n \n ScrollPane \n \n \n \n  \n TabPane \n \n \n \n \n FlashCard");
+                labelMenu.getContent().addAll(text1);
+                labelMenu.show(sheet, 25, 275);
+                
             }
         });
         menuHelp.getItems().addAll(menuItemHelp);

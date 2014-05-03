@@ -1,0 +1,35 @@
+Looks like we aren't going to fail. According to our TAs, the only feature that we're really missing is image stuff.
+
+TODO: Basically, make it more usable.
+=====================================
+- Insert images.
+- Decide what to do about rich text. 
+   - Being able to make outlines would be really good, almost essential.
+- Flashcard binders?
+- Make deleting text not delete the entire node.
+- Make resizing and moving not rely on click.
+- Make insertion smarter: don't need to have a box highlighted.
+- Keyboard shortcuts. 
+- Either make drawing work or take it out.
+- Improve tutorial (doesn't matter that much, since JJ won't be using our program, anyways).
+
+High-level description of program
+=================================
+
+Vim with the flexibility of MS paint?
+
+I really liked how Vinh described our program as a "recursive notetaking program" because that's really what makes it different. EVerything is part of a graph, and it's all pretty generic. It's easily modifiable, the UI is clean, and it really gives the user a lot of flexibility. It's also easy for us to build powerful plugins.
+
+The pitch
+=========
+1. Make a sexy-looking document and present it.
+
+2. Build something up from scratch to show JJ how it works.
+
+3. Demonstrate saving and loading.
+
+4. Explain how we plan to build this up even further, with plugins. BesserNote is the base. Because it's recursive and generic, it can be modified very easily. Ideas:
+ - Orgo thing
+ - Outlines
+ - Graphs
+ - Parse LaTeX? 
