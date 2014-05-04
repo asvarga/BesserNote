@@ -89,6 +89,16 @@ public class BWrapPane extends Pane implements ChildSpecifier {
                         //fixOutline();
                     }
                 }
+                if (clickable.size() > 0) {
+                    if (this2.getChildren().contains(placeHolder)) {
+                        Platform.runLater(new Runnable() {
+                            @Override public void run() {
+                                this2.removePlaceholder();
+                            }                 
+                        });
+                    }
+                    //placeHolder.setVisible(false);
+                }
                 if (getChildren().size() == 0) {
                     ((Pane)this2.getParent()).getChildren().remove(this2);
                 } else {
@@ -98,6 +108,11 @@ public class BWrapPane extends Pane implements ChildSpecifier {
         });
         
         fixOutline();
+        
+        this.widthProperty().addListener(bListener);
+        this.heightProperty().addListener(bListener);
+        this.layoutXProperty().addListener(bListener);
+        this.layoutYProperty().addListener(bListener);
         
         this.undoManager = undoManager;
 //        undoManager.trackMyPlacementChanges(this);
@@ -179,10 +194,19 @@ public class BWrapPane extends Pane implements ChildSpecifier {
     }
     
     public void setPlaceholder(Pane p){
+        if (getChildren().contains(placeHolder)) {
+            getChildren().remove(placeHolder);
+        }
         placeHolder = p;
         getChildren().add(placeHolder);
     }
-
+    
+    public void removePlaceholder() {
+        if (getChildren().contains(placeHolder)) {
+            getChildren().remove(placeHolder);
+        }
+    }
+    
     
 }
 

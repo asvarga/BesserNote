@@ -11,6 +11,7 @@ import bessernote.nodemaker.placement.PlacementGUIRegion;
 import bessernote.ui.BFlashCard;
 import bessernote.ui.BNumberField;
 import bessernote.ui.BWrapPane;
+import javafx.beans.binding.Bindings;
 import javafx.scene.Node;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.layout.HBox;
@@ -71,10 +72,15 @@ public class FlashCardGUI2 extends BaseGUI {
         p.placeHolder.setStyle("-fx-background-color: #"+cp2.getValue().toString().substring(2, cp2.getValue().toString().length()-2));
         
         Pane p2 = new Pane();
-        p2.setPrefWidth(p.placeHolder.getPrefWidth());
-        p2.setPrefHeight(p.placeHolder.getPrefHeight());
-        p2.setLayoutX(p.placeHolder.getLayoutX()+p.placeHolder.getPrefWidth()+pad);
-        p2.setLayoutY(p.placeHolder.getLayoutY());
+        //p2.setPrefWidth(p.placeHolder.getPrefWidth());
+        //p2.setPrefHeight(p.placeHolder.getPrefHeight());
+        //p2.setLayoutX(p.placeHolder.getLayoutX()+p.placeHolder.getPrefWidth()+pad);
+        //p2.setLayoutY(p.placeHolder.getLayoutY());
+        p2.prefWidthProperty().bind(p.placeHolder.prefWidthProperty());
+        p2.prefHeightProperty().bind(p.placeHolder.prefHeightProperty());
+        p2.layoutXProperty().bind(Bindings.add(pad, 
+                Bindings.add(p.placeHolder.layoutXProperty(), p.placeHolder.prefWidthProperty())));
+        p2.layoutYProperty().bind(p.placeHolder.layoutYProperty());
         p2.setStyle("-fx-background-color: #"+cp2.getValue().toString().substring(2, cp2.getValue().toString().length()-2));
         p.getChildren().add(p2);
     }

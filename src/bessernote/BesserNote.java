@@ -880,8 +880,7 @@ public class BesserNote extends Application {
                         
             }
         }
-        popup.hide();
-                      
+        popup.hide();              
     }
       
     public static void main(String[] args) {

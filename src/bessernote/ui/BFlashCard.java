@@ -97,4 +97,7 @@ public class BFlashCard extends BWrapPane {
     public void setPrefMinSize(double w, double h) {
         super.setPrefMinSize(w, h);
     }
+    
+    @Override
+    public void removePlaceholder() {  }
 }
