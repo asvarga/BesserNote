@@ -2,6 +2,7 @@ package saving;
 
 
 import bessernote.ui.BFlashCard;
+import bessernote.ui.BImage;
 import bessernote.ui.BScrollPane;
 import bessernote.ui.BTabPane;
 import bessernote.ui.BTextArea;
@@ -62,6 +63,9 @@ public class PaneSave implements Saveable{
                 }
                 else if(node instanceof BScrollPane){
                     saveObj = new BScrollPaneSave((BScrollPane)node);
+                }
+                else if (node instanceof BImage){
+                    saveObj = new BImageSave((BImage)node);
                 }
                 else if (node instanceof BFlashCard){
                     saveObj = new BFlashCardSave((BFlashCard)node);

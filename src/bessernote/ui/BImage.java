@@ -33,7 +33,7 @@ import undo.BUndoManager;
 public class BImage extends Pane implements ChildSpecifier{
     
     private FileChooser fileChooser;
-    private Image image;
+    private String path;
     private ImageView imageViewer = new ImageView();
     
     /**
@@ -81,7 +81,7 @@ public class BImage extends Pane implements ChildSpecifier{
     public void createImage(){
          //Show open file dialog
         File file = fileChooser.showOpenDialog(null);
-        
+        path = file.getPath();
         //Set image
         try {
             BufferedImage bufferedImage = ImageIO.read(file);
@@ -91,9 +91,10 @@ public class BImage extends Pane implements ChildSpecifier{
             Logger.getLogger(BImage.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        System.out.println(this.getPrefWidth());
-        imageViewer.setFitHeight(BImage.this.getPrefHeight());
-        imageViewer.setFitWidth(BImage.this.getPrefWidth());
+        //System.out.println(this.getPrefWidth());
+        //We want a little bit of border
+        imageViewer.setFitHeight(BImage.this.getPrefHeight() - 5);
+        imageViewer.setFitWidth(BImage.this.getPrefWidth() - 5);
         this.getChildren().add(imageViewer);
     }
     
@@ -105,6 +106,31 @@ public class BImage extends Pane implements ChildSpecifier{
     @Override
     public Node specifySelf() {
         return this;
+    }
+    
+    public void createExistingImage(String path){
+        File imagePath = new File(path);
+                //Set image
+        try {
+            BufferedImage bufferedImage = ImageIO.read(imagePath);
+            Image image = SwingFXUtils.toFXImage(bufferedImage, null);
+            imageViewer.setImage(image);
+        } catch (IOException ex) {
+            Logger.getLogger(BImage.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        //We want a little bit of border
+        imageViewer.setFitHeight(BImage.this.getPrefHeight() - 5);
+        imageViewer.setFitWidth(BImage.this.getPrefWidth() - 5);
+        this.getChildren().add(imageViewer);     
+    }
+    
+    public String returnPath(){
+        return path;
+    }
+    
+    public void resizeImage(double x, double y){
+        imageViewer.setFitHeight(y);
+        imageViewer.setFitWidth(x);       
     }
     
     

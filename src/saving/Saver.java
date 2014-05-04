@@ -45,6 +45,7 @@ public class Saver {
         xstream.alias("textarea", BTextAreaSave.class);
         xstream.alias("root", RootSave.class);
         xstream.alias("pane", PaneSave.class);
+        xstream.alias("image", BImageSave.class);
         }
     
     /**

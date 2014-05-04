@@ -8,6 +8,7 @@ package bessernote;
 import bessernote.nodemaker.NodeGUI;
 import bessernote.nodemaker.dockingMenu;
 import bessernote.nodemaker.placement.DraggingUtil;
+import bessernote.ui.BImage;
 import com.sun.javafx.runtime.VersionInfo;
 import java.awt.Desktop;
 import java.io.File;
@@ -545,7 +546,14 @@ public class BesserNote extends Application {
 //                                    DoubleProperty height = new SimpleDoubleProperty(offsetY);
 //                                    height.setValue(offsetY);
 //                                    height.getValue();
-                                 if(n instanceof Region){
+                                 if(n instanceof BImage){
+                                     BImage r = (BImage) n;
+                                     r.setPrefHeight(offsetY);
+                                     r.setPrefWidth(offsetX);
+                                     r.autosize();
+                                     r.resizeImage(offsetX, offsetY);
+                                 }
+                                 else if(n instanceof Region){
                                      Region r = (Region) n;
                                      r.setPrefHeight(offsetY);
                                      r.setPrefWidth(offsetX);

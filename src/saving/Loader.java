@@ -41,6 +41,7 @@ public class Loader {
         xstream.alias("textarea", BTextAreaSave.class);
         xstream.alias("root", RootSave.class);
         xstream.alias("pane", PaneSave.class);
+        xstream.alias("image", BImageSave.class);
         loaded = (RootSave) xstream.fromXML(file);
         //loaded.printChildren();
     }
