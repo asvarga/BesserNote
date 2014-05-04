@@ -21,7 +21,7 @@ public class DragResizer {
      * The margin around the control that a user can click in to start resizing
      * the region.
      */
-    private static final int RESIZE_MARGIN = 5;
+    private static final int RESIZE_MARGIN = 7;
 
     private final Region region;
 
@@ -75,7 +75,7 @@ public class DragResizer {
     }
 
     protected boolean isInDraggableZone(MouseEvent event) {
-        return event.getY() > (region.getHeight() - RESIZE_MARGIN);
+        return event.getY() > (region.getHeight() - RESIZE_MARGIN); //|| event.getY() < (region.getHeight() + RESIZE_MARGIN);
     }
 
     protected void mouseDragged(MouseEvent event) {

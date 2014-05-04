@@ -317,11 +317,11 @@ public class BesserNote extends Application {
                 Text tutorial5 = new Text("  More complicated organizational tools are scrollpanes, which have virtually unlimited space because of scrolling in two dimensions.");
                 Text tutorial6 = new Text("  A tab pane can create multiple tabs, which help divide topics.\n");
                 Text tutorial7 = new Text("  A flashcard has two sides. The left side is the `front` while the right side is the `back`. Click on the front and mouse over it to");
-                Text tutorial8 = new Text("  make the back disappear. Flashcards! \n Images can also be easily inserted.");
+                Text tutorial8 = new Text("  make the back disappear. Flashcards! \n \n Images can also be easily inserted.");
                 
                 
                 Text tutorial9 = new Text("  The best part is that all of these elements are customizable and nestable. You can change color, size, position, and children. \n");
-                Text tutorial10 = new Text("  Literally everything can contain anything else. You could have 100 tab panes nested inside of each other.\n \n");
+                Text tutorial10 = new Text("  Literally everything can contain anything else. You could have 100 tab panes nested inside of each other.\n");
                 
                 Text tutorial11 = new Text("  Click on one of the icons on the left, right click, and drag out a shape to start inserting things.\n \n");
                 
@@ -329,21 +329,25 @@ public class BesserNote extends Application {
                 Text tutorial13 = new Text("  We have invented a feature called the superclick. If you have multiple things on top of each other, simply press tab to cycle through them. \n");
                 Text tutorial14 = new Text("  Undo and redo changes are Cmmd+Z and Cmmd+Y \n");
                 Text tutorial15 = new Text("  Draw by going to edit and then draw. Select the pencil icon to draw lines. \n");
-                Text tutorial16 = new Text("  Open old bessernote projects by clicking open, and save by clicking save. Easy! \n \n");
+                Text tutorial16 = new Text("  Open old bessernote projects by clicking open, and save by clicking save. Easy! \n");
                 
-                Text tutorial17 = new Text("  We want BesserNote to be easy and intuitive to use. Hopefully you find it that way.");
+                Text tutorial18 = new Text("  We want BesserNote to be easy and intuitive to use. Hopefully you find that it is. \n (Press esc to quit)");
+                
+                
+                Text tutorial17 = new Text("        --------- Keyboard Shortcuts ------- \n CMD + P = Pane \n CMD + W = WrapPane \n CMD + I = TextArea \n CMD + S = ScrollPane \n CMD + T = TabPane \n CMD + F = FlashCard \n CMD + M = Image \n \n" );
                 
                 
                 helpStuff.getChildren().addAll(tutorial1, tutorial2, tutorial3, tutorial4, tutorial5, tutorial6, tutorial7, tutorial8, tutorial9, tutorial10, tutorial11);
-                helpStuff.getChildren().addAll(tutorial12, tutorial13, tutorial14, tutorial15, tutorial16, tutorial17);
+                helpStuff.getChildren().addAll(tutorial12, tutorial13, tutorial14, tutorial15, tutorial16, tutorial17, tutorial18);
                 helpMenu.getContent().addAll(helpStuff);
-                helpMenu.show(sheet, scene.getWidth()/2.75, scene.getHeight()/2.75);
+                helpMenu.show(sheet, scene.getWidth()/3, scene.getHeight()/3);
                 
                 
                 Popup labelMenu = new Popup();
-                Text text1 = new Text("Pane (cmmd + p) \n \n \n \n WrapPane (cmmd + w) \n \n \n \n \n Text (cmmd + i) \n \n \n \n \n ScrollPane (cmmd + s) \n \n \n \n  \n TabPane (cmmd + t) \n \n \n \n \n FlashCard (cmmd + f) \n \n \n \n Image (cmmd + m)");
+                Text text1 = new Text("Pane \n (cmmd + p) \n \n \n WrapPane \n (CMD + W) \n \n \n \n Text \n (CMD + I) \n \n \n \n ScrollPane \n (CMD + S) \n \n \n  \n TabPane \n  (CMD + T) \n \n \n \n FlashCard \n (CMD + F) \n \n \n Image \n (CMD + M)");
+                text1.setFill(Color.RED);
                 labelMenu.getContent().addAll(text1);
-                labelMenu.show(sheet, 25, 275);
+                labelMenu.show(sheet, 2, 260);
                 
             }
         });
@@ -669,7 +673,7 @@ public class BesserNote extends Application {
                     if (e.getButton() == MouseButton.SECONDARY) {
                         double dx = startOutlineX-e.getX();
                         double dy = startOutlineY-e.getY();
-                        if (dx*dx+dy*dy >= 25) {
+                        if (dx*dx+dy*dy >= 50) {
                             Point2D local = sheetToLocal(target,
                                     Math.min(startOutlineX, e.getX()), 
                                     Math.min(startOutlineY, e.getY()));
