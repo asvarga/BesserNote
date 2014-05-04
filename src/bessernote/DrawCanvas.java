@@ -45,6 +45,7 @@ public class DrawCanvas extends Canvas{
     private EventHandler<MouseEvent> clicked;
     private EventHandler<MouseEvent> dragged;
     private EventHandler<MouseEvent> released;
+    private Color c;
     
     public DrawCanvas(final BesserNote besser, double width, double height){
         super(width, height);
@@ -92,6 +93,7 @@ public class DrawCanvas extends Canvas{
                 gc.stroke();
                 gc.closePath();
                 besser.addDoodle(doodle);
+//                System.out.println(doodle);
                 gc.clearRect(0, 0, 2000, 2000);
             }
         };
@@ -118,7 +120,9 @@ public class DrawCanvas extends Canvas{
     }
     
     public void changeColor(Color c){
-        gc.setStroke(c);
+        this.c = c;
+        gc.setStroke(this.c);
+        doodle.setStroke(this.c);
     }
     
     public void changeBrushWidth(){

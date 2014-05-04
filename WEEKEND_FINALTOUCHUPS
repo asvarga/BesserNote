@@ -5,7 +5,8 @@ TODO: Basically, make it more usable.
 - Insert images. //DONE
 - Decide what to do about rich text.  //Dannnnnnn
    - Being able to make outlines would be really good, almost essential.
-- Flashcard binders? 
+- Drawing //DONE
+- Flashcard binders? //DONE
 - Make deleting text not delete the entire node. //DONE
 - Make resizing and moving not rely on click. //DONE
 - Make insertion smarter: don't need to have a box highlighted. //DONE

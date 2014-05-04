@@ -6,6 +6,7 @@
 
 package bessernote.nodemaker;
 
+import bessernote.BesserNote;
 import bessernote.ui.BFlashCard;
 import bessernote.ui.BScrollPane;
 import bessernote.ui.BTabPane;
@@ -19,6 +20,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
@@ -38,8 +40,11 @@ public class dockingMenu extends VBox{
     private final double spacing = 0.5;
     private ToggleGroup group = new ToggleGroup();
     private Color c;
+    //Reference to BesserNote
+    private final BesserNote besser;
     //Buttons
     private final ColorPicker cp = new ColorPicker();
+    private final ToggleButton Draw = new ToggleButton();
     private final ToggleButton Pane = new ToggleButton();
     private final ToggleButton WrapPane = new ToggleButton();
     private final ToggleButton TextArea = new ToggleButton();
@@ -48,17 +53,41 @@ public class dockingMenu extends VBox{
     private final ToggleButton FlashCard = new ToggleButton();
     private final ToggleButton ImageButton = new ToggleButton();
     private final ToggleButton DeckButton = new ToggleButton();
+    //private final RadioButton radioButton = new RadioButton();
+
     
     public NodeGUI nodeGUI;
     
-    public dockingMenu(NodeGUI nodeGUI) throws FileNotFoundException{
+    public dockingMenu(NodeGUI nodeGUI, BesserNote besser) throws FileNotFoundException{
         //this.getStylesheets().add(getClass().getResource("toggle-button.css").toExternalForm());
         this.nodeGUI = nodeGUI;
+        this.besser = besser;
         
         setStyle("-fx-background-color: grey;"); 
         setAlignment(Pos.CENTER);
         
         //// Add buttons ////
+        
+        //Draw
+        ImageView drawImage = new ImageView(new Image(new FileInputStream("images/Draw.png")));
+        Draw.setGraphic(drawImage);
+        Draw.setToggleGroup(group);
+            //Add Listener
+            Draw.focusedProperty().addListener(new ChangeListener<Boolean>()
+                {
+                    @Override
+                    public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue)
+                    {
+                        if (newPropertyValue)
+                        {
+                            setDrawMode();
+                        }
+                        else
+                        {
+                            setDrawOff();
+                        }
+                    }
+                });
         
         //Pane
         ImageView paneImage = new ImageView(new Image(new FileInputStream("images/Pane.png")));
@@ -93,6 +122,8 @@ public class dockingMenu extends VBox{
         DeckButton.setGraphic(deckImage);
         DeckButton.setToggleGroup(group);
         
+        //Add radio button
+        //radioButton.setToggleGroup(group);
         
         //// Color Picker ////
         
@@ -103,12 +134,13 @@ public class dockingMenu extends VBox{
             @Override
             public void handle(Event e){
                 c = cp.getValue();
+                besser.strokeColor(c);
                 nodeGUI.setColor(c.toString().substring(2, c.toString().length() -2 ));
             }
         });
         
         //Add Buttons
-        this.getChildren().addAll(Pane, WrapPane, TextArea, ScrollPane, TabPane, FlashCard, ImageButton, DeckButton, cp);
+        this.getChildren().addAll(Draw, Pane, WrapPane, TextArea, ScrollPane, TabPane, FlashCard, ImageButton, DeckButton, cp);
         
         
         //Listens for clicks and toggles modes
@@ -125,6 +157,10 @@ public class dockingMenu extends VBox{
     }
     
     public void toggleNodeGUIMode(){
+        if(Draw.isSelected()){
+            besser.drawOn();
+            Draw.setSelected(true);
+        }
         if(Pane.isSelected()){
             nodeGUI.setValue("Pane");
             Pane.setSelected(true);
@@ -158,6 +194,19 @@ public class dockingMenu extends VBox{
             DeckButton.setSelected(true);
         }
         //No mode is selected.
+    }
+    
+    public void setDrawMode(){
+        Draw.setSelected(true);
+        group.selectToggle(Draw);
+        besser.drawOn();
+        Draw.requestFocus();
+        Draw.fire();
+    }
+    
+    public void setDrawOff(){
+        Draw.setSelected(false);
+        besser.drawOff();
     }
     
     public void setPaneMode(){
@@ -224,5 +273,9 @@ public class dockingMenu extends VBox{
         DeckButton.fire();
     }
     
+//    public void unselectAll(){
+//       radioButton.setSelected(true);
+//       System.out.println(group.getSelectedToggle());
+//    }
     
 }

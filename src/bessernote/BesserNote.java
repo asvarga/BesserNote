@@ -104,7 +104,7 @@ public class BesserNote extends Application {
     ///Drawing Canvases
     //private DrawCanvas drawCanvas = new DrawCanvas(this, 2000, 2000);
     //private Canvas circleCanvas = new Canvas();
-    private String currentMode;  
+    private Color c = Color.WHITE;
     
     private BUndoManager undoManager;
     
@@ -155,7 +155,7 @@ public class BesserNote extends Application {
         popup.setAutoFix(false);
         popup.setHideOnEscape(true);
         
-        dockingMenu = new dockingMenu(nodeGUI);
+        dockingMenu = new dockingMenu(nodeGUI, this);
         root.setLeft(dockingMenu);
         
         popup.addEventFilter(KeyEvent.KEY_PRESSED, 
@@ -367,7 +367,7 @@ public class BesserNote extends Application {
         drawCanvas = new DrawCanvas(this, sheet.getPrefWidth(), sheet.getPrefHeight());
         stackPane.getChildren().add(drawCanvas);
         drawCanvas.toBack();
-        drawOn();
+//        drawOn();
 
 //        Rectangle r = new Rectangle();
 //        r.setX(50);
@@ -408,6 +408,7 @@ public class BesserNote extends Application {
                             }
                         }
                     } else if (event.getCode() == KeyCode.ESCAPE) {
+                        //dockingMenu.unselectAll();
                         cancelSuperClick();
                         unselectAll();
                         dragBox.setVisible(false);
@@ -431,6 +432,9 @@ public class BesserNote extends Application {
                         undoManager.redo();
                     }
                     // Listeners to change the insertion mode.
+                    else if(event.getCode() == KeyCode.D && event.isShortcutDown()){
+                        dockingMenu.setDrawMode();
+                    }
                     else if(event.getCode() == KeyCode.P && event.isShortcutDown()){
                         dockingMenu.setPaneMode();
                     }
@@ -929,7 +933,6 @@ public class BesserNote extends Application {
 //    
 //    
     public void drawOn(){  
-        currentMode = "draw";
         drawCanvas.setVisible(true);
         drawCanvas.addListeners();
         drawCanvas.toFront();
@@ -946,10 +949,10 @@ public class BesserNote extends Application {
 //    }
 //    
     public void addDoodle(Path path){
-        path.setStroke(Color.WHITE);
+        path.setStroke(c);
         path.setStrokeWidth(7);
         ((Pane)target).getChildren().add(path);
-        drawOff();
+//        drawOff();
     }
 //    
 //    public void drawPath(Path path){
@@ -957,11 +960,8 @@ public class BesserNote extends Application {
 //    }
 //    
     public void strokeColor(Color c){
-        switch(currentMode){
-            case "draw":
-                drawCanvas.changeColor(c);
-            break;
-        }
+        this.c = c;
+        drawCanvas.changeColor(c);
     }
 //    
 //    public static void out(Object o){
