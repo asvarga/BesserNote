@@ -2,7 +2,8 @@ Looks like we aren't going to fail. According to our TAs, the only feature that 
 
 TODO: Basically, make it more usable.
 =====================================
-- Insert images.
+- Insert images. //ALMOST DONE
+   - For some reason, it's not resizable. The size comes off as 0.
 - Decide what to do about rich text. 
    - Being able to make outlines would be really good, almost essential.
 - Flashcard binders?
@@ -10,7 +11,7 @@ TODO: Basically, make it more usable.
 - Make resizing and moving not rely on click. //DONE
 - Make insertion smarter: don't need to have a box highlighted.
 - Keyboard shortcuts.  //DONE
-- Either make drawing work or take it out.
+- Either make drawing work or take it out. //DONE: took it out
 - Improve tutorial (doesn't matter that much, since JJ won't be using our program, anyways).
 
 High-level description of program

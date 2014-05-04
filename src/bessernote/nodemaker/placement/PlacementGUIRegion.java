@@ -6,6 +6,7 @@ package bessernote.nodemaker.placement;
 
 import bessernote.nodemaker.BaseGUI;
 import bessernote.ui.BNumberField;
+import java.awt.geom.Point2D;
 import java.text.ParseException;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -54,4 +55,11 @@ public class PlacementGUIRegion extends BaseGUI {
         yGUI.setSize(x, y);
     }
     
+    public Point2D.Double getSize(){
+        return new Point2D.Double(xGUI.getSize(), yGUI.getSize());
+    }
+    
+    public Point2D.Double getCoord(){
+        return new Point2D.Double(xGUI.getCoord(), yGUI.getCoord());
+    }
 }

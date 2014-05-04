@@ -46,14 +46,7 @@ public class dockingMenu extends VBox{
     private final ToggleButton ScrollPane = new ToggleButton();
     private final ToggleButton TabPane = new ToggleButton();
     private final ToggleButton FlashCard = new ToggleButton();
-    
-    //None of these actually get displayed. Purely for the purposes of making nodes.
-    private PaneGUI makePane = new PaneGUI(_top, spacing); 
-    private ScrollPaneGUI makeScrollPane = new ScrollPaneGUI(_top, spacing); 
-    private WrapPaneGUI makeWrapPane = new WrapPaneGUI(_top, spacing); 
-    private TextAreaGUI makeTextArea = new TextAreaGUI(_top, spacing); 
-    private TabPaneGUI makeTabPane = new TabPaneGUI(_top, spacing); 
-    private FlashCardGUI makeFlashCard = new FlashCardGUI(_top, spacing); 
+    private final ToggleButton ImageButton = new ToggleButton();
     
     public NodeGUI nodeGUI;
     
@@ -89,7 +82,12 @@ public class dockingMenu extends VBox{
         //TextArea
         ImageView flashImage = new ImageView(new Image(new FileInputStream("images/FlashCard.png")));
         FlashCard.setGraphic(flashImage);
-        FlashCard.setToggleGroup(group);   
+        FlashCard.setToggleGroup(group); 
+        //Image
+        ImageView imageImage = new ImageView(new Image(new FileInputStream("images/Image.png")));
+        ImageButton.setGraphic(imageImage);
+        ImageButton.setToggleGroup(group);
+        
         
         //// Color Picker ////
         
@@ -105,7 +103,7 @@ public class dockingMenu extends VBox{
         });
         
         //Add Buttons
-        this.getChildren().addAll(Pane, WrapPane, TextArea, ScrollPane, TabPane, FlashCard, cp);
+        this.getChildren().addAll(Pane, WrapPane, TextArea, ScrollPane, TabPane, FlashCard, ImageButton, cp);
         
         
         //Listens for clicks and toggles modes
@@ -145,6 +143,10 @@ public class dockingMenu extends VBox{
         else if(FlashCard.isSelected()){
             nodeGUI.setValue("FlashCard");
             FlashCard.setSelected(true);
+        }
+        else if(ImageButton.isSelected()){
+            nodeGUI.setValue("Image");
+            ImageButton.setSelected(true);
         }
         //No mode is selected.
     }
@@ -195,6 +197,14 @@ public class dockingMenu extends VBox{
         nodeGUI.setValue("FlashCard");
         FlashCard.requestFocus();
         FlashCard.fire();
+    }
+    
+    public void setImageMode(){
+        ImageButton.setSelected(true);
+        group.selectToggle(ImageButton);
+        nodeGUI.setValue("Image");
+        ImageButton.requestFocus();
+        ImageButton.fire();
     }
     
     

@@ -194,6 +194,9 @@ public class BesserNote extends Application {
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("BSSR files (*.xml)", "*.xml");
         fileChooser.getExtensionFilters().add(extFilter);
         menuBar = new MenuBar();
+        
+        //Initialize Image filechooser
+        
 
         // --- Menu File
         Menu menuFile = new Menu("File");
@@ -313,7 +316,8 @@ public class BesserNote extends Application {
                 Text tutorial5 = new Text("  More complicated organizational tools are scrollpanes, which have virtually unlimited space because of scrolling in two dimensions.");
                 Text tutorial6 = new Text("  A tab pane can create multiple tabs, which help divide topics.\n");
                 Text tutorial7 = new Text("  A flashcard has two sides. The left side is the `front` while the right side is the `back`. Click on the front and mouse over it to");
-                Text tutorial8 = new Text("  make the back disappear. Flashcards!");
+                Text tutorial8 = new Text("  make the back disappear. Flashcards! \n Images can also be easily inserted.");
+                
                 
                 Text tutorial9 = new Text("  The best part is that all of these elements are customizable and nestable. You can change color, size, position, and children. \n");
                 Text tutorial10 = new Text("  Literally everything can contain anything else. You could have 100 tab panes nested inside of each other.\n \n");
@@ -322,7 +326,7 @@ public class BesserNote extends Application {
                 
                 Text tutorial12 = new Text("           -------- ADVANCED FEATURES ------- \n");
                 Text tutorial13 = new Text("  We have invented a feature called the superclick. If you have multiple things on top of each other, simply press tab to cycle through them. \n");
-                Text tutorial14 = new Text("  Undo and redo changes by going to edit. \n");
+                Text tutorial14 = new Text("  Undo and redo changes are Cmmd+Z and Cmmd+Y \n");
                 Text tutorial15 = new Text("  Draw by going to edit and then draw. Select the pencil icon to draw lines. \n");
                 Text tutorial16 = new Text("  Open old bessernote projects by clicking open, and save by clicking save. Easy! \n \n");
                 
@@ -336,7 +340,7 @@ public class BesserNote extends Application {
                 
                 
                 Popup labelMenu = new Popup();
-                Text text1 = new Text("PANE \n \n \n \n WrapPane \n \n \n \n \n Text \n \n \n \n \n ScrollPane \n \n \n \n  \n TabPane \n \n \n \n \n FlashCard");
+                Text text1 = new Text("Pane (cmmd + p) \n \n \n \n WrapPane (cmmd + w) \n \n \n \n \n Text (cmmd + i) \n \n \n \n \n ScrollPane (cmmd + s) \n \n \n \n  \n TabPane (cmmd + t) \n \n \n \n \n FlashCard (cmmd + f) \n \n \n \n Image (cmmd + m)");
                 labelMenu.getContent().addAll(text1);
                 labelMenu.show(sheet, 25, 275);
                 
@@ -419,6 +423,9 @@ public class BesserNote extends Application {
                     }
                     else if (event.getCode() == KeyCode.I && event.isShortcutDown()){
                         dockingMenu.setTextAreaMode();
+                    }
+                    else if (event.getCode() == KeyCode.M && event.isShortcutDown()){
+                        dockingMenu.setImageMode();
                     }
                 }
             }
@@ -665,8 +672,6 @@ public class BesserNote extends Application {
                             Point2D local = sheetToLocal(target,startOutlineX, startOutlineY);
                             nodeGUI.setPos(local.getX(), local.getY());
                         }
-                        //createNode();
-                        //TODO: MAKE THE POPUP NOT SHOW AND JUST INSERT MANUALLY
                         createNode();
                         dragBox.setVisible(false);
                         //popup.show(stage);

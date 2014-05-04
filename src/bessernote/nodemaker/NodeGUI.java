@@ -49,7 +49,7 @@ public class NodeGUI extends BaseGUI {
 
         combo = new ComboBox();
         //combo.getItems().addAll("ScrollPane", "Pane", "WrapPane", "Label", "HBox", "VBox", "TextArea", "TabPane", "FlashCard");
-        combo.getItems().addAll("WrapPane", "ScrollPane", "Pane", "TextArea", "TabPane", "FlashCard");
+        combo.getItems().addAll("WrapPane", "ScrollPane", "Pane", "TextArea", "TabPane", "FlashCard", "Image");
         //"Pane" "Label" "Hbox" "VBox" deleted from indices 1, 3, 4, 5
         combo.setValue("WrapPane");
         combo.valueProperty().addListener(new ChangeListener<String>() {
@@ -70,6 +70,7 @@ public class NodeGUI extends BaseGUI {
         show1.addGUI("TextArea", new TextAreaGUI(_top, spacing));
         show1.addGUI("TabPane", new TabPaneGUI(_top, spacing));
         show1.addGUI("FlashCard", new FlashCardGUI2(_top, spacing));
+        show1.addGUI("Image", new ImageGUI(_top, spacing));
         
         HBox h = new HBox(spacing);
         cancelButton = new Button("Cancel");
