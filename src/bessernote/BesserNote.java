@@ -441,6 +441,7 @@ public class BesserNote extends Application {
                 @Override
                 public void handle(MouseEvent e) {
                     if (e.getButton() == MouseButton.PRIMARY) {
+                        sheet.requestFocus();
                         if (!e.isAltDown()) {
                             if (!e.isShiftDown()) {
                                 unselectAll();
