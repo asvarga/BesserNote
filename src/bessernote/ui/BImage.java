@@ -30,7 +30,7 @@ import undo.BUndoManager;
  * @author ddliu
  * A BImage has an image inside a pane and a caption that can be edited if you double click on the picture.
  */
-public class BImage extends Pane implements ChildSpecifier{
+public class BImage extends BWrapPane implements ChildSpecifier{
     
     private FileChooser fileChooser;
     private String path;
@@ -39,9 +39,9 @@ public class BImage extends Pane implements ChildSpecifier{
     /**
      *
      * @param undoManager
-     * @param fileChooser
      */
     public BImage(BUndoManager undoManager){
+        super(undoManager);
         fileChooser = new FileChooser();
         imageViewer.setPreserveRatio(true);
         imageViewer.setSmooth(true);
@@ -93,8 +93,9 @@ public class BImage extends Pane implements ChildSpecifier{
         
         //System.out.println(this.getPrefWidth());
         //We want a little bit of border
-        imageViewer.setFitHeight(BImage.this.getPrefHeight() - 5);
-        imageViewer.setFitWidth(BImage.this.getPrefWidth() - 5);
+        //System.out.println(((Pane) BImage.this.getChildren().get(0)).getPrefHeight());
+        imageViewer.setFitHeight(((Pane) BImage.this.getChildren().get(0)).getPrefHeight() - 5);
+        imageViewer.setFitWidth(((Pane) BImage.this.getChildren().get(0)).getPrefWidth() - 5);
         this.getChildren().add(imageViewer);
     }
     
@@ -132,8 +133,5 @@ public class BImage extends Pane implements ChildSpecifier{
         imageViewer.setFitHeight(y);
         imageViewer.setFitWidth(x);       
     }
-    
-    
-    
-    
+
 }

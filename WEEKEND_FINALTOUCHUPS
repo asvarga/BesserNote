@@ -8,7 +8,7 @@ TODO: Basically, make it more usable.
 - Flashcard binders?
 - Make deleting text not delete the entire node. //DONE
 - Make resizing and moving not rely on click. //DONE
-- Make insertion smarter: don't need to have a box highlighted.
+- Make insertion smarter: don't need to have a box highlighted.   //DONE
 - Keyboard shortcuts.  //DONE
 - Either make drawing work or take it out. //DONE: took it out
 - Improve tutorial (doesn't matter that much, since JJ won't be using our program, anyways).

@@ -36,8 +36,9 @@ public class ImageGUI extends BaseGUI{
     @Override
     public Node getNode(BUndoManager undoManager) {
         BImage returnMe =  new BImage(undoManager);
-        returnMe.setPrefWidth(placement.getSize().getX());
-        returnMe.setPrefHeight(placement.getSize().getY());
+//        returnMe.setPrefWidth(placement.getSize().getX());
+//        returnMe.setPrefHeight(placement.getSize().getY());
+        returnMe.setPrefMinSize(placement.getSize().getX(), placement.getSize().getY());
         returnMe.setLayoutX(placement.getCoord().getX());
         returnMe.setLayoutY(placement.getCoord().getY());
         returnMe.createImage();
