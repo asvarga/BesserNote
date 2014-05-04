@@ -38,6 +38,7 @@ public class BWrapPane extends Pane implements ChildSpecifier {
     
     public Pane placeHolder;
     public List<Node> clickable;
+    public List<Node> others;
     
     protected double padding;
     protected double prefMinWidth;
@@ -52,6 +53,7 @@ public class BWrapPane extends Pane implements ChildSpecifier {
         super();
         
         clickable = new ArrayList<>();
+        others = new ArrayList<>();
                                
         bListener = new ChangeListener() {
             @Override
@@ -77,14 +79,18 @@ public class BWrapPane extends Pane implements ChildSpecifier {
                              //update item
                     } else {
                         for (Node remItem : c.getRemoved()) {
-                            clickable.remove(remItem);
-                            remItem.boundsInParentProperty().removeListener(bListener);
-                            remItem.visibleProperty().removeListener(bListener);
+                            if (!others.contains(remItem) && clickable.contains(remItem)) {
+                                clickable.remove(remItem);
+                                remItem.boundsInParentProperty().removeListener(bListener);
+                                remItem.visibleProperty().removeListener(bListener);
+                            }
                         }
                         for (Node addItem : c.getAddedSubList()) {
-                            clickable.add(addItem);
-                            addItem.boundsInParentProperty().addListener(bListener);
-                            addItem.visibleProperty().addListener(bListener);
+                            if (!others.contains(addItem)) {
+                                clickable.add(addItem);
+                                addItem.boundsInParentProperty().addListener(bListener);
+                                addItem.visibleProperty().addListener(bListener);
+                            }
                         }
                         //fixOutline();
                     }
@@ -104,6 +110,7 @@ public class BWrapPane extends Pane implements ChildSpecifier {
                 } else {
                     fixOutline();
                 }
+                //fixOutline();
             }
         });
         
@@ -131,7 +138,7 @@ public class BWrapPane extends Pane implements ChildSpecifier {
                                 double minY = Double.MAX_VALUE;
                                 double maxY = -Double.MAX_VALUE;
                                 for (Node child : getChildren()) {
-                                    if (child.isVisible()) {
+                                    if (child.isVisible() && !others.contains(child)) {
                                         minX = Math.min(minX, child.getBoundsInParent().getMinX());
                                         maxX = Math.max(maxX, child.getBoundsInParent().getMaxX());
                                         minY = Math.min(minY, child.getBoundsInParent().getMinY());
@@ -145,10 +152,12 @@ public class BWrapPane extends Pane implements ChildSpecifier {
                                 setPrefHeight(maxY-minY+padding*2);
                                 
                                 for (Node child : getChildren()) {
-                                    try {   // might be bound
-                                        child.setLayoutX(child.getLayoutX()-minX+padding);
-                                        child.setLayoutY(child.getLayoutY()-minY+padding);
-                                    } catch (Exception e) {
+                                    if (!others.contains(child)) {
+                                        try {   // might be bound
+                                            child.setLayoutX(child.getLayoutX()-minX+padding);
+                                            child.setLayoutY(child.getLayoutY()-minY+padding);
+                                        } catch (Exception e) {
+                                        }
                                     }
                                 }
                             }
@@ -207,6 +216,10 @@ public class BWrapPane extends Pane implements ChildSpecifier {
         }
     }
     
+    public void addOther(Node n) {
+        others.add(n);
+        getChildren().add(n);
+    }
     
 }
 

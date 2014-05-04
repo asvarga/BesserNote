@@ -47,6 +47,7 @@ public class dockingMenu extends VBox{
     private final ToggleButton TabPane = new ToggleButton();
     private final ToggleButton FlashCard = new ToggleButton();
     private final ToggleButton ImageButton = new ToggleButton();
+    private final ToggleButton DeckButton = new ToggleButton();
     
     public NodeGUI nodeGUI;
     
@@ -87,6 +88,10 @@ public class dockingMenu extends VBox{
         ImageView imageImage = new ImageView(new Image(new FileInputStream("images/Image.png")));
         ImageButton.setGraphic(imageImage);
         ImageButton.setToggleGroup(group);
+        //Image
+        ImageView deckImage = new ImageView(new Image(new FileInputStream("images/Deck.png")));
+        DeckButton.setGraphic(deckImage);
+        DeckButton.setToggleGroup(group);
         
         
         //// Color Picker ////
@@ -103,7 +108,7 @@ public class dockingMenu extends VBox{
         });
         
         //Add Buttons
-        this.getChildren().addAll(Pane, WrapPane, TextArea, ScrollPane, TabPane, FlashCard, ImageButton, cp);
+        this.getChildren().addAll(Pane, WrapPane, TextArea, ScrollPane, TabPane, FlashCard, ImageButton, DeckButton, cp);
         
         
         //Listens for clicks and toggles modes
@@ -147,6 +152,10 @@ public class dockingMenu extends VBox{
         else if(ImageButton.isSelected()){
             nodeGUI.setValue("Image");
             ImageButton.setSelected(true);
+        }
+        else if(DeckButton.isSelected()){
+            nodeGUI.setValue("Deck");
+            DeckButton.setSelected(true);
         }
         //No mode is selected.
     }
@@ -205,6 +214,14 @@ public class dockingMenu extends VBox{
         nodeGUI.setValue("Image");
         ImageButton.requestFocus();
         ImageButton.fire();
+    }
+    
+    public void setDeckMode(){
+        DeckButton.setSelected(true);
+        group.selectToggle(DeckButton);
+        nodeGUI.setValue("Deck");
+        DeckButton.requestFocus();
+        DeckButton.fire();
     }
     
     

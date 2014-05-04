@@ -553,21 +553,21 @@ public class BesserNote extends Application {
 //                                    height.getValue();
                                  if(n instanceof BImage){
                                      BImage r = (BImage) n;
-                                     r.setPrefHeight(offsetY);
-                                     r.setPrefWidth(offsetX);
+                                     try { r.setPrefHeight(offsetY); } catch (Exception ex) {}
+                                     try { r.setPrefWidth(offsetX); } catch (Exception ex) {}
                                      r.autosize();
-                                     r.resizeImage(offsetX, offsetY);
+                                     try { r.resizeImage(offsetX, offsetY); } catch (Exception ex) {}
                                  }
                                  else if(n instanceof Region){
                                      Region r = (Region) n;
-                                     r.setPrefHeight(offsetY);
-                                     r.setPrefWidth(offsetX);
+                                     try { r.setPrefHeight(offsetY); } catch (Exception ex) {}
+                                     try { r.setPrefWidth(offsetX); } catch (Exception ex) {}
                                      r.autosize();
                                  }
                                  else if(n instanceof Group){
                                      Group g = (Group) n;
-                                     g.prefWidth(offsetX);
-                                     g.prefHeight(offsetY);
+                                     try { g.prefWidth(offsetX); } catch (Exception ex) {}
+                                     try { g.prefHeight(offsetY); } catch (Exception ex) {}
                                      g.autoSizeChildrenProperty();
                                      g.autosize();
                                      
@@ -771,7 +771,8 @@ public class BesserNote extends Application {
     
     private void superClickHelper(double x, double y, Node n, List<Node> list) {
         // check if inside  
-        if (x >= 0 &&
+        if (n.isVisible() &&
+                x >= 0 &&
                 y >= 0 &&
                 x <= n.getBoundsInLocal().getWidth() &&
                 y <= n.getBoundsInLocal().getHeight()) {
