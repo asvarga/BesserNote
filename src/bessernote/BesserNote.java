@@ -604,17 +604,20 @@ public class BesserNote extends Application {
                         startOutlineY = e.getY();
                         
                         boolean clickedSelected = false;
-                        for (Map.Entry<Node, DashedBox> entry : selectBoxes.entrySet()) {
-                            Node n = entry.getKey();
-                            Point2D local = sheetToLocal(n, e.getX(), e.getY());
-                            if (n instanceof Region &&
-                                    local.getX() >= 0 && 
-                                    local.getY() >= 0 &&
-                                    local.getX() <= n.getBoundsInLocal().getWidth() &&
-                                    local.getY() <= n.getBoundsInLocal().getHeight()) {
-                                clickedSelected = true;
-                                target = (Parent) n;
-                                break;
+                        
+                        if (e.isShortcutDown()) {
+                            for (Map.Entry<Node, DashedBox> entry : selectBoxes.entrySet()) {
+                                Node n = entry.getKey();
+                                Point2D local = sheetToLocal(n, e.getX(), e.getY());
+                                if (n instanceof Region &&
+                                        local.getX() >= 0 && 
+                                        local.getY() >= 0 &&
+                                        local.getX() <= n.getBoundsInLocal().getWidth() &&
+                                        local.getY() <= n.getBoundsInLocal().getHeight()) {
+                                    clickedSelected = true;
+                                    target = (Parent) n;
+                                    break;
+                                }
                             }
                         }
                         
