@@ -2,8 +2,7 @@ Looks like we aren't going to fail. According to our TAs, the only feature that 
 
 TODO: Basically, make it more usable.
 =====================================
-- Insert images. //ALMOST DONE
-   - For some reason, it's not resizable. The size comes off as 0.
+- Insert images. //DONE
 - Decide what to do about rich text. 
    - Being able to make outlines would be really good, almost essential.
 - Flashcard binders?
