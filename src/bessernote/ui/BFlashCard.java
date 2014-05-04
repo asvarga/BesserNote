@@ -7,6 +7,7 @@
 package bessernote.ui;
 
 import bessernote.ChildSpecifier;
+import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
@@ -76,6 +77,26 @@ public class BFlashCard extends BWrapPane {
                 }
             }
         });
+        
+//        BTextArea t = new BTextArea();
+//        t.setLayoutX(10);
+//        t.setLayoutY(10);
+//        t.setPrefSize(placeHolder.getWidth()-20, placeHolder.getHeight()-20);
+//        placeHolder.getChildren().add(t);
+        
+        Pane p2 = new Pane();
+        //p2.setPrefWidth(p.placeHolder.getPrefWidth());
+        //p2.setPrefHeight(p.placeHolder.getPrefHeight());
+        //p2.setLayoutX(p.placeHolder.getLayoutX()+p.placeHolder.getPrefWidth()+pad);
+        //p2.setLayoutY(p.placeHolder.getLayoutY());
+        p2.prefWidthProperty().bind(placeHolder.prefWidthProperty());
+        p2.prefHeightProperty().bind(placeHolder.prefHeightProperty());
+        p2.layoutXProperty().bind(Bindings.add(20, // fix the 20, should be padding property
+                Bindings.add(placeHolder.layoutXProperty(), placeHolder.prefWidthProperty())));
+        p2.layoutYProperty().bind(placeHolder.layoutYProperty());
+        p2.styleProperty().bind(placeHolder.styleProperty());
+//        p2.setStyle("-fx-background-color: #"+cp2.getValue().toString().substring(2, cp2.getValue().toString().length()-2));
+        getChildren().add(p2);
         
     }
     

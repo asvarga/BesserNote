@@ -35,7 +35,7 @@ public class BDeck extends BWrapPane {
     public Button shuffle;
     public Button prev;
     public Button next;
-//    public Button make;
+    public Button make;
 //    public Button delete;
 
     public BDeck(BUndoManager undoManager) {
@@ -45,7 +45,7 @@ public class BDeck extends BWrapPane {
         
         top = new Pane();
         shuffle = new Button("Shuff");
-        shuffle.setPrefSize(55, 20);
+        shuffle.setPrefSize(55, 25);
         shuffle.setLayoutX(5);
         shuffle.setLayoutY(5);
         shuffle.setOnAction(new EventHandler<ActionEvent>() {
@@ -55,7 +55,7 @@ public class BDeck extends BWrapPane {
             }
         });
         prev = new Button("Prev");
-        prev.setPrefSize(55, 20);
+        prev.setPrefSize(55, 25);
         prev.setLayoutX(65);
         prev.setLayoutY(5);
         prev.setOnAction(new EventHandler<ActionEvent>() {
@@ -64,7 +64,7 @@ public class BDeck extends BWrapPane {
             }
         });
         next = new Button("Next");
-        next.setPrefSize(55, 20);
+        next.setPrefSize(55, 25);
         next.setLayoutX(125);
         next.setLayoutY(5);
         next.setOnAction(new EventHandler<ActionEvent>() {
@@ -72,10 +72,23 @@ public class BDeck extends BWrapPane {
                 showCard((index+1)%cards.size());
             }
         });
-//        make = new Button("Make");
-//        make.setPrefSize(55, 20);
-//        make.setLayoutX(185);
-//        make.setLayoutY(5);
+        make = new Button("Make");
+        make.setPrefSize(55, 25);
+        make.setLayoutX(185);
+        make.setLayoutY(5);
+        make.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+                // Should copy current card instead
+                BFlashCard card = new BFlashCard(undoManager);
+                card.setPrefMinSize(getWidth()-2*padding, getHeight()-2*padding);
+                card.setLayoutX(padding);
+                card.setLayoutY(padding);
+                card.setPadding(20);    // fix this
+                card.setStyle("-fx-background-color: #CCCCCC");
+                card.placeHolder.setStyle("-fx-background-color: #666666");
+                getChildren().add(card);
+            }
+        });
 //        delete = new Button("Del");
 //        delete.setPrefSize(55, 20);
 //        delete.setLayoutX(245);
@@ -83,10 +96,10 @@ public class BDeck extends BWrapPane {
         top.getChildren().add(shuffle);
         top.getChildren().add(prev);
         top.getChildren().add(next);
-//        top.getChildren().add(make);
+        top.getChildren().add(make);
 //        top.getChildren().add(delete);
-        top.setPrefWidth(185);
-        top.prefHeightProperty().bind(Bindings.add(10, prev.heightProperty()));
+        top.setPrefWidth(245);
+        top.prefHeightProperty().bind(Bindings.add(10, prev.prefHeightProperty()));
         top.layoutYProperty().bind(Bindings.negate(top.heightProperty()));
         
         addOther(top);
