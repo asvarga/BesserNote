@@ -46,6 +46,9 @@ public class Saver {
         xstream.alias("root", RootSave.class);
         xstream.alias("pane", PaneSave.class);
         xstream.alias("image", BImageSave.class);
+        xstream.alias("drawing", DoodleSave.class);
+        xstream.alias("lineto", lineToSave.class);
+        xstream.alias("moveto", moveToSave.class);
         }
     
     /**

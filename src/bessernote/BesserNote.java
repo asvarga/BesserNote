@@ -43,6 +43,10 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.LineTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Popup;
@@ -89,6 +93,8 @@ public class BesserNote extends Application {
     private FileChooser fileChooser = new FileChooser();
     //private GraphicsContext gc;
     
+    private DrawCanvas drawCanvas;
+    
     private dockingMenu dockingMenu;
     
     private double startOutlineX;
@@ -128,8 +134,7 @@ public class BesserNote extends Application {
         dragBox.setVisible(false);
         above.getChildren().add(dragBox);
         
-//        stackPane.getChildren().add(drawCanvas);
-//        drawCanvas.toBack();
+
         
         //// SELECTION ////
         
@@ -334,7 +339,7 @@ public class BesserNote extends Application {
                 Text tutorial18 = new Text("  We want BesserNote to be easy and intuitive to use. Hopefully you find that it is. \n (Press esc to quit)");
                 
                 
-                Text tutorial17 = new Text("        --------- Keyboard Shortcuts ------- \n CMD + P = Pane \n CMD + W = WrapPane \n CMD + I = TextArea \n CMD + S = ScrollPane \n CMD + T = TabPane \n CMD + F = FlashCard \n CMD + M = Image \n \n" );
+                Text tutorial17 = new Text("        --------- Keyboard Shortcuts ------- \n CMD + P = Pane \n CMD + W = WrapPane \n CMD + I = TextArea \n CMD + L = ScrollPane \n CMD + T = TabPane \n CMD + F = FlashCard \n CMD + M = Image \n \n" );
                 
                 
                 helpStuff.getChildren().addAll(tutorial1, tutorial2, tutorial3, tutorial4, tutorial5, tutorial6, tutorial7, tutorial8, tutorial9, tutorial10, tutorial11);
@@ -344,7 +349,7 @@ public class BesserNote extends Application {
                 
                 
                 Popup labelMenu = new Popup();
-                Text text1 = new Text("Pane \n (cmmd + p) \n \n \n WrapPane \n (CMD + W) \n \n \n \n Text \n (CMD + I) \n \n \n \n ScrollPane \n (CMD + S) \n \n \n  \n TabPane \n  (CMD + T) \n \n \n \n FlashCard \n (CMD + F) \n \n \n Image \n (CMD + M)");
+                Text text1 = new Text("Pane \n (CMD + P) \n \n \n WrapPane \n (CMD + W) \n \n \n \n Text \n (CMD + I) \n \n \n \n ScrollPane \n (CMD + L) \n \n \n  \n TabPane \n  (CMD + T) \n \n \n \n FlashCard \n (CMD + F) \n \n \n Image \n (CMD + M)");
                 text1.setFill(Color.RED);
                 labelMenu.getContent().addAll(text1);
                 labelMenu.show(sheet, 2, 260);
@@ -357,7 +362,22 @@ public class BesserNote extends Application {
         menuBar.getMenus().addAll(menuFile, menuEdit, menuHelp);
         root.setTop(menuBar);
 
-        ////  ////
+        //// Playing with drawing. ////
+
+        drawCanvas = new DrawCanvas(this, sheet.getPrefWidth(), sheet.getPrefHeight());
+        stackPane.getChildren().add(drawCanvas);
+        drawCanvas.toBack();
+        drawOn();
+
+//        Rectangle r = new Rectangle();
+//        r.setX(50);
+//        r.setY(50);
+//        r.setWidth(200);
+//        r.setHeight(100);
+//        r.setArcWidth(20);
+//        r.setArcHeight(20);
+//        r.setFill(Color.WHITE);
+
         
         stage.setMaximized(true);
         
@@ -423,7 +443,7 @@ public class BesserNote extends Application {
                     else if (event.getCode() == KeyCode.F && event.isShortcutDown()){
                         dockingMenu.setFlashCardMode();
                     }
-                    else if (event.getCode() == KeyCode.S && event.isShortcutDown()){
+                    else if (event.getCode() == KeyCode.L && event.isShortcutDown()){
                         dockingMenu.setScrollPaneMode();
                     }
                     else if (event.getCode() == KeyCode.I && event.isShortcutDown()){
@@ -431,6 +451,21 @@ public class BesserNote extends Application {
                     }
                     else if (event.getCode() == KeyCode.M && event.isShortcutDown()){
                         dockingMenu.setImageMode();
+                    }
+                    else if (event.getCode() == KeyCode.S && event.isShortcutDown()){
+                        try {
+                            saveFile();
+                        } catch (IOException ex) {
+                            Logger.getLogger(BesserNote.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                    else if (event.getCode() == KeyCode.O && event.isShortcutDown()){
+                        File file = fileChooser.showOpenDialog(stage);
+                        try {
+                            openFile(file);
+                        } catch (IOException ex) {
+                            Logger.getLogger(BesserNote.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
                 }
             }
@@ -888,63 +923,46 @@ public class BesserNote extends Application {
         launch(args);
     }
     
-//    public Node getCurrentFocus(){
-//        return this.scene.getFocusOwner();
-//    }
+    public Node getCurrentFocus(){
+        return this.scene.getFocusOwner();
+    }
 //    
 //    
-//    public void drawOn(){  
-//        currentMode = "draw";
-//        drawCanvas.setVisible(true);
-//        drawCanvas.addListeners();
-//        drawCanvas.toFront();
-//    }
-//    
-//    public void drawOff(){
-//       drawCanvas.removeListeners();
-//    }
-//    
-//    public void circleOn(){
-//        //Bring to front
-//        //circleCanvas.setVisible(true);
-//    }
-//    
-//    public void circleOff(){
-//        //circleCanvas.setVisible(false);
-//    }
-//    
-//    public void setupDrawListeners(){
-//        
-//    }
-//    
-//    public void setupCircleListeners(){
-//        
-//    }
+    public void drawOn(){  
+        currentMode = "draw";
+        drawCanvas.setVisible(true);
+        drawCanvas.addListeners();
+        drawCanvas.toFront();
+    }
+    
+    public void drawOff(){
+       drawCanvas.removeListeners();
+       drawCanvas.toBack();
+       drawCanvas.setVisible(false);
+    }
 //    
 //    public void undoDrawing(){
 //        drawCanvas.undoDrawing();
 //    }
 //    
-//    public void addDoodle(Path path){
-//        path.setFill(Color.WHITE);
-//        path.setStroke(Color.WHITE);
-//        path.setStrokeWidth(5);
-//        sheet.getChildren().add(path);
-//        System.out.println(sheet.getChildren());
-//        System.out.println(path.getElements());
-//    }
+    public void addDoodle(Path path){
+        path.setStroke(Color.WHITE);
+        path.setStrokeWidth(7);
+        ((Pane)target).getChildren().add(path);
+        drawOff();
+    }
 //    
 //    public void drawPath(Path path){
 //        
 //    }
 //    
-//    public void strokeColor(Color c){
-//        switch(currentMode){
-//            case "draw":
-//                drawCanvas.changeColor(c);
-//            break;
-//        }
-//    }
+    public void strokeColor(Color c){
+        switch(currentMode){
+            case "draw":
+                drawCanvas.changeColor(c);
+            break;
+        }
+    }
 //    
 //    public static void out(Object o){
 //        System.out.println(o);

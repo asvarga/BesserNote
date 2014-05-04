@@ -4,12 +4,17 @@
  * and open the template in the editor.
  */
 
-package bessernote.ui;
+package saving;
+
+import javafx.scene.shape.PathElement;
 
 /**
- * A BDoodle is the thing that you draw. It's a node, but more specifically, a shape. Even MORE specifically, it's a path.
+ *
  * @author ddliu
  */
-public class BDoodle{
-    
+
+public interface PathElementSaveable{
+
+    public PathElement create();
+
 }

@@ -7,6 +7,7 @@
 package saving;
 
 import java.util.List;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import undo.BUndoManager;
 
@@ -16,7 +17,7 @@ import undo.BUndoManager;
  */
 public interface Saveable {
     
-    public Parent create(BUndoManager undoManager);
+    public Node create(BUndoManager undoManager);
     public List<Saveable> getChildren();
     
     

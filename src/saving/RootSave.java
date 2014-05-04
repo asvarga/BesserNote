@@ -17,6 +17,7 @@ import java.util.List;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Path;
 import undo.BUndoManager;
 
 /**
@@ -50,6 +51,9 @@ public class RootSave implements Saveable{
                 else if(node instanceof BScrollPane){
                     saveObj = new BScrollPaneSave((BScrollPane)node);
                 }
+                else if(node instanceof Path){
+                    saveObj = new DoodleSave((Path)node);
+                }                
                 else if (node instanceof BImage){
                     saveObj = new BImageSave((BImage)node);
                 }
