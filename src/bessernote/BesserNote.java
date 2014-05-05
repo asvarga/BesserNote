@@ -440,7 +440,7 @@ public class BesserNote extends Application {
                 @Override
                 public void handle(KeyEvent event) {
                     if (event.getCode() == KeyCode.TAB) {
-                        event.consume();
+                        
                         if (superClicked.size() > 0) {
                             if (event.isShiftDown()) {
                                 selectPrev();
@@ -448,6 +448,7 @@ public class BesserNote extends Application {
                                 selectNext();
                             }
                         }
+                        event.consume();
                     } else if (event.getCode() == KeyCode.ESCAPE) {
                         dockingMenu.setDrawOff();                        
                         cancelSuperClick();
@@ -560,7 +561,7 @@ public class BesserNote extends Application {
                         if (superSelected != null) {
                             dragOffsetX = new HashMap<>();
                             dragOffsetY = new HashMap<>();
-                           toResize = new HashSet<Parent>();
+                            toResize = new HashSet<Parent>();
                             for (Map.Entry<Node, DashedBox> entry : selectBoxes.entrySet()) {
                                 Node n = entry.getKey();
 //                                checks if the bottom right corner was picked and adds toResize if selected
@@ -810,6 +811,7 @@ public class BesserNote extends Application {
 //        System.out.println(i);
         superIndex = i;
         superSelected = superClicked.get(superIndex);
+        System.out.println(superSelected);
         
         if (selectBoxes.containsKey(superSelected)) {
             DashedBox dashed = selectBoxes.get(superSelected);

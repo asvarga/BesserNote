@@ -166,7 +166,7 @@ public class dockingMenu extends VBox{
             });
         
         
-        
+        this.setPaneMode();
     }
     
     public void toggleNodeGUIMode(){
