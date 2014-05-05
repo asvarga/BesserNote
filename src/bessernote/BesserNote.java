@@ -1023,17 +1023,20 @@ public class BesserNote extends Application {
         addPath.setStroke(c);
         addPath.setStrokeWidth(7);
         addPath.setSmooth(true);
+        addPath.setLayoutX(newInitX);
+        addPath.setLayoutY(newInitY);
         MoveTo addInit = new MoveTo();
-        addInit.setX(newInitX);
-        addInit.setY(newInitY);
+        addInit.setX(initX - target.getLayoutX());
+        addInit.setY(initY - target.getLayoutY());
         addPath.getElements().add(addInit);
         //Transform Path
         for(int i = 1; i < path.getElements().size(); i++){
             LineTo line = (LineTo) path.getElements().get(i);
-            addPath.getElements().add(new LineTo(line.getX() - superSelected.getLayoutX(), line.getY() - superSelected.getLayoutY()));
+            addPath.getElements().add(new LineTo((line.getX() - target.getLayoutX()), (line.getY()  - target.getLayoutY())));
         }
         System.out.println(path.getLayoutX() + " " + path.getLayoutY() + " |" + path.toString());
-        ((Pane)superSelected).getChildren().add(addPath);
+        System.out.println(addPath.getLayoutX() + " " + addPath.getLayoutY() + " |" + addPath.toString()); 
+        ((Pane)target).getChildren().add(addPath);
     }
    
     public void strokeColor(Color c){
@@ -1077,8 +1080,8 @@ public class BesserNote extends Application {
     public void paste(){
         Node insertMe = copied.create(undoManager);
         Point p = MouseInfo.getPointerInfo().getLocation();
-        insertMe.setLayoutX(p.getX() - 50);
-        insertMe.setLayoutY(p.getY() - 50);
+        insertMe.setLayoutX(p.getX() - 75);
+        insertMe.setLayoutY(p.getY() - 75);
         ((Pane)target).getChildren().add(insertMe);
     }
     
