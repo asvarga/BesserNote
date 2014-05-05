@@ -48,8 +48,8 @@ public class DrawCanvas extends Canvas{
     private EventHandler<MouseEvent> released;
     private Color c;
     
-    public DrawCanvas(final BesserNote besser, double width, double height){
-        super(width, height);
+    public DrawCanvas(final BesserNote besser) {//, double width, double height){
+        super();//width, height);
         this.setStyle("-fx-background-color: rgba(0, 0, 0, 0);");
         this.besser = besser;
         gc.setStroke(Color.WHITE);
@@ -62,8 +62,8 @@ public class DrawCanvas extends Canvas{
             public void changed(ObservableValue<? extends Parent> ov, Parent t, Parent t1) {
                 if (this2.getParent() != null) {
                     Pane p = (Pane) this2.getParent();
-                    this2.widthProperty().bind(p.widthProperty());
-                    this2.heightProperty().bind(p.heightProperty());
+//                    this2.widthProperty().bind(p.widthProperty());
+//                    this2.heightProperty().bind(p.heightProperty());
                 }
             }
         });

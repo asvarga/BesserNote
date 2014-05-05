@@ -13,6 +13,7 @@ import bessernote.ui.BTabPane;
 import bessernote.ui.BWrapPane;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
@@ -21,6 +22,8 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
@@ -29,6 +32,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -37,7 +42,7 @@ import javafx.scene.paint.Color;
  *
  * @author ddliu
  */
-public class dockingMenu extends VBox{
+public class DockingMenu extends VBox{
     private final Node _top = this;
     private final double spacing = 0.5;
     private ToggleGroup group = new ToggleGroup();
@@ -61,7 +66,7 @@ public class dockingMenu extends VBox{
     
     public NodeGUI nodeGUI;
     
-    public dockingMenu(NodeGUI nodeGUI, BesserNote besser) throws FileNotFoundException{
+    public DockingMenu(NodeGUI nodeGUI, BesserNote besser) throws FileNotFoundException{
         this.getStylesheets().add(getClass().getResource("toggle-button.css").toExternalForm());
         this.nodeGUI = nodeGUI;
         this.besser = besser;
@@ -159,7 +164,18 @@ public class dockingMenu extends VBox{
         });
         
         //Add Buttons
-        this.getChildren().addAll(Pane, WrapPane, Draw, CircleButton, TextArea, ScrollPane, TabPane, FlashCard, ImageButton, DeckButton, cp);
+        //this.getChildren().addAll(Pane, WrapPane, Draw, TextArea, ScrollPane, TabPane, FlashCard, ImageButton, DeckButton, cp);
+        ScrollPane scroll = new ScrollPane();
+        VBox p = new VBox();
+        scroll.setContent(p);
+        //scroll.setHbarPolicy(ScrollBarPolicy.NEVER);
+        //BorderPane bp = (BorderPane) getParent();
+        //scroll.setMaxHeight(Double.MAX_VALUE);
+//        scroll.prefHeightProperty().bind(
+//                Bindings.subtract(bp.heightProperty(), )
+//        );
+        this.getChildren().add(scroll);
+        p.getChildren().addAll(Pane, WrapPane, Draw, CircleButton, TextArea, ScrollPane, TabPane, FlashCard, ImageButton, DeckButton, cp);
         
         //Listens for clicks and toggles modes
         group.selectedToggleProperty().addListener(new ChangeListener<Toggle>(){
