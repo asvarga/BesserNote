@@ -1026,13 +1026,13 @@ public class BesserNote extends Application {
         addPath.setLayoutX(newInitX);
         addPath.setLayoutY(newInitY);
         MoveTo addInit = new MoveTo();
-        addInit.setX(initX - target.getLayoutX());
-        addInit.setY(initY - target.getLayoutY());
+        addInit.setX(initX - target.getLayoutX() - newInitX);
+        addInit.setY(initY - target.getLayoutY() - newInitY);
         addPath.getElements().add(addInit);
         //Transform Path
         for(int i = 1; i < path.getElements().size(); i++){
             LineTo line = (LineTo) path.getElements().get(i);
-            addPath.getElements().add(new LineTo((line.getX() - target.getLayoutX()), (line.getY()  - target.getLayoutY())));
+            addPath.getElements().add(new LineTo((line.getX() - target.getLayoutX() - newInitX), (line.getY()  - target.getLayoutY() - newInitY)));
         }
         System.out.println(path.getLayoutX() + " " + path.getLayoutY() + " |" + path.toString());
         System.out.println(addPath.getLayoutX() + " " + addPath.getLayoutY() + " |" + addPath.toString()); 
