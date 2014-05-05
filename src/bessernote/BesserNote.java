@@ -91,16 +91,16 @@ public class BesserNote extends Application {
     private BorderPane root;
     private MenuBar menuBar;
     private StackPane stackPane;
-    private Pane sheet;
+    public Pane sheet;
     private Pane above;
     
     private DashedBox dragBox;
     
-    private Map<Node, DashedBox> selectBoxes;
+    public Map<Node, DashedBox> selectBoxes;
     private Node superSelected;
     private int superIndex;
     //private DashedBox superBox;
-    private List<Node> superClicked;
+    public List<Node> superClicked;
     
     private Map<Node, Double> dragOffsetX;
     private Map<Node, Double> dragOffsetY;
@@ -119,9 +119,9 @@ public class BesserNote extends Application {
     
     private dockingMenu dockingMenu;
     
-    private double startOutlineX;
-    private double startOutlineY;
-    private Parent target;
+    public double startOutlineX;
+    public double startOutlineY;
+    public Parent target;
     
     //For copying and pasting.
     private Saveable copied;
@@ -1000,13 +1000,13 @@ public class BesserNote extends Application {
 //        drawCanvas.undoDrawing();
 //    }
 //    
-    public void addDoodle(Path path){
+    public void addDoodle(Path path){        
         MoveTo initialMove = (MoveTo) path.getElements().get(0);        
         double initX = initialMove.getX();
         double initY = initialMove.getY();
         //Transform to new coordinates
-        double newInitX = initX - superSelected.getLayoutX();
-        double newInitY = initY - superSelected.getLayoutY(); 
+        double newInitX = initX - target.getLayoutX();
+        double newInitY = initY - target.getLayoutY(); 
         //New Path
         Path addPath = new Path();
         addPath.setStroke(c);

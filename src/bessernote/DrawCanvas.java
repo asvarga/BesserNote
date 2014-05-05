@@ -23,6 +23,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
@@ -39,7 +40,7 @@ public class DrawCanvas extends Canvas{
     public BesserNote besser;
     private double x;
     private double y;
-    private Path doodle;
+    private Path doodle = new Path();
     private MoveTo move;
         private GraphicsContext gc = this.getGraphicsContext2D();
     private EventHandler<MouseEvent> clicked;
@@ -70,6 +71,48 @@ public class DrawCanvas extends Canvas{
         clicked = new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent e) {
+                       if (e.getButton() == MouseButton.SECONDARY) {
+                        besser.startOutlineX = e.getX();
+                        besser.startOutlineY = e.getY();
+                        
+                        boolean clickedSelected = false;
+                        
+                        if (e.isShortcutDown()) {
+                            for (Map.Entry<Node, DashedBox> entry : besser.selectBoxes.entrySet()) {
+                                Node n = entry.getKey();
+                                Point2D local = besser.sheetToLocal(n, e.getX(), e.getY());
+                                if (n instanceof Region &&
+                                        local.getX() >= 0 && 
+                                        local.getY() >= 0 &&
+                                        local.getX() <= n.getBoundsInLocal().getWidth() &&
+                                        local.getY() <= n.getBoundsInLocal().getHeight()) {
+                                    clickedSelected = true;
+                                    besser.target = (Parent) n;
+                                    break;
+                                }
+                            }
+                        }
+                        
+                        if (clickedSelected) {
+                            besser.cancelSuperClick();
+                            besser.unselectAll();
+                            besser.superClicked = new ArrayList<>();
+                            besser.superClicked.add(besser.target);
+                            besser.flipSelection(0);
+                        } else {
+                            besser.cancelSuperClick();
+                            besser.unselectAll();
+                            besser.superClicked = besser.superClick(e.getX(), e.getY());
+                            if (besser.superClicked.size() > 0 && besser.superClicked.get(0) instanceof Pane) {
+                                besser.flipSelection(0);
+                                besser.target = (Parent) besser.superClicked.get(0);
+                            } else {
+                                besser.unselectAll();
+                                besser.target = besser.sheet;
+                            }
+                        }
+                    }                          
+
                     doodle = new Path();
                     doodle.setLayoutX(e.getX());
                     doodle.setLayoutY(e.getY());                    
