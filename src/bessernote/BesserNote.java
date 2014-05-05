@@ -484,6 +484,9 @@ public class BesserNote extends Application {
                     else if(event.getCode() == KeyCode.D && event.isShortcutDown()){
                         dockingMenu.setDrawMode();
                     }
+                    else if (event.getCode() == KeyCode.K && event.isShortcutDown()){
+                        dockingMenu.setDeckMode();
+                    }
                     else if(event.getCode() == KeyCode.P && event.isShortcutDown()){
                         dockingMenu.setPaneMode();
                     }

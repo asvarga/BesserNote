@@ -61,7 +61,7 @@ public class dockingMenu extends VBox{
     public NodeGUI nodeGUI;
     
     public dockingMenu(NodeGUI nodeGUI, BesserNote besser) throws FileNotFoundException{
-        //this.getStylesheets().add(getClass().getResource("toggle-button.css").toExternalForm());
+        this.getStylesheets().add(getClass().getResource("toggle-button.css").toExternalForm());
         this.nodeGUI = nodeGUI;
         this.besser = besser;
         
