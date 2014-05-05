@@ -13,6 +13,7 @@ import bessernote.ui.BTabPane;
 import bessernote.ui.BWrapPane;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
@@ -21,6 +22,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
@@ -29,6 +31,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -154,7 +158,17 @@ public class DockingMenu extends VBox{
         });
         
         //Add Buttons
-        this.getChildren().addAll(Pane, WrapPane, Draw, TextArea, ScrollPane, TabPane, FlashCard, ImageButton, DeckButton, cp);
+        //this.getChildren().addAll(Pane, WrapPane, Draw, TextArea, ScrollPane, TabPane, FlashCard, ImageButton, DeckButton, cp);
+        ScrollPane scroll = new ScrollPane();
+        VBox p = new VBox();
+        scroll.setContent(p);
+        //BorderPane bp = (BorderPane) getParent();
+        scroll.setMaxHeight(Double.MAX_VALUE);
+//        scroll.prefHeightProperty().bind(
+//                Bindings.subtract(bp.heightProperty(), )
+//        );
+        this.getChildren().add(scroll);
+        p.getChildren().addAll(Pane, WrapPane, Draw, TextArea, ScrollPane, TabPane, FlashCard, ImageButton, DeckButton, cp);
         
         //Listens for clicks and toggles modes
         group.selectedToggleProperty().addListener(new ChangeListener<Toggle>(){

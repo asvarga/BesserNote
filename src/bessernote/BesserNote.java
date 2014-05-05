@@ -5,8 +5,8 @@
 package bessernote;
 
 
-import bessernote.nodemaker.NodeGUI;
 import bessernote.nodemaker.DockingMenu;
+import bessernote.nodemaker.NodeGUI;
 import bessernote.nodemaker.placement.DraggingUtil;
 import bessernote.ui.BFlashCard;
 import bessernote.ui.BImage;
@@ -29,6 +29,9 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
@@ -141,8 +144,8 @@ public class BesserNote extends Application {
     public void start(final Stage stage) throws IOException {
         this.stage = stage;
         System.out.println("JavaFX Version: "+VersionInfo.getRuntimeVersion());// VersionInfo.getRuntimeVersion())‌​;
-
-        root = new BorderPane();
+        
+        root = new BorderPane();        
         scene = new Scene(root, 640, 480, Color.BLACK);
         
         stackPane = new StackPane();
@@ -404,7 +407,31 @@ public class BesserNote extends Application {
 
         //// Playing with drawing. ////
 
-        drawCanvas = new DrawCanvas(this, sheet.getPrefWidth(), sheet.getPrefHeight());
+        drawCanvas = new DrawCanvas(this);//, sheet.getPrefWidth(), sheet.getPrefHeight());
+        stage.widthProperty().addListener(new ChangeListener() {
+            @Override public void changed(ObservableValue ov, Object t, Object t1) {
+                drawCanvas.setWidth(1);
+                Platform.runLater(new Runnable() {
+                    @Override public void run() {
+                        drawCanvas.setWidth(sheet.getWidth());
+                        showAllSelections();
+                    }                 
+                });
+            }
+        });
+        stage.heightProperty().addListener(new ChangeListener() {
+            @Override public void changed(ObservableValue ov, Object t, Object t1) {
+                drawCanvas.setHeight(1);
+                Platform.runLater(new Runnable() {
+                    @Override public void run() {
+                        drawCanvas.setHeight(sheet.getHeight());
+                        showAllSelections();
+                    }                 
+                });
+            }
+        });
+//        drawCanvas.widthProperty().bind(sheet.widthProperty());
+//        drawCanvas.heightProperty().bind(sheet.heightProperty());
         stackPane.getChildren().add(drawCanvas);
         drawCanvas.toBack();
 //        drawOn();
@@ -811,7 +838,7 @@ public class BesserNote extends Application {
 //        System.out.println(i);
         superIndex = i;
         superSelected = superClicked.get(superIndex);
-        System.out.println(superSelected);
+        //System.out.println(superSelected);
         
         if (selectBoxes.containsKey(superSelected)) {
             DashedBox dashed = selectBoxes.get(superSelected);
@@ -827,11 +854,18 @@ public class BesserNote extends Application {
     
     public void showSelection(Node n) {
         DashedBox dashed = selectBoxes.get(n);
+        System.out.println(dashed);
         Bounds bounds = n.localToScene(n.getBoundsInLocal());
         bounds = sheet.sceneToLocal(bounds);
         dashed.setPrefSize(bounds.getWidth(), bounds.getHeight());
         dashed.setLayoutX(bounds.getMinX());
         dashed.setLayoutY(bounds.getMinY());
+    }
+    
+    public void showAllSelections() {
+        for (Map.Entry<Node, DashedBox> mapEntry : selectBoxes.entrySet()) {
+           showSelection(mapEntry.getKey());
+        }
     }
     
     public void selectPrev() {
