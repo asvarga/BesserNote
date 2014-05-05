@@ -495,6 +495,9 @@ public class BesserNote extends Application {
                     else if (event.getCode() == KeyCode.W && event.isShortcutDown()){
                         dockingMenu.setWrapPaneMode();
                     }
+                    else if (event.getCode() == KeyCode.L && event.isShortcutDown()){
+                        dockingMenu.setCircleMode();
+                    }
                     else if (event.getCode() == KeyCode.T && event.isShortcutDown()){
                         dockingMenu.setTabPaneMode();
                     }
