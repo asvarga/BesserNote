@@ -1034,8 +1034,8 @@ public class BesserNote extends Application {
             LineTo line = (LineTo) path.getElements().get(i);
             addPath.getElements().add(new LineTo((line.getX() - target.getLayoutX() - newInitX), (line.getY()  - target.getLayoutY() - newInitY)));
         }
-        System.out.println(path.getLayoutX() + " " + path.getLayoutY() + " |" + path.toString());
-        System.out.println(addPath.getLayoutX() + " " + addPath.getLayoutY() + " |" + addPath.toString()); 
+//        System.out.println(path.getLayoutX() + " " + path.getLayoutY() + " |" + path.toString());
+//        System.out.println(addPath.getLayoutX() + " " + addPath.getLayoutY() + " |" + addPath.toString()); 
         ((Pane)target).getChildren().add(addPath);
     }
    

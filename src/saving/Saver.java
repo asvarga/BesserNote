@@ -51,6 +51,7 @@ public class Saver {
         xstream.alias("lineto", lineToSave.class);
         xstream.alias("moveto", moveToSave.class);
         xstream.alias("deck", BDeckSave.class);
+        xstream.alias("ellipse", EllipseSave.class);
         }
     
     /**

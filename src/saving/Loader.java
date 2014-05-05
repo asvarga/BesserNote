@@ -48,6 +48,7 @@ public class Loader {
         xstream.alias("lineto", lineToSave.class);
         xstream.alias("moveto", moveToSave.class);
         xstream.alias("deck", BDeckSave.class);
+        xstream.alias("ellipse", EllipseSave.class);        
         loaded = (RootSave) xstream.fromXML(file);
         //loaded.printChildren();
     }
