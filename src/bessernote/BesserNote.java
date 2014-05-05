@@ -972,8 +972,13 @@ public class BesserNote extends Application {
                 if (newNode != null) {
                     ((Pane) n).getChildren().add(newNode);
                     nodeGUI.editNode(newNode);
+                    try{
                     undoManager.trackMyPlacementChanges((Region) newNode);
                     undoManager.addChange(new AddChange(newNode, (Pane) n));
+                    }
+                    catch(Exception f){
+                        
+                    }
                 }
                         
             }
