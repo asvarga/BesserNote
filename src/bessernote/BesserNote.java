@@ -4,7 +4,6 @@
  */
 package bessernote;
 
-
 import bessernote.nodemaker.DockingMenu;
 import bessernote.nodemaker.NodeGUI;
 import bessernote.nodemaker.placement.DraggingUtil;
