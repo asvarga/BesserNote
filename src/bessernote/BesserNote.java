@@ -592,9 +592,9 @@ public class BesserNote extends Application {
                             for (Map.Entry<Node, DashedBox> entry : selectBoxes.entrySet()) {
                                 Node n = entry.getKey();
 //                                checks if the bottom right corner was picked and adds toResize if selected
-                               if( DraggingUtil.toScaleArea(n, e.getX(), e.getY()) && n instanceof Parent){
-                                toResize.add((Parent)n);
-                               }
+                                if( DraggingUtil.toScaleArea(n, e.getX(), e.getY()) && n instanceof Parent){
+                                    toResize.add((Parent)n);
+                                }
                                 
                                 
                                 Point2D local = sheetToLocal(
@@ -734,7 +734,7 @@ public class BesserNote extends Application {
                             for (Map.Entry<Node, DashedBox> entry : selectBoxes.entrySet()) {
                                 Node n = entry.getKey();
                                 Point2D local = sheetToLocal(n, e.getX(), e.getY());
-                                if (n instanceof Region &&
+                                if (//n instanceof Region &&
                                         local.getX() >= 0 && 
                                         local.getY() >= 0 &&
                                         local.getX() <= n.getBoundsInLocal().getWidth() &&
@@ -756,9 +756,18 @@ public class BesserNote extends Application {
                             cancelSuperClick();
                             unselectAll();
                             superClicked = superClick(e.getX(), e.getY());
-                            if (superClicked.size() > 0 && superClicked.get(0) instanceof Pane) {
-                                flipSelection(0);
-                                target = (Parent) superClicked.get(0);
+                            if (superClicked.size() > 0) {
+                                Node sc0 = superClicked.get(0);
+                                if (sc0 instanceof ChildSpecifier) {
+                                    sc0 = ((ChildSpecifier) sc0).specifySelf();
+                                }
+                                if (sc0 instanceof Pane) {
+                                    flipSelection(0);
+                                    target = (Parent) superClicked.get(0);
+                                } else {
+                                    unselectAll();
+                                    target = sheet;
+                                }
                             } else {
                                 unselectAll();
                                 target = sheet;
@@ -854,7 +863,6 @@ public class BesserNote extends Application {
     
     public void showSelection(Node n) {
         DashedBox dashed = selectBoxes.get(n);
-        System.out.println(dashed);
         Bounds bounds = n.localToScene(n.getBoundsInLocal());
         bounds = sheet.sceneToLocal(bounds);
         dashed.setPrefSize(bounds.getWidth(), bounds.getHeight());
@@ -1005,6 +1013,11 @@ public class BesserNote extends Application {
                     nodeGUI.editNode(newNode);
                     undoManager.trackMyPlacementChanges((Region) newNode);
                     undoManager.addChange(new AddChange(newNode, (Pane) n));
+                    Platform.runLater(new Runnable() {
+                        @Override public void run() {
+                            showAllSelections();
+                        }                 
+                    });
                 }
                         
             }
