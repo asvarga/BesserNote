@@ -37,7 +37,7 @@ import javafx.scene.paint.Color;
  *
  * @author ddliu
  */
-public class dockingMenu extends VBox{
+public class DockingMenu extends VBox{
     private final Node _top = this;
     private final double spacing = 0.5;
     private ToggleGroup group = new ToggleGroup();
@@ -60,7 +60,7 @@ public class dockingMenu extends VBox{
     
     public NodeGUI nodeGUI;
     
-    public dockingMenu(NodeGUI nodeGUI, BesserNote besser) throws FileNotFoundException{
+    public DockingMenu(NodeGUI nodeGUI, BesserNote besser) throws FileNotFoundException{
         this.getStylesheets().add(getClass().getResource("toggle-button.css").toExternalForm());
         this.nodeGUI = nodeGUI;
         this.besser = besser;

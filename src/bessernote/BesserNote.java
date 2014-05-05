@@ -6,7 +6,7 @@ package bessernote;
 
 
 import bessernote.nodemaker.NodeGUI;
-import bessernote.nodemaker.dockingMenu;
+import bessernote.nodemaker.DockingMenu;
 import bessernote.nodemaker.placement.DraggingUtil;
 import bessernote.ui.BFlashCard;
 import bessernote.ui.BImage;
@@ -117,7 +117,7 @@ public class BesserNote extends Application {
     
     private DrawCanvas drawCanvas;
     
-    private dockingMenu dockingMenu;
+    private DockingMenu dockingMenu;
     
     public double startOutlineX;
     public double startOutlineY;
@@ -195,7 +195,7 @@ public class BesserNote extends Application {
         popup.setAutoFix(false);
         popup.setHideOnEscape(true);
         
-        dockingMenu = new dockingMenu(nodeGUI, this);
+        dockingMenu = new DockingMenu(nodeGUI, this);
         root.setLeft(dockingMenu);
         
         popup.addEventFilter(KeyEvent.KEY_PRESSED, 
