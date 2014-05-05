@@ -440,6 +440,7 @@ public class BesserNote extends Application {
                 @Override
                 public void handle(KeyEvent event) {
                     if (event.getCode() == KeyCode.TAB) {
+                        event.consume();
                         if (superClicked.size() > 0) {
                             if (event.isShiftDown()) {
                                 selectPrev();
