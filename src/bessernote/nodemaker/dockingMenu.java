@@ -27,6 +27,8 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -89,6 +91,18 @@ public class dockingMenu extends VBox{
                     }
                 });
         
+       //Escape unselects everything.
+        this.addEventFilter(KeyEvent.KEY_PRESSED,
+            new EventHandler<KeyEvent>() {
+                @Override
+                public void handle(KeyEvent event) {
+                    if (event.getCode() == KeyCode.ESCAPE) {
+                        group.selectToggle(null);
+                        setDrawOff();
+                        nodeGUI.setValue("null");
+                    }
+                }});
+                             
         //Pane
         ImageView paneImage = new ImageView(new Image(new FileInputStream("images/Pane.png")));
         Pane.setGraphic(paneImage);
@@ -140,8 +154,7 @@ public class dockingMenu extends VBox{
         });
         
         //Add Buttons
-        this.getChildren().addAll(Draw, Pane, WrapPane, TextArea, ScrollPane, TabPane, FlashCard, ImageButton, DeckButton, cp);
-        
+        this.getChildren().addAll(Pane, WrapPane, Draw, TextArea, ScrollPane, TabPane, FlashCard, ImageButton, DeckButton, cp);
         
         //Listens for clicks and toggles modes
         group.selectedToggleProperty().addListener(new ChangeListener<Toggle>(){
@@ -273,9 +286,10 @@ public class dockingMenu extends VBox{
         DeckButton.fire();
     }
     
-//    public void unselectAll(){
-//       radioButton.setSelected(true);
-//       System.out.println(group.getSelectedToggle());
-//    }
+    public void unselectAll(){
+        group.selectToggle(null);
+        setDrawOff();
+        nodeGUI.setValue("null");
+    }
     
 }

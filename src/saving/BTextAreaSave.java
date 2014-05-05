@@ -30,7 +30,7 @@ public class BTextAreaSave implements Saveable{
     //private List<Savable> children = new ArrayList<>(); 
     private String color;
     
-    BTextAreaSave(BTextArea textArea) {
+    public BTextAreaSave(BTextArea textArea) {
         //Save this
         xPos = textArea.getLayoutX();
         yPos = textArea.getLayoutY();

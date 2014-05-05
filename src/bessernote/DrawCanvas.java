@@ -71,6 +71,8 @@ public class DrawCanvas extends Canvas{
                 @Override
                 public void handle(MouseEvent e) {
                     doodle = new Path();
+                    doodle.setLayoutX(e.getX());
+                    doodle.setLayoutY(e.getY());                    
                     move = new MoveTo(e.getX(), e.getY());
                     gc.beginPath();
                     gc.lineTo(e.getX(), e.getY());
@@ -92,6 +94,8 @@ public class DrawCanvas extends Canvas{
             public void handle(MouseEvent e){
                 gc.stroke();
                 gc.closePath();
+
+//                System.out.println(doodle.getLayoutX() + " " + doodle.getLayoutY());
                 besser.addDoodle(doodle);
 //                System.out.println(doodle);
                 gc.clearRect(0, 0, 2000, 2000);

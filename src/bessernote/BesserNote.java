@@ -8,9 +8,17 @@ package bessernote;
 import bessernote.nodemaker.NodeGUI;
 import bessernote.nodemaker.dockingMenu;
 import bessernote.nodemaker.placement.DraggingUtil;
+import bessernote.ui.BFlashCard;
 import bessernote.ui.BImage;
+import bessernote.ui.BScrollPane;
+import bessernote.ui.BTabPane;
+import bessernote.ui.BTextArea;
+import bessernote.ui.BWrapPane;
 import com.sun.javafx.runtime.VersionInfo;
+import com.thoughtworks.xstream.XStream;
 import java.awt.Desktop;
+import java.awt.MouseInfo;
+import java.awt.Point;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -46,14 +54,28 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
+import javafx.scene.shape.PathElement;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import saving.BEditableTabSave;
+import saving.BFlashCardSave;
+import saving.BImageSave;
+import saving.BScrollPaneSave;
+import saving.BTabPaneSave;
+import saving.BTextAreaSave;
+import saving.BWrapPaneSave;
+import saving.DoodleSave;
 import saving.Loader;
+import saving.PaneSave;
+import saving.RootSave;
+import saving.Saveable;
 import saving.Saver;
+import saving.lineToSave;
+import saving.moveToSave;
 import undo.AddChange;
 import undo.BUndoManager;
 import undo.DeleteChange;
@@ -101,6 +123,11 @@ public class BesserNote extends Application {
     private double startOutlineY;
     private Parent target;
     
+    //For copying and pasting.
+    private Saveable copied;
+    private XStream xstream = new XStream();
+
+    
     ///Drawing Canvases
     //private DrawCanvas drawCanvas = new DrawCanvas(this, 2000, 2000);
     //private Canvas circleCanvas = new Canvas();
@@ -135,6 +162,19 @@ public class BesserNote extends Application {
         above.getChildren().add(dragBox);
         
 
+        ///Add aliases ///
+        xstream.alias("scrollPane", BScrollPaneSave.class);
+        xstream.alias("tab", BEditableTabSave.class);
+        xstream.alias("tabPane", BTabPaneSave.class);
+        xstream.alias("flashcard", BFlashCardSave.class);
+        xstream.alias("wrapPane", BWrapPaneSave.class);
+        xstream.alias("textarea", BTextAreaSave.class);
+        xstream.alias("root", RootSave.class);
+        xstream.alias("pane", PaneSave.class);
+        xstream.alias("image", BImageSave.class);
+        xstream.alias("drawing", DoodleSave.class);
+        xstream.alias("lineto", lineToSave.class);
+        xstream.alias("moveto", moveToSave.class);
         
         //// SELECTION ////
         
@@ -408,7 +448,7 @@ public class BesserNote extends Application {
                             }
                         }
                     } else if (event.getCode() == KeyCode.ESCAPE) {
-                        //dockingMenu.unselectAll();
+                        dockingMenu.setDrawOff();                        
                         cancelSuperClick();
                         unselectAll();
                         dragBox.setVisible(false);
@@ -424,6 +464,15 @@ public class BesserNote extends Application {
                         }
                         
                         unselectAll();
+                    }
+                    //Copy
+                    else if (event.getCode() == KeyCode.C && event.isShortcutDown()){
+                        copy();
+                    }
+                    
+                    //Paste
+                    else if (event.getCode() == KeyCode.V && event.isShortcutDown()){
+                        paste();
                     }
                     else if (event.getCode() == KeyCode.Z && event.isShortcutDown()){
                         undoManager.undo();
@@ -949,28 +998,73 @@ public class BesserNote extends Application {
 //    }
 //    
     public void addDoodle(Path path){
-        path.setStroke(c);
-        path.setStrokeWidth(7);
-        ((Pane)target).getChildren().add(path);
-//        drawOff();
+        MoveTo initialMove = (MoveTo) path.getElements().get(0);        
+        double initX = initialMove.getX();
+        double initY = initialMove.getY();
+        //Transform to new coordinates
+        double newInitX = initX - superSelected.getLayoutX();
+        double newInitY = initY - superSelected.getLayoutY(); 
+        //New Path
+        Path addPath = new Path();
+        addPath.setStroke(c);
+        addPath.setStrokeWidth(7);
+        MoveTo addInit = new MoveTo();
+        addInit.setX(newInitX);
+        addInit.setY(newInitY);
+        addPath.getElements().add(addInit);
+        //Transform Path
+        for(int i = 1; i < path.getElements().size(); i++){
+            LineTo line = (LineTo) path.getElements().get(i);
+            addPath.getElements().add(new LineTo(line.getX() - superSelected.getLayoutX(), line.getY() - superSelected.getLayoutY()));
+        }
+        System.out.println(path.getLayoutX() + " " + path.getLayoutY() + " |" + path.toString());
+        ((Pane)superSelected).getChildren().add(addPath);
     }
-//    
-//    public void drawPath(Path path){
-//        
-//    }
-//    
+   
     public void strokeColor(Color c){
         this.c = c;
         drawCanvas.changeColor(c);
     }
-//    
-//    public static void out(Object o){
-//        System.out.println(o);
-//    }
-//    
-//    public static void out(String s, Object... o){
-//        System.out.println(String.format(s, o));
-//    }
-
+    
+    
+    
+    ///Copy + Paste///
+    private void copy(){
+        Saveable saveObj = null;
+        if(superSelected instanceof BTabPane){
+            saveObj = new BTabPaneSave((BTabPane)superSelected);
+        }
+        else if(superSelected instanceof BTextArea){
+            saveObj = new BTextAreaSave((BTextArea)superSelected);
+        }
+        else if(superSelected instanceof BScrollPane){
+            saveObj = new BScrollPaneSave((BScrollPane)superSelected);
+        }
+        else if(superSelected instanceof Path){
+            saveObj = new DoodleSave((Path)superSelected);
+        }                
+        else if (superSelected instanceof BImage){
+            saveObj = new BImageSave((BImage)superSelected);
+        }
+        else if (superSelected instanceof BFlashCard){
+            saveObj = new BFlashCardSave((BFlashCard)superSelected);
+        }
+        else if (superSelected instanceof BWrapPane){
+            saveObj = new BWrapPaneSave((BWrapPane)superSelected);
+        }
+        else if (superSelected instanceof Pane){
+            saveObj = new PaneSave((Pane)superSelected);
+        }
+        copied = saveObj;
+        System.out.println(copied);
+    }
+    
+    public void paste(){
+        Node insertMe = copied.create(undoManager);
+        Point p = MouseInfo.getPointerInfo().getLocation();
+        insertMe.setLayoutX(p.getX() - 50);
+        insertMe.setLayoutY(p.getY() - 50);
+        ((Pane)target).getChildren().add(insertMe);
+    }
     
 }

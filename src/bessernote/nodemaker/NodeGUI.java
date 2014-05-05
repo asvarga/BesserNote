@@ -36,6 +36,7 @@ public class NodeGUI extends BaseGUI {
     ShowOneGUI show1;
     public Button cancelButton;
     public Button createButton;
+    private boolean on = true;
     
 //    Pane target;
 //    double tx;
@@ -87,7 +88,10 @@ public class NodeGUI extends BaseGUI {
     
     @Override
     public Node getNode(BUndoManager undoManager) {
-        return show1.getNode(undoManager);
+        if(on)
+            return show1.getNode(undoManager);
+        else
+            return null;
     }
     
     @Override
@@ -110,7 +114,12 @@ public class NodeGUI extends BaseGUI {
     Sets the value for the combo box. Called in dockingMenu.
     */
     public void setValue(String mode){
-        combo.setValue(mode);
+        if(mode.equals("null"))
+            on = false;
+        else{
+            on = true;
+            combo.setValue(mode);
+        }
     }
     
     @Override
