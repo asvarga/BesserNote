@@ -6,6 +6,7 @@
 
 package saving;
 
+import bessernote.ui.BDeck;
 import bessernote.ui.BFlashCard;
 import bessernote.ui.BImage;
 import bessernote.ui.BScrollPane;
@@ -65,6 +66,9 @@ public class BFlashCardSave implements Saveable{
                 else if(node instanceof Path){
                     saveObj = new DoodleSave((Path)node);
                 }
+                else if(node instanceof BDeck){
+                    saveObj = new BDeckSave((BDeck)node);
+                }
                 else if (node instanceof BImage){
                     saveObj = new BImageSave((BImage)node);
                 }
@@ -94,8 +98,19 @@ public class BFlashCardSave implements Saveable{
        returnMe.setStyle("-fx-background-color:" + color);       
        //returnMe.setStyle("-fx-background-color:" + color);
        if(children.size() > 0){
+           System.out.println(children.size());
            for(int i = 0; i < children.size(); i ++){
-               returnMe.getChildren().add(children.get(i).create(undoManager));
+               if(i == 0){
+                   //returnMe.setPlaceholder((Pane) (children.get(i).create(undoManager)));
+                   //returnMe.getChildren().add(children.get(i).create(undoManager));
+               }
+               else if (i == 1){
+                   returnMe.setupP2((Pane)(children.get(i).create(undoManager)));
+                   returnMe.getChildren().add(children.get(i).create(undoManager));
+                   //System.out.println(returnMe.getChildren());
+               }
+               else 
+                   returnMe.getChildren().add(children.get(i).create(undoManager));
            }
 //            for(Savable child: children){
 //                returnMe.getChildren().add(child.create());

@@ -6,6 +6,7 @@
 
 package saving;
 
+import bessernote.ui.BDeck;
 import bessernote.ui.BFlashCard;
 import bessernote.ui.BImage;
 import bessernote.ui.BScrollPane;
@@ -53,6 +54,9 @@ public class RootSave implements Saveable{
                 }
                 else if(node instanceof Path){
                     saveObj = new DoodleSave((Path)node);
+                }    
+                else if(node instanceof BDeck){
+                    saveObj = new BDeckSave((BDeck)node);
                 }                
                 else if (node instanceof BImage){
                     saveObj = new BImageSave((BImage)node);

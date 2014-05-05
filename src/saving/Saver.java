@@ -7,6 +7,7 @@
 package saving;
 
 import bessernote.deprecated.FlashCard;
+import bessernote.ui.BDeck;
 import bessernote.ui.BEditableTab;
 import bessernote.ui.BFlashCard;
 import bessernote.ui.BScrollPane;
@@ -49,6 +50,7 @@ public class Saver {
         xstream.alias("drawing", DoodleSave.class);
         xstream.alias("lineto", lineToSave.class);
         xstream.alias("moveto", moveToSave.class);
+        xstream.alias("deck", BDeckSave.class);
         }
     
     /**

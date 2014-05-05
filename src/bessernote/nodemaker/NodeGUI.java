@@ -52,7 +52,7 @@ public class NodeGUI extends BaseGUI {
         //combo.getItems().addAll("ScrollPane", "Pane", "WrapPane", "Label", "HBox", "VBox", "TextArea", "TabPane", "FlashCard");
         combo.getItems().addAll("WrapPane", "ScrollPane", "Pane", "TextArea", "TabPane", "FlashCard", "Image", "Deck");
         //"Pane" "Label" "Hbox" "VBox" deleted from indices 1, 3, 4, 5
-        combo.setValue("WrapPane");
+        combo.setValue("Pane");
         combo.valueProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue ov, String t, String t1) {

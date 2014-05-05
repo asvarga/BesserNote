@@ -811,7 +811,7 @@ public class BesserNote extends Application {
 //        System.out.println(i);
         superIndex = i;
         superSelected = superClicked.get(superIndex);
-        System.out.println(superSelected);
+        //System.out.println(superSelected);
         
         if (selectBoxes.containsKey(superSelected)) {
             DashedBox dashed = selectBoxes.get(superSelected);
@@ -913,7 +913,7 @@ public class BesserNote extends Application {
         //changeRoot(load.getSheet());
 
         load.loadNew(undoManager);
-        System.out.println(load.getSheet(undoManager).getChildren());
+        //System.out.println(load.getSheet(undoManager).getChildren());
 
 //        load.loadNew();
 //        for (Node child: load.getSheet().getChildren()){
@@ -1014,6 +1014,7 @@ public class BesserNote extends Application {
         Path addPath = new Path();
         addPath.setStroke(c);
         addPath.setStrokeWidth(7);
+        addPath.setSmooth(true);
         MoveTo addInit = new MoveTo();
         addInit.setX(newInitX);
         addInit.setY(newInitY);
@@ -1048,7 +1049,7 @@ public class BesserNote extends Application {
         }
         else if(superSelected instanceof Path){
             saveObj = new DoodleSave((Path)superSelected);
-        }                
+        }    
         else if (superSelected instanceof BImage){
             saveObj = new BImageSave((BImage)superSelected);
         }
@@ -1062,7 +1063,7 @@ public class BesserNote extends Application {
             saveObj = new PaneSave((Pane)superSelected);
         }
         copied = saveObj;
-        System.out.println(copied);
+        //System.out.println(copied);
     }
     
     public void paste(){

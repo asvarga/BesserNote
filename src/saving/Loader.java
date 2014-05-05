@@ -8,6 +8,7 @@ package saving;
 
 import bessernote.BesserNote;
 import bessernote.deprecated.FlashCard;
+import bessernote.ui.BDeck;
 import bessernote.ui.BFlashCard;
 import com.thoughtworks.xstream.XStream;
 import java.io.File;
@@ -46,6 +47,7 @@ public class Loader {
         xstream.alias("drawing", DoodleSave.class);
         xstream.alias("lineto", lineToSave.class);
         xstream.alias("moveto", moveToSave.class);
+        xstream.alias("deck", BDeckSave.class);
         loaded = (RootSave) xstream.fromXML(file);
         //loaded.printChildren();
     }
