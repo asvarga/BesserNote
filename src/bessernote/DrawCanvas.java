@@ -71,7 +71,6 @@ public class DrawCanvas extends Canvas{
         clicked = new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent e) {
-                       if (e.getButton() == MouseButton.SECONDARY) {
                         besser.startOutlineX = e.getX();
                         besser.startOutlineY = e.getY();
                         
@@ -121,24 +120,20 @@ public class DrawCanvas extends Canvas{
                     gc.lineTo(e.getX(), e.getY());
                     doodle.getElements().add(move);
                     gc.stroke();
-                    }
                 }
                 };
         dragged = new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent e){
-                if(e.getButton() == MouseButton.SECONDARY){
                 gc.lineTo(e.getX(), e.getY());
                 gc.moveTo(e.getX(), e.getY());
                 gc.stroke();
                 doodle.getElements().add(new LineTo(e.getX(), e.getY()));
-                }
             }
             };
         released = new EventHandler<MouseEvent>(){
             @Override
             public void handle(MouseEvent e){
-                if(e.getButton() == MouseButton.SECONDARY){
                 gc.stroke();
                 gc.closePath();
 
@@ -146,7 +141,6 @@ public class DrawCanvas extends Canvas{
                 besser.addDoodle(doodle);
 //                System.out.println(doodle);
                 gc.clearRect(0, 0, 2000, 2000);
-                }
             }
         };
         setup();
