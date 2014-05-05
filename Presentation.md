@@ -27,7 +27,7 @@ We wondered if other people thought the same way, so we conducted surveys, each 
 We built BesserNote with these feature at the core. We wanted user flexibility and a departure from the normal note-taking paradigm of just pages of notes. We wanted to build a visual interface where users organized their notes how they want, were able to perform a variety of useful operations, and could do all of this with relative ease. 
 
 --Alex-- (Higher level: About 2 mins)
-Talk about higher level, what difficulties we encountered:
+Talk about higher level, what difficulties we encountered (ADD ON TO THIS):
 - LibGDX
 - Switching to JavaFX/Java8
 - JavaFX basics: what a scene graph is
@@ -37,7 +37,7 @@ Talk about higher level, what difficulties we encountered:
 
 --Dan-- (Demo: About 2 mins)
 Show off demo
-- Don't need to show off what individual features are, but go through the thing and show JJ how what we built is really applicable for the use case of a typical college student.
+- Don't need to show off what individual features are, but go through the thing and show JJ how what we built is really applicable for the use case of a typical college student. 
 
 Individual features
 -------------------
