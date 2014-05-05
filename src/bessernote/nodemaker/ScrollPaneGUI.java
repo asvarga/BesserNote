@@ -9,6 +9,7 @@ import bessernote.nodemaker.placement.PlacementGUIRegion;
 import bessernote.ui.BNumberField;
 import bessernote.ui.BScrollPane;
 import java.awt.Event;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.ColorPicker;
@@ -56,6 +57,7 @@ public class ScrollPaneGUI extends BaseGUI {
     public void editNode(Node n) {
         placement.editNode(n);
         ((BScrollPane) n).getContent().setStyle("-fx-background-color: #"+color);
+        
     }
     
 

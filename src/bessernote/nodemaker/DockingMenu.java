@@ -23,6 +23,7 @@ import javafx.scene.Node;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
@@ -162,8 +163,9 @@ public class DockingMenu extends VBox{
         ScrollPane scroll = new ScrollPane();
         VBox p = new VBox();
         scroll.setContent(p);
+        //scroll.setHbarPolicy(ScrollBarPolicy.NEVER);
         //BorderPane bp = (BorderPane) getParent();
-        scroll.setMaxHeight(Double.MAX_VALUE);
+        //scroll.setMaxHeight(Double.MAX_VALUE);
 //        scroll.prefHeightProperty().bind(
 //                Bindings.subtract(bp.heightProperty(), )
 //        );

@@ -48,6 +48,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
@@ -552,6 +553,11 @@ public class BesserNote extends Application {
                             Logger.getLogger(BesserNote.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
+                    Platform.runLater(new Runnable() {
+                        @Override public void run() {
+                            showAllSelections();
+                        }                 
+                    });
                 }
             }
         );
@@ -734,7 +740,7 @@ public class BesserNote extends Application {
                             for (Map.Entry<Node, DashedBox> entry : selectBoxes.entrySet()) {
                                 Node n = entry.getKey();
                                 Point2D local = sheetToLocal(n, e.getX(), e.getY());
-                                if (//n instanceof Region &&
+                                if (n instanceof Parent &&
                                         local.getX() >= 0 && 
                                         local.getY() >= 0 &&
                                         local.getX() <= n.getBoundsInLocal().getWidth() &&
@@ -774,6 +780,12 @@ public class BesserNote extends Application {
                             }
                         }
                     }
+                    
+                    Platform.runLater(new Runnable() {
+                        @Override public void run() {
+                            showAllSelections();
+                        }                 
+                    });
                 };
             }
         );
@@ -793,6 +805,12 @@ public class BesserNote extends Application {
                             dragBox.setVisible(false);
                         }
                     }
+                    
+                    Platform.runLater(new Runnable() {
+                        @Override public void run() {
+                            showAllSelections();
+                        }                 
+                    });
                 };
             }
         );
@@ -803,27 +821,50 @@ public class BesserNote extends Application {
                     if (e.getButton() == MouseButton.SECONDARY) {
                         double dx = startOutlineX-e.getX();
                         double dy = startOutlineY-e.getY();
+                        Node target2 = target;
+                        if (target2 instanceof ChildSpecifier) {
+                            target2 = ((ChildSpecifier) target2).specifySelf();
+                        }
                         if (dx*dx+dy*dy >= 50) {
-                            Point2D local = sheetToLocal(target,
+                            Point2D local = sheetToLocal(target2,
                                     Math.min(startOutlineX, e.getX()), 
                                     Math.min(startOutlineY, e.getY()));
-                            Point2D local2 = sheetToLocal(target,
+                            Point2D local2 = sheetToLocal(target2,
                                     Math.max(startOutlineX, e.getX()), 
                                     Math.max(startOutlineY, e.getY()));
                             nodeGUI.setPos(local.getX(), local.getY());
                             nodeGUI.setSize(local2.getX()-local.getX(), 
                                     local2.getY()-local.getY());
                         } else {
-                            Point2D local = sheetToLocal(target,startOutlineX, startOutlineY);
+                            Point2D local = sheetToLocal(target2,startOutlineX, startOutlineY);
                             nodeGUI.setPos(local.getX(), local.getY());
                         }
                         createNode();
                         dragBox.setVisible(false);
                         //popup.show(stage);
                     }
+                    
+                    // doesnt work:
+                    Platform.runLater(new Runnable() {
+                        @Override public void run() {
+                            showAllSelections();
+                        }                 
+                    });
                 };
             }
-        );     
+        );  
+        
+        sheet.addEventFilter(ScrollEvent.SCROLL, 
+            new EventHandler<ScrollEvent>() {
+                @Override public void handle(ScrollEvent t) {
+                    Platform.runLater(new Runnable() {
+                        @Override public void run() {
+                            showAllSelections();
+                        }                 
+                    });
+                }
+            }
+        );
     }
 
         
@@ -907,6 +948,15 @@ public class BesserNote extends Application {
     
     private void superClickHelper(double x, double y, Node n, List<Node> list) {
         // check if inside  
+        Node n2 = n;
+        double x2 = x;
+        double y2 = y;
+        if (n2 instanceof ChildSpecifier) {
+            n2 = ((ChildSpecifier) n2).specifySelf();
+            Point2D p2 = n2.sceneToLocal(n.localToScene(x, y));
+            x2 = p2.getX();
+            y2 = p2.getY();
+        }
         if (n.isVisible() &&
                 x >= 0 &&
                 y >= 0 &&
@@ -922,7 +972,7 @@ public class BesserNote extends Application {
                     children = p.getChildrenUnmodifiable();
                 }
                 for (Node child : children) {
-                    Point2D local = child.parentToLocal(x, y);  
+                    Point2D local = child.parentToLocal(x2, y2);  
                     superClickHelper(local.getX(), local.getY(), child, list);
                 }
             }
