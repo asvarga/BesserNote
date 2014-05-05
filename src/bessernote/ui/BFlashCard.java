@@ -84,6 +84,10 @@ public class BFlashCard extends BWrapPane {
 //        t.setPrefSize(placeHolder.getWidth()-20, placeHolder.getHeight()-20);
 //        placeHolder.getChildren().add(t);
         
+        setupP2();       
+    }
+    
+    private void setupP2(){
         Pane p2 = new Pane();
         //p2.setPrefWidth(p.placeHolder.getPrefWidth());
         //p2.setPrefHeight(p.placeHolder.getPrefHeight());
@@ -96,8 +100,20 @@ public class BFlashCard extends BWrapPane {
         p2.layoutYProperty().bind(placeHolder.layoutYProperty());
         p2.styleProperty().bind(placeHolder.styleProperty());
 //        p2.setStyle("-fx-background-color: #"+cp2.getValue().toString().substring(2, cp2.getValue().toString().length()-2));
-        getChildren().add(p2);
-        
+        getChildren().add(p2);   
+    }
+    
+    public void setupP2(Pane pane){
+        getChildren().remove(1);
+        Pane p2 = pane;
+        p2.prefWidthProperty().bind(placeHolder.prefWidthProperty());
+        p2.prefHeightProperty().bind(placeHolder.prefHeightProperty());
+        p2.layoutXProperty().bind(Bindings.add(20, // fix the 20, should be padding property
+                Bindings.add(placeHolder.layoutXProperty(), placeHolder.prefWidthProperty())));
+        p2.layoutYProperty().bind(placeHolder.layoutYProperty());
+        p2.styleProperty().bind(placeHolder.styleProperty());
+//        p2.setStyle("-fx-background-color: #"+cp2.getValue().toString().substring(2, cp2.getValue().toString().length()-2));
+        getChildren().add(p2);  
     }
     
     private void setClickableVisibility(boolean b) {

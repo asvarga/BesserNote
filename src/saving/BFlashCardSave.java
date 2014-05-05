@@ -6,6 +6,7 @@
 
 package saving;
 
+import bessernote.ui.BDeck;
 import bessernote.ui.BFlashCard;
 import bessernote.ui.BImage;
 import bessernote.ui.BScrollPane;
@@ -17,6 +18,7 @@ import java.util.List;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Path;
 import undo.BUndoManager;
 
@@ -42,7 +44,7 @@ public class BFlashCardSave implements Saveable{
         padding = flashCard.padding();
         if(flashCard.getStyle().contains("#")){
             color = flashCard.getStyle().substring(flashCard.getStyle().indexOf("#"));
-            System.out.println(color.toString());
+            //System.out.println(color.toString());
         }
         else{
             color = "#ffffff";
@@ -65,6 +67,12 @@ public class BFlashCardSave implements Saveable{
                 else if(node instanceof Path){
                     saveObj = new DoodleSave((Path)node);
                 }
+                else if(node instanceof Ellipse){
+                    saveObj = new EllipseSave((Ellipse)node);
+                }                
+                else if(node instanceof BDeck){
+                    saveObj = new BDeckSave((BDeck)node);
+                }
                 else if (node instanceof BImage){
                     saveObj = new BImageSave((BImage)node);
                 }
@@ -85,18 +93,30 @@ public class BFlashCardSave implements Saveable{
     @Override
     public Parent create(BUndoManager undoManager) {
        BFlashCard returnMe = new BFlashCard(undoManager);
-       returnMe.setPadding(padding);
        returnMe.setLayoutX(xPos);
        returnMe.setLayoutY(yPos);
        returnMe.setPrefHeight(yDim);
        returnMe.setPrefWidth(xDim);
+       returnMe.setPrefMinSize(returnMe.getPrefWidth(), returnMe.getPrefHeight());
+       returnMe.setPadding(padding);       
+       //returnMe.getChildren().add(children.get(0).create(undoManager));
 
        returnMe.setStyle("-fx-background-color:" + color);       
        //returnMe.setStyle("-fx-background-color:" + color);
        if(children.size() > 0){
-           for(int i = 0; i < children.size(); i ++){
-               returnMe.getChildren().add(children.get(i).create(undoManager));
-           }
+           for(int i = 0; i < children.size(); i++){
+               if(i == 0){
+                   //returnMe.setPlaceholder((Pane) (children.get(i).create(undoManager)));
+                   returnMe.getChildren().add(children.get(i).create(undoManager));
+               }
+               else if (i == 1){
+                   returnMe.setupP2((Pane)(children.get(i).create(undoManager)));
+                   //returnMe.getChildren().add(children.get(i).create(undoManager));
+                   //System.out.println(returnMe.getChildren());
+               }
+               else 
+                   returnMe.getChildren().add(children.get(i).create(undoManager));
+               }
 //            for(Savable child: children){
 //                returnMe.getChildren().add(child.create());
 //            }

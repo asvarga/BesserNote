@@ -523,6 +523,9 @@ public class BesserNote extends Application {
                     else if (event.getCode() == KeyCode.W && event.isShortcutDown()){
                         dockingMenu.setWrapPaneMode();
                     }
+                    else if (event.getCode() == KeyCode.L && event.isShortcutDown()){
+                        dockingMenu.setCircleMode();
+                    }
                     else if (event.getCode() == KeyCode.T && event.isShortcutDown()){
                         dockingMenu.setTabPaneMode();
                     }
@@ -1005,7 +1008,7 @@ public class BesserNote extends Application {
         //changeRoot(load.getSheet());
 
         load.loadNew(undoManager);
-        System.out.println(load.getSheet(undoManager).getChildren());
+        //System.out.println(load.getSheet(undoManager).getChildren());
 
 //        load.loadNew();
 //        for (Node child: load.getSheet().getChildren()){
@@ -1061,13 +1064,17 @@ public class BesserNote extends Application {
                 if (newNode != null) {
                     ((Pane) n).getChildren().add(newNode);
                     nodeGUI.editNode(newNode);
-                    undoManager.trackMyPlacementChanges((Region) newNode);
-                    undoManager.addChange(new AddChange(newNode, (Pane) n));
                     Platform.runLater(new Runnable() {
                         @Override public void run() {
                             showAllSelections();
                         }                 
                     });
+                    try{
+                        undoManager.trackMyPlacementChanges((Region) newNode);
+                        undoManager.addChange(new AddChange(newNode, (Pane) n));
+                    } catch(Exception f){
+                        
+                    }
                 }
                         
             }
@@ -1111,17 +1118,21 @@ public class BesserNote extends Application {
         Path addPath = new Path();
         addPath.setStroke(c);
         addPath.setStrokeWidth(7);
+        addPath.setSmooth(true);
+        addPath.setLayoutX(newInitX);
+        addPath.setLayoutY(newInitY);
         MoveTo addInit = new MoveTo();
-        addInit.setX(newInitX);
-        addInit.setY(newInitY);
+        addInit.setX(initX - target.getLayoutX() - newInitX);
+        addInit.setY(initY - target.getLayoutY() - newInitY);
         addPath.getElements().add(addInit);
         //Transform Path
         for(int i = 1; i < path.getElements().size(); i++){
             LineTo line = (LineTo) path.getElements().get(i);
-            addPath.getElements().add(new LineTo(line.getX() - superSelected.getLayoutX(), line.getY() - superSelected.getLayoutY()));
+            addPath.getElements().add(new LineTo((line.getX() - target.getLayoutX() - newInitX), (line.getY()  - target.getLayoutY() - newInitY)));
         }
-        System.out.println(path.getLayoutX() + " " + path.getLayoutY() + " |" + path.toString());
-        ((Pane)superSelected).getChildren().add(addPath);
+//        System.out.println(path.getLayoutX() + " " + path.getLayoutY() + " |" + path.toString());
+//        System.out.println(addPath.getLayoutX() + " " + addPath.getLayoutY() + " |" + addPath.toString()); 
+        ((Pane)target).getChildren().add(addPath);
     }
    
     public void strokeColor(Color c){
@@ -1145,7 +1156,7 @@ public class BesserNote extends Application {
         }
         else if(superSelected instanceof Path){
             saveObj = new DoodleSave((Path)superSelected);
-        }                
+        }    
         else if (superSelected instanceof BImage){
             saveObj = new BImageSave((BImage)superSelected);
         }
@@ -1159,14 +1170,14 @@ public class BesserNote extends Application {
             saveObj = new PaneSave((Pane)superSelected);
         }
         copied = saveObj;
-        System.out.println(copied);
+        //System.out.println(copied);
     }
     
     public void paste(){
         Node insertMe = copied.create(undoManager);
         Point p = MouseInfo.getPointerInfo().getLocation();
-        insertMe.setLayoutX(p.getX() - 50);
-        insertMe.setLayoutY(p.getY() - 50);
+        insertMe.setLayoutX(p.getX() - 75);
+        insertMe.setLayoutY(p.getY() - 75);
         ((Pane)target).getChildren().add(insertMe);
     }
     

@@ -6,6 +6,7 @@
 
 package saving;
 
+import bessernote.ui.BDeck;
 import bessernote.ui.BFlashCard;
 import bessernote.ui.BImage;
 import bessernote.ui.BScrollPane;
@@ -17,6 +18,7 @@ import java.util.List;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Path;
 import undo.BUndoManager;
 
@@ -53,6 +55,12 @@ public class RootSave implements Saveable{
                 }
                 else if(node instanceof Path){
                     saveObj = new DoodleSave((Path)node);
+                }    
+                else if(node instanceof Ellipse){
+                    saveObj = new EllipseSave((Ellipse)node);
+                }                
+                else if(node instanceof BDeck){
+                    saveObj = new BDeckSave((BDeck)node);
                 }                
                 else if (node instanceof BImage){
                     saveObj = new BImageSave((BImage)node);

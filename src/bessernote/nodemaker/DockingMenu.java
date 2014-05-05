@@ -54,6 +54,7 @@ public class DockingMenu extends VBox{
     private final ToggleButton Draw = new ToggleButton();
     private final ToggleButton Pane = new ToggleButton();
     private final ToggleButton WrapPane = new ToggleButton();
+    private final ToggleButton CircleButton = new ToggleButton();
     private final ToggleButton TextArea = new ToggleButton();
     private final ToggleButton ScrollPane = new ToggleButton();
     private final ToggleButton TabPane = new ToggleButton();
@@ -124,6 +125,10 @@ public class DockingMenu extends VBox{
         ImageView scrollImage = new ImageView(new Image(new FileInputStream("images/ScrollPane.png")));
         ScrollPane.setGraphic(scrollImage);
         ScrollPane.setToggleGroup(group);
+        //Circle
+        ImageView circleImage = new ImageView(new Image(new FileInputStream("images/Circle.png")));
+        CircleButton.setGraphic(circleImage);
+        CircleButton.setToggleGroup(group);
         //TabPane
         ImageView tabImage = new ImageView(new Image(new FileInputStream("images/TabPane.png")));
         TabPane.setGraphic(tabImage);
@@ -170,7 +175,7 @@ public class DockingMenu extends VBox{
 //                Bindings.subtract(bp.heightProperty(), )
 //        );
         this.getChildren().add(scroll);
-        p.getChildren().addAll(Pane, WrapPane, Draw, TextArea, ScrollPane, TabPane, FlashCard, ImageButton, DeckButton, cp);
+        p.getChildren().addAll(Pane, WrapPane, Draw, CircleButton, TextArea, ScrollPane, TabPane, FlashCard, ImageButton, DeckButton, cp);
         
         //Listens for clicks and toggles modes
         group.selectedToggleProperty().addListener(new ChangeListener<Toggle>(){
@@ -201,6 +206,10 @@ public class DockingMenu extends VBox{
         else if(TextArea.isSelected()){
             nodeGUI.setValue("TextArea");
             TextArea.setSelected(true);
+        }
+        else if(CircleButton.isSelected()){
+            nodeGUI.setValue("Circle");
+            CircleButton.setSelected(true);
         }
         else if(ScrollPane.isSelected()){
             nodeGUI.setValue("ScrollPane");
@@ -244,6 +253,14 @@ public class DockingMenu extends VBox{
         nodeGUI.setValue("Pane");
         Pane.requestFocus();
         Pane.fire();
+    }
+    
+    public void setCircleMode(){
+        CircleButton.setSelected(true);
+        group.selectToggle(CircleButton);
+        nodeGUI.setValue("Circle");
+        CircleButton.requestFocus();
+        CircleButton.fire();       
     }
     
     public void setWrapPaneMode(){

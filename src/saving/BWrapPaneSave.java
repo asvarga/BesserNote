@@ -6,6 +6,7 @@
 
 package saving;
 
+import bessernote.ui.BDeck;
 import bessernote.ui.BFlashCard;
 import bessernote.ui.BImage;
 import bessernote.ui.BScrollPane;
@@ -18,6 +19,7 @@ import java.util.List;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Path;
 import undo.BUndoManager;
 
@@ -64,6 +66,12 @@ public class BWrapPaneSave implements Saveable{
                 else if(node instanceof Path){
                     saveObj = new DoodleSave((Path)node);
                 }
+                else if(node instanceof Ellipse){
+                    saveObj = new EllipseSave((Ellipse)node);
+                }                
+                else if(node instanceof BDeck){
+                    saveObj = new BDeckSave((BDeck)node);
+                }
                 else if (node instanceof BImage){
                     saveObj = new BImageSave((BImage)node);
                 }
@@ -91,18 +99,20 @@ public class BWrapPaneSave implements Saveable{
        returnMe.setLayoutY(yPos);
        returnMe.setPrefHeight(yDim);
        returnMe.setPrefWidth(xDim);
+       //returnMe.fixOutline();
        returnMe.setStyle("-fx-background-color:" + color);
-       //returnMe.setPadding(padding);
-       //returnMe.setStyle("-fx-background-color:" + color);
+       //returnMe.setPlaceholder((Pane) (children.get(0).create(undoManager)));
        if(children.size() > 0){
-//           for(int i = 1; i <children.size(); i ++){
-//               returnMe.getChildren().add(children.get(i).create(undoManager));
-//           }
-            for(Saveable child: children){
-                Node myChild = child.create(undoManager);
-                myChild.setStyle("-fx-background-color: " + color);
-                returnMe.getChildren().add(myChild);
-            }
+           for(int i = 0; i <children.size(); i ++){
+               returnMe.getChildren().add(children.get(i).create(undoManager));
+           }
+       returnMe.clickable.remove(0);
+       //System.out.println(returnMe.clickable);
+//            for(Saveable child: children){
+//                Node myChild = child.create(undoManager);
+//                myChild.setStyle("-fx-background-color: " + color);
+//                returnMe.getChildren().add(myChild);
+//            }
        }
        return returnMe;
     }

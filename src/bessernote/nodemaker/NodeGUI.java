@@ -50,9 +50,9 @@ public class NodeGUI extends BaseGUI {
 
         combo = new ComboBox();
         //combo.getItems().addAll("ScrollPane", "Pane", "WrapPane", "Label", "HBox", "VBox", "TextArea", "TabPane", "FlashCard");
-        combo.getItems().addAll("WrapPane", "ScrollPane", "Pane", "TextArea", "TabPane", "FlashCard", "Image", "Deck");
+        combo.getItems().addAll("WrapPane", "ScrollPane", "Pane", "Circle", "TextArea", "TabPane", "FlashCard", "Image", "Deck");
         //"Pane" "Label" "Hbox" "VBox" deleted from indices 1, 3, 4, 5
-        combo.setValue("WrapPane");
+        combo.setValue("Pane");
         combo.valueProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue ov, String t, String t1) {
@@ -65,7 +65,8 @@ public class NodeGUI extends BaseGUI {
         show1.addGUI("WrapPane", new WrapPaneGUI(_top, spacing));
         show1.addGUI("ScrollPane", new ScrollPaneGUI(_top, spacing));
         show1.addGUI("Pane", new PaneGUI(_top, spacing));
-        show1.addGUI("Label", new LabelGUI(_top, spacing));
+        //show1.addGUI("Label", new LabelGUI(_top, spacing));
+        show1.addGUI("Circle", new CircleGUI(_top, spacing));
         //show1.addGUI("HBox", new HBoxGUI(_top, spacing));
         //show1.addGUI("VBox", new VBoxGUI(_top, spacing));
         show1.addGUI("TextArea", new TextAreaGUI(_top, spacing));
@@ -88,8 +89,9 @@ public class NodeGUI extends BaseGUI {
     
     @Override
     public Node getNode(BUndoManager undoManager) {
-        if(on)
+        if(on){
             return show1.getNode(undoManager);
+        }
         else
             return null;
     }
