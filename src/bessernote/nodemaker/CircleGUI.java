@@ -54,7 +54,7 @@ public class CircleGUI extends BaseGUI{
     @Override
     public void editNode(Node n) {
         Ellipse returnMe = (Ellipse) n;
-        n.setStyle("-fx-background-color: TRANSPARENT");
+        n.setStyle("-fx-background-color: #00000000");
         returnMe.setLayoutX(placement.getCoord().getX());
         returnMe.setLayoutY(placement.getCoord().getY());
         double xCenter =  placement.getSize().getX()/2.0;
