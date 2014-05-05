@@ -71,7 +71,7 @@ public class DrawCanvas extends Canvas{
         clicked = new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent e) {
-                       if (e.getButton() == MouseButton.SECONDARY) {
+                    if (e.getButton() == MouseButton.SECONDARY) {
                         besser.startOutlineX = e.getX();
                         besser.startOutlineY = e.getY();
                         
@@ -81,7 +81,7 @@ public class DrawCanvas extends Canvas{
                             for (Map.Entry<Node, DashedBox> entry : besser.selectBoxes.entrySet()) {
                                 Node n = entry.getKey();
                                 Point2D local = besser.sheetToLocal(n, e.getX(), e.getY());
-                                if (n instanceof Region &&
+                                if (n instanceof Parent &&
                                         local.getX() >= 0 && 
                                         local.getY() >= 0 &&
                                         local.getX() <= n.getBoundsInLocal().getWidth() &&
@@ -103,9 +103,18 @@ public class DrawCanvas extends Canvas{
                             besser.cancelSuperClick();
                             besser.unselectAll();
                             besser.superClicked = besser.superClick(e.getX(), e.getY());
-                            if (besser.superClicked.size() > 0 && besser.superClicked.get(0) instanceof Pane) {
-                                besser.flipSelection(0);
-                                besser.target = (Parent) besser.superClicked.get(0);
+                            if (besser.superClicked.size() > 0) {
+                                Node sc0 = besser.superClicked.get(0);
+                                if (sc0 instanceof ChildSpecifier) {
+                                    sc0 = ((ChildSpecifier) sc0).specifySelf();
+                                }
+                                if (sc0 instanceof Pane) {
+                                    besser.flipSelection(0);
+                                    besser.target = (Parent) besser.superClicked.get(0);
+                                } else {
+                                    besser.unselectAll();
+                                    besser.target = besser.sheet;
+                                }
                             } else {
                                 besser.unselectAll();
                                 besser.target = besser.sheet;
