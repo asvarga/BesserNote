@@ -1,0 +1,528 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="12.2">
+  <zoom_level>8</zoom_level>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>856</x>
+      <y>1056</y>
+      <w>280</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>ColumnSheet</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>1504</x>
+      <y>304</y>
+      <w>80</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>Gutennote</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>888</x>
+      <y>504</y>
+      <w>432</w>
+      <h>464</h>
+    </coordinates>
+    <panel_attributes>Sheet
+Sheet(Skin)
+Sheet(Skin,Color)
+--
+Skin globalSkin
+Actor background
+Array&lt;Sheet&gt; childSheets
+boolean needsResize
+float minWidth
+float preferredWidth
+float maxWidth
+float minHeight
+float preferredHeight
+float maxHeight
+float preferredVisibility
+
+--
+getters/setters
+boolean isSizedToChildren()
+boolean isSizedToParent()
+boolean isCullable()
+boolean isEditable()
+void dispose()
+void sizeChanged()
+void resize()
+void resize(Sheet)
+void resizeOthers(Sheet)
+void resizeRecursive(Sheet)
+void resizeRecursive()
+void resizeForce()
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>1312</x>
+      <y>1024</y>
+      <w>320</w>
+      <h>176</h>
+    </coordinates>
+    <panel_attributes>PaddedSheet</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>552</x>
+      <y>1024</y>
+      <w>240</w>
+      <h>192</h>
+    </coordinates>
+    <panel_attributes>RowSheet
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>1736</x>
+      <y>1160</y>
+      <w>336</w>
+      <h>224</h>
+    </coordinates>
+    <panel_attributes>TabbedOrganizer</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Interface</type>
+    <coordinates>
+      <x>1680</x>
+      <y>480</y>
+      <w>144</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>Selector
+--
+public void select(Sheet)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>568</x>
+      <y>944</y>
+      <w>696</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>688;24;24;80</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>1040</x>
+      <y>944</y>
+      <w>264</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>256;24;24;112</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>1288</x>
+      <y>944</y>
+      <w>48</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>24;24;40;80</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>1608</x>
+      <y>1080</y>
+      <w>136</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>24;24;128;112</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Note</type>
+    <coordinates>
+      <x>624</x>
+      <y>144</y>
+      <w>192</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>List of LibGDX classes:
+Skin
+Array&lt;T&gt;
+Color
+Actor
+Group
+WidgetGroup
+Polyline
+
+
+
+bg=blue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Interface</type>
+    <coordinates>
+      <x>136</x>
+      <y>680</y>
+      <w>80</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>Savable
+--
+void toJSON()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Interface</type>
+    <coordinates>
+      <x>728</x>
+      <y>384</y>
+      <w>80</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>Disposable
+--
+void dispose()
+bg=blue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>976</x>
+      <y>160</y>
+      <w>288</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>Actor
+bg=blue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>984</x>
+      <y>392</y>
+      <w>288</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>WidgetGroup
+bg=blue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>1112</x>
+      <y>432</y>
+      <w>40</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>32;24;24;72</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>1104</x>
+      <y>200</y>
+      <w>32</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>24;24;24;64</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>984</x>
+      <y>264</y>
+      <w>288</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>Group
+bg=blue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>1104</x>
+      <y>304</y>
+      <w>32</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>24;24;24;88</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>488</x>
+      <y>584</y>
+      <w>344</w>
+      <h>208</h>
+    </coordinates>
+    <panel_attributes>Element
+--
+float minWidth
+float preferredWidth
+float maxWidth
+float minHeight
+float preferredHeight
+float maxHeight
+float preferredVisibility
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Note</type>
+    <coordinates>
+      <x>1336</x>
+      <y>560</y>
+      <w>392</w>
+      <h>288</h>
+    </coordinates>
+    <panel_attributes>Functionality
+Sheet system
+Save system
+
+SheetElement
+	Drawing
+	Text box
+	Flashcard 
+	Arrow/Shape/Chart/WE'LL FIGURE THIS SHIT OUT LATER
+
+
+MENU (libgdx)
+	Save
+	Exit
+	New
+	Copy
+	Paste
+	Undo
+	Preferentces
+	Help
+
+
+Actions
+	
+	
+Keyboard Shortcuts
+	
+
+bg=red</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>3016</x>
+      <y>144</y>
+      <w>360</w>
+      <h>192</h>
+    </coordinates>
+    <panel_attributes>abstract class Element implements savable
+--
+Location data
+size
+color
+
+
+--
+convertToJson
+move
+undo
+save</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Interface</type>
+    <coordinates>
+      <x>96</x>
+      <y>464</y>
+      <w>64</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Interface</type>
+    <coordinates>
+      <x>0</x>
+      <y>480</y>
+      <w>80</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>Savable
+--
+void toJSON()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>1776</x>
+      <y>88</y>
+      <w>360</w>
+      <h>192</h>
+    </coordinates>
+    <panel_attributes>Action
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>3432</x>
+      <y>360</y>
+      <w>360</w>
+      <h>192</h>
+    </coordinates>
+    <panel_attributes>class Sheet
+--
+Collection&lt;Elements&gt; children
+Collection&lt;Line&gt; lines
+can move 
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>2432</x>
+      <y>464</y>
+      <w>384</w>
+      <h>192</h>
+    </coordinates>
+    <panel_attributes>class TextBox
+--
+Text contents</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>2792</x>
+      <y>312</y>
+      <w>320</w>
+      <h>232</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>304;24;24;216</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>3112</x>
+      <y>312</y>
+      <w>512</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>24;24;496;48</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>2856</x>
+      <y>712</y>
+      <w>360</w>
+      <h>192</h>
+    </coordinates>
+    <panel_attributes>Lines
+--
+endpoints
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>2912</x>
+      <y>312</y>
+      <w>240</w>
+      <h>416</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>224;24;24;400</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>3320</x>
+      <y>736</y>
+      <w>360</w>
+      <h>192</h>
+    </coordinates>
+    <panel_attributes>class FlashCard
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>3504</x>
+      <y>528</y>
+      <w>40</w>
+      <h>224</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>24;24;24;208</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Interface</type>
+    <coordinates>
+      <x>2392</x>
+      <y>272</y>
+      <w>192</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>Savable
+--
+public void convertToJson(Sheet)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Note</type>
+    <coordinates>
+      <x>2600</x>
+      <y>0</y>
+      <w>304</w>
+      <h>352</h>
+    </coordinates>
+    <panel_attributes>TODO
+layout
+elements=modes
+saving
+und
+zoom
+overlap
+extra features
+bg=blue</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

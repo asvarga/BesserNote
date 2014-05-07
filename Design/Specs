@@ -1,3 +1,28 @@
+Specs
+=====
+
+PUT YOUR INITIALS/NAME NEXT TO A TASK YOU'RE WORKING ON.
+DELETE WHAT YOU COMPLETE.
+ADD WHATEVER.
+
++ Prevent User from making super small boxes
++ Keyboard shortcuts
++ Hints
++ More UI Elements
+  + Grid
+  + Sexy text area 
++ Drawing //DL 
++ Graphs
+  + http://docs.oracle.com/javafx/2/charts/jfxpub-charts.htm
++ Search
++ Node focus
+  + Full screen any node
+  + "move" into/out of any sheet
++ Appearance
+  + Color Schemes/skins
+  + Soft corners
++ Tons of fancy shiiiiit 
+
 ================================================================
 Coding Milestone 2 - April 17th
 group: BesserNote - dhaugh, avarga, ddliu
@@ -25,3 +50,23 @@ Usable User Interface (e.g. Dockable Menu, hints)    | 00 | 10 |
 ================================================================
 Total                                                | 00 | 45 |
 ================================================================
+
+
+
+Make it more usable.
+=====================================
+- Insert images. //DONE
+- Decide what to do about rich text.  //Dannnnnnn
+   - Being able to make outlines would be really good, almost essential.
+- Drawing //DONE
+- Flashcard binders? //DONE
+- Make deleting text not delete the entire node. //DONE
+- Make resizing and moving not rely on click. //DONE
+- Make insertion smarter: don't need to have a box highlighted. //DONE
+- Keyboard shortcuts.  //DONE
+- Either make drawing work or take it out. //DONE: took it out
+- Improve tutorial (doesn't matter that much, since JJ won't be using our program, anyways).
+
+ 
+ 
+
